@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>LS4YOU — Bienvenue à la Mission Locale Pays Basque</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,700;0,800;0,900;1,900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --yellow:#FFD166;--cream:#FFF8ED;--black:#111111;--white:#FFFFFF;
+  --pink:#E91E8C;--cyan:#00B4D8;--green:#06D6A0;--orange:#FF6B35;--purple:#7B5EA7;
+  --border:2.5px solid var(--black);
+  --r:clamp(10px,2.5vw,16px);--rb:clamp(16px,3.5vw,22px);
+  --pad:clamp(14px,4.5vw,28px);--gap:clamp(8px,2vw,12px);
+  --fs-xs:clamp(10px,2.5vw,12px);--fs-sm:clamp(11px,2.8vw,13px);
+  --fs-md:clamp(13px,3.2vw,15px);--fs-lg:clamp(16px,4vw,20px);
+  --fs-xl:clamp(22px,6vw,30px);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;background:var(--cream);display:flex;justify-content:center;align-items:flex-start;padding:clamp(0px,2vw,16px);min-height:100vh;min-height:100dvh}
+.app{width:100%;max-width:680px;background:var(--white);border-radius:clamp(0px,3vw,24px);overflow:hidden;border:var(--border);box-shadow:6px 6px 0 var(--black)}
+@media(max-width:480px){body{padding:0}.app{border-radius:0;border-left:none;border-right:none;box-shadow:none;min-height:100dvh}}
+.step{display:none}.step.active{display:block}
+.topbar{background:var(--yellow);border-bottom:var(--border);padding:clamp(10px,2.5vw,14px) var(--pad);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.topbar-logo{height:clamp(24px,6vw,34px);width:auto;flex-shrink:0}
+.topbar-badge{background:var(--pink);color:#fff;font-weight:900;font-size:var(--fs-xs);letter-spacing:.07em;padding:5px clamp(10px,2.5vw,16px);border-radius:25px;border:2px solid var(--black);text-transform:uppercase;box-shadow:2px 2px 0 var(--black);white-space:nowrap}
+.hero{background:var(--yellow);padding:clamp(1.2rem,4vw,2rem) var(--pad) clamp(1rem,3vw,1.5rem);text-align:center;position:relative;border-bottom:var(--border)}
+.hero-eyebrow{font-weight:800;font-size:var(--fs-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--black);margin-bottom:6px}
+.hero-title{font-weight:900;font-size:var(--fs-xl);color:var(--black);line-height:1.05;margin-bottom:6px}
+.hero-title-block{display:inline-block;background:var(--black);color:var(--white);padding:2px clamp(6px,2vw,12px);border-radius:5px}
+.hero-sub{font-size:var(--fs-sm);color:var(--black);opacity:.7;line-height:1.6;max-width:400px;margin:0 auto clamp(1rem,3vw,1.5rem)}
+.pills{display:flex;flex-wrap:wrap;gap:var(--gap);justify-content:center;margin-bottom:clamp(.8rem,2.5vw,1.25rem)}
+.pill{display:flex;align-items:center;gap:5px;border-radius:25px;padding:5px clamp(10px,2.5vw,14px);font-weight:800;font-size:var(--fs-xs);border:2px solid var(--black);background:var(--white);box-shadow:2px 2px 0 var(--black);pointer-events:none}
+.istrip{background:var(--white);border-radius:var(--r);border:var(--border);padding:clamp(10px,2.5vw,14px) var(--pad);font-size:var(--fs-sm);color:var(--black);text-align:center;margin:0 var(--pad) clamp(1rem,3vw,1.5rem);line-height:1.5;box-shadow:3px 3px 0 var(--black)}
+.istrip b{font-weight:900}
+.snav{display:flex;align-items:center;justify-content:space-between;padding:clamp(.8rem,2.5vw,1rem) var(--pad);background:var(--yellow);border-top:var(--border);padding-bottom:max(clamp(.8rem,2.5vw,1rem),env(safe-area-inset-bottom))}
+.dots{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(0,0,0,.2);border:1.5px solid var(--black);transition:all .2s;pointer-events:none}
+.dot.done{background:var(--black)}.dot.active{width:22px;border-radius:5px;background:var(--black)}
+.btn-start,.btn-next{cursor:pointer;font-family:'Nunito',sans-serif;font-weight:900;font-size:var(--fs-sm);background:var(--black);color:var(--white);border:var(--border);border-radius:25px;padding:clamp(10px,2.5vw,13px) clamp(18px,4vw,28px);box-shadow:3px 3px 0 rgba(0,0,0,.3);transition:transform .12s,box-shadow .12s;min-height:44px;white-space:nowrap}
+.btn-start:hover,.btn-next:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 rgba(0,0,0,.3)}
+.btn-start:active,.btn-next:active{transform:translate(1px,1px);box-shadow:1px 1px 0 rgba(0,0,0,.3)}
+.btn-back{cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:var(--fs-xs);background:transparent;color:var(--black);border:2px solid var(--black);border-radius:25px;padding:clamp(8px,2vw,11px) clamp(14px,3vw,22px);transition:background .15s;min-height:44px;white-space:nowrap}
+.btn-back:hover{background:rgba(0,0,0,.06)}.btn-back:active{background:rgba(0,0,0,.12)}
+.dhead{padding:0}
+.dhead-color{padding:clamp(1rem,3vw,1.4rem) var(--pad) clamp(.8rem,2.5vw,1.1rem);border-bottom:var(--border)}
+.dtag-inner{display:inline-flex;align-items:center;gap:7px;border-radius:25px;padding:6px clamp(12px,3vw,18px);font-weight:900;font-size:var(--fs-sm);border:2px solid var(--black);box-shadow:2px 2px 0 var(--black);margin-bottom:6px}
+.ddesc{font-size:var(--fs-xs);color:var(--black);opacity:.65}
+.qb{padding:clamp(1rem,3vw,1.4rem) var(--pad) 0}
+.qlbl{font-size:var(--fs-xs);font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;color:rgba(0,0,0,.5)}
+.qtxt{font-weight:900;font-size:var(--fs-md);color:var(--black);line-height:1.3;margin-bottom:4px}
+.qhint{font-size:var(--fs-xs);color:rgba(0,0,0,.5);margin-bottom:10px}
+.sdis{border-radius:var(--r);padding:clamp(12px,3vw,16px);text-align:center;margin-bottom:8px;border:2px solid var(--black);display:block;min-height:66px;box-shadow:3px 3px 0 var(--black)}
+.semi,.slbl{pointer-events:none;display:block}
+.semi{font-size:clamp(24px,6vw,30px);margin-bottom:4px}
+.slbl{font-weight:900;font-size:var(--fs-sm)}
+input[type=range]{width:100%;margin:4px 0;cursor:pointer;accent-color:var(--black);height:22px}
+.sticks{display:flex;justify-content:space-between;font-size:var(--fs-xs);color:rgba(0,0,0,.4);font-weight:800;pointer-events:none}
+.og{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
+.og.c3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:360px){.og.c3{grid-template-columns:repeat(2,1fr)}}
+.oc{border:2px solid rgba(0,0,0,.15);border-radius:var(--r);padding:clamp(10px,2.5vw,14px) clamp(8px,2vw,12px);cursor:pointer;text-align:center;background:var(--white);transition:all .15s;user-select:none;min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.oc:hover{border-color:var(--black);box-shadow:3px 3px 0 var(--black);transform:translate(-1px,-1px)}
+.oc:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--black)}
+.oc *{pointer-events:none}
+.sr{border-color:var(--pink)!important;background:#FFF0F8!important;box-shadow:3px 3px 0 var(--pink)!important}
+.sy{border-color:#E5A000!important;background:var(--yellow)!important;box-shadow:3px 3px 0 #E5A000!important}
+.st{border-color:var(--cyan)!important;background:#E0F7FA!important;box-shadow:3px 3px 0 var(--cyan)!important}
+.so{border-color:var(--orange)!important;background:#FFF0E8!important;box-shadow:3px 3px 0 var(--orange)!important}
+.sp{border-color:var(--purple)!important;background:#F0ECFF!important;box-shadow:3px 3px 0 var(--purple)!important}
+.sg{border-color:var(--green)!important;background:#E6FBF5!important;box-shadow:3px 3px 0 var(--green)!important}
+.spk{border-color:var(--pink)!important;background:#FFF0F8!important;box-shadow:3px 3px 0 var(--pink)!important}
+.oemi{font-size:clamp(18px,5vw,24px);margin-bottom:5px}
+.olbl{font-weight:900;font-size:var(--fs-xs);color:var(--black);line-height:1.2}
+.odesc{font-size:clamp(9px,2.2vw,11px);color:rgba(0,0,0,.5);margin-top:3px;line-height:1.3}
+.pzb{display:flex;gap:3px;padding:0 var(--pad);margin:clamp(.8rem,2.5vw,1.2rem) 0 0;flex-wrap:wrap;pointer-events:none}
+.pz{height:5px;border-radius:3px}
+.nbar{display:flex;align-items:center;justify-content:space-between;padding:clamp(.8rem,2.5vw,1rem) var(--pad);border-top:var(--border);gap:8px;padding-bottom:max(clamp(.8rem,2.5vw,1rem),env(safe-area-inset-bottom))}
+@media(max-width:360px){.nbar{flex-wrap:wrap;gap:10px}.nbar .dots{order:3;width:100%;justify-content:center}}
+.dest-wrap{padding:var(--pad)}
+.dest-header{background:var(--yellow);border:var(--border);border-radius:var(--rb);padding:clamp(1rem,3.5vw,1.5rem);text-align:center;margin-bottom:clamp(.8rem,2.5vw,1.25rem);box-shadow:4px 4px 0 var(--black)}
+.dest-title{font-weight:900;font-size:var(--fs-lg);color:var(--black);margin-bottom:4px}
+.dest-sub{font-size:var(--fs-sm);color:var(--black);opacity:.65;max-width:360px;margin:0 auto .4rem}
+.mhint{font-size:var(--fs-xs);color:rgba(0,0,0,.5)}
+.dg{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
+.dc2{border-radius:var(--r);padding:clamp(12px,3vw,18px) clamp(10px,2.5vw,14px);cursor:pointer;text-align:center;border:2px solid rgba(0,0,0,.15);background:var(--white);transition:all .18s;user-select:none;min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.dc2:hover{border-color:var(--black);box-shadow:3px 3px 0 var(--black);transform:translate(-1px,-1px)}
+.dc2:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--black)}
+.dc2.sel{border-color:var(--black)!important;box-shadow:4px 4px 0 var(--black)!important;transform:translate(-2px,-2px)}
+.dc2 *{pointer-events:none}
+.demi{font-size:clamp(24px,6vw,32px);margin-bottom:6px}
+.dname{font-weight:900;font-size:var(--fs-sm);line-height:1.2;margin-bottom:3px}
+.ddesc2{font-size:clamp(9px,2.2vw,11px);line-height:1.3;opacity:.65}
+.chip-grid{display:flex;flex-wrap:wrap;gap:var(--gap)}
+.fchip{display:flex;align-items:center;gap:6px;border:2px solid rgba(0,0,0,.2);border-radius:25px;padding:clamp(6px,1.8vw,9px) clamp(10px,2.5vw,15px);cursor:pointer;background:var(--white);font-weight:800;font-size:var(--fs-xs);color:var(--black);transition:all .15s;user-select:none;min-height:38px}
+.fchip *{pointer-events:none}
+.fchip:hover{border-color:var(--black);box-shadow:2px 2px 0 var(--black);transform:translate(-1px,-1px)}
+.fchip:active{transform:translate(1px,1px);box-shadow:none}
+.fchip.fc-sr{border-color:var(--pink);background:#FFF0F8;box-shadow:2px 2px 0 var(--pink)}
+.fchip.fc-sy{border-color:#E5A000;background:var(--yellow);box-shadow:2px 2px 0 #E5A000}
+.fchip.fc-sp{border-color:var(--purple);background:#F0ECFF;box-shadow:2px 2px 0 var(--purple)}
+.fchip-icon{font-size:clamp(13px,3.5vw,16px)}
+.rpage{padding:var(--pad)}
+.r-hero{background:var(--yellow);border:var(--border);border-radius:var(--rb);padding:clamp(1rem,4vw,1.5rem);text-align:center;margin-bottom:clamp(.8rem,2.5vw,1.25rem);box-shadow:4px 4px 0 var(--black)}
+.rtitle{font-weight:900;font-size:var(--fs-lg);color:var(--black);margin-bottom:4px}
+.rsub{font-size:var(--fs-xs);color:var(--black);opacity:.6;letter-spacing:.04em;text-transform:uppercase;font-weight:800}
+.serv-card{border-radius:var(--r);padding:clamp(10px,2.5vw,14px) clamp(12px,3vw,16px);margin-bottom:var(--gap);display:flex;align-items:flex-start;gap:10px;border:2px solid rgba(0,0,0,.12);background:var(--white);transition:all .15s}
+.serv-card:hover{border-color:var(--black);box-shadow:3px 3px 0 var(--black);transform:translate(-1px,-1px)}
+.serv-icon{font-size:clamp(18px,4.5vw,22px);flex-shrink:0;margin-top:2px;pointer-events:none}
+.serv-body{flex:1;min-width:0}
+.serv-title{font-weight:900;font-size:var(--fs-sm);margin-bottom:3px;color:var(--black)}
+.serv-desc{font-size:var(--fs-xs);line-height:1.45;color:rgba(0,0,0,.6);margin-bottom:7px}
+.serv-link{display:inline-flex;align-items:center;gap:4px;font-size:var(--fs-xs);font-weight:900;padding:5px clamp(10px,2.5vw,14px);border-radius:12px;text-decoration:none;border:2px solid var(--black);box-shadow:2px 2px 0 var(--black);transition:transform .12s;min-height:36px}
+.serv-link:hover{transform:translate(-1px,-1px)}.serv-link:active{transform:translate(1px,1px);box-shadow:none}
+.pts-chip{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:5px clamp(8px,2vw,12px);font-weight:800;font-size:var(--fs-xs);margin:3px;border:1.5px solid rgba(0,0,0,.15)}
+.bilan-intro{background:var(--cream);border-radius:var(--r);border:2px solid rgba(0,0,0,.1);padding:clamp(10px,2.5vw,14px) clamp(12px,3vw,16px);margin-bottom:clamp(.8rem,2.5vw,1.2rem);font-size:var(--fs-sm);color:var(--black);line-height:1.55;text-align:center}
+.bilan-intro b{font-weight:900}
+.sec-title{font-weight:900;font-size:var(--fs-xs);display:flex;align-items:center;gap:7px;margin:clamp(.8rem,2.5vw,1rem) 0 clamp(.4rem,1.5vw,.6rem);color:var(--black);text-transform:uppercase;letter-spacing:.08em;border-bottom:2px solid var(--black);padding-bottom:5px}
+.rdv-block{background:var(--black);border-radius:var(--rb);padding:clamp(1rem,4vw,1.5rem);text-align:center;margin-top:.5rem;border:var(--border)}
+.clea-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);margin-bottom:1rem}
+@media(max-width:360px){.clea-grid{grid-template-columns:repeat(2,1fr)}}
+.clea-tile{border-radius:var(--r);border:2px solid var(--black);padding:clamp(8px,2vw,12px) 8px;text-align:center;box-shadow:3px 3px 0 var(--black)}
+.clea-tile-icon{font-size:clamp(16px,4.5vw,20px);margin-bottom:4px}
+.clea-tile-lbl{font-weight:900;font-size:clamp(9px,2.3vw,11px);line-height:1.2;margin-bottom:6px;color:var(--black)}
+.clea-badge{display:inline-block;border-radius:8px;padding:2px 8px;font-size:clamp(9px,2.2vw,11px);font-weight:800;color:#fff}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--cream)}::-webkit-scrollbar-thumb{background:rgba(0,0,0,.25);border-radius:4px}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+@media print{body{background:#fff;padding:0}.app{box-shadow:none;border:1px solid #ccc}.nbar,.snav{display:none}.step{display:block!important}}
+</style>
+</head>
+<body>
+<div class="app"><div id="sw"></div></div>
+
+<script>
+// ============================================================
+// DONNÉES
+// ============================================================
+const CP=["#C62828","#FFD600","#26C6DA","#FF8A50","#A5D6A7","#7B1FA2","#1A237E","#C62828","#FFD600"];
+
+const DT=[
+  {id:"metier",i:"🎯",n:"Choisir un métier",d:"Identifier mes points forts, trouver ma voie",bg:"#FFEBEE",bc:"#C62828",tc:"#B71C1C"},
+  {id:"former",i:"🎓",n:"Me former",d:"Trouver une formation, construire mon dossier",bg:"#E8EAF6",bc:"#3949AB",tc:"#1A237E"},
+  {id:"candi",i:"📄",n:"Préparer ma candidature",d:"CV, lettre de motivation, entretien",bg:"#FFFDE7",bc:"#F9A825",tc:"#E65100"},
+  {id:"emploi",i:"💼",n:"Trouver un emploi",d:"Répondre aux offres, convaincre les recruteurs",bg:"#E0F7FA",bc:"#00ACC1",tc:"#00695C"},
+  {id:"entrep",i:"🚀",n:"Créer mon entreprise",d:"Définir et structurer mon projet de création",bg:"#FFF3E0",bc:"#EF6C00",tc:"#BF360C"},
+  {id:"inter",i:"🌍",n:"Partir à l'étranger",d:"Travailler ou me former à l'étranger",bg:"#F3E5F5",bc:"#8E24AA",tc:"#4A148C"}
+];
+
+// ============================================================
+// DONNÉES FORCES / BESOINS / VALEURS (issues des fiches ML)
+// ============================================================
+const FORCES_DATA=[
+  {i:"🦁",l:"Je suis courageux(se)"},
+  {i:"🎨",l:"Je suis créatif(ve)"},
+  {i:"🤝",l:"Je travaille bien en équipe"},
+  {i:"🏁",l:"Je suis persévérant(e)"},
+  {i:"⚡",l:"Je prends des initiatives"},
+  {i:"👂",l:"Je suis à l'écoute des autres"}
+];
+
+const BESOINS_DATA=[
+  {i:"⭐",l:"Avoir confiance en moi"},
+  {i:"💛",l:"Parler de ce qui me pèse"},
+  {i:"🌿",l:"Avoir du calme"},
+  {i:"🔒",l:"Me sentir en sécurité"},
+  {i:"🕊️",l:"Être autonome"},
+  {i:"👥",l:"Me sentir entouré(e)"}
+];
+
+const VALEURS_DATA=[
+  {i:"🎭",l:"Être authentique"},
+  {i:"⚖️",l:"Chercher l'équité"},
+  {i:"🔥",l:"Persévérer"},
+  {i:"🕊️",l:"Être libre"},
+  {i:"🎨",l:"Créer"},
+  {i:"🤗",l:"Se sentir connecté(e)"}
+];
+
+const DOM=[
+  {id:"perso",l:"Qui je suis",i:"🧠",c:"var(--pink)",bg:"#FFF0F8",tbg:"#F8BBD9",tc:"#880E4F",sc:"sr",hbg:"#FFF0F8",pc:"var(--yellow)",desc:"Ton ressenti, ta personnalité, ton entourage",
+   qs:[
+    {id:"p1",t:"scale",lb:"Bien-être",tx:"Comment tu te sens en ce moment, dans ta vie en général ?",ls:["Vraiment pas bien","Pas top","Ça va","Plutôt bien","Très bien"],is:["🌧️","☁️","🌤️","🌈","☀️"],bg:"var(--yellow)"},
+    {id:"p2",t:"multi",lb:"Ressenti",tx:"Ce qui décrit le mieux comment tu te vis en ce moment ?",ht:"Plusieurs réponses possibles",os:[{i:"🧭",l:"Perdu(e)",d:"Je cherche ma direction"},{i:"🧱",l:"Bloqué(e)",d:"Du mal à avancer"},{i:"🔥",l:"Motivé(e)",d:"J'ai envie de me bouger"},{i:"🪫",l:"Fatigué(e)",d:"Tout demande un effort"},{i:"🌪️",l:"Inquiet(e)",d:"Des soucis m'occupent"},{i:"🌿",l:"Bien",d:"Je me sens serein(e)"}]},
+    {id:"p3",t:"single",lb:"Entourage",tx:"Tu as des personnes à qui parler autour de toi ?",os:[{i:"👥",l:"Oui, plusieurs",d:"Famille, amis, proches"},{i:"👤",l:"Une ou deux",d:"Pas beaucoup"},{i:"🚪",l:"Pas vraiment",d:"Je me sens seul(e)"},{i:"❓",l:"Je ne sais pas",d:"C'est compliqué"}]}
+  ]},
+  {id:"profil",l:"Mon profil",i:"✨",c:"var(--orange)",bg:"#FFF0E8",tbg:"#FFE0B2",tc:"#7A3B00",sc:"so",hbg:"#FFF0E8",pc:"var(--orange)",desc:"Tes forces, tes besoins et ce qui compte pour toi",
+   qs:[
+    {id:"v1",t:"forces",lb:"Mes forces",tx:"Quelles forces te ressemblent ?",ht:"Coche tout ce qui te parle"},
+    {id:"v2",t:"besoins",lb:"Mes besoins en ce moment",tx:"Qu'est-ce dont tu as le plus besoin en ce moment ?",ht:"Coche les 1 ou 2 qui te parlent le plus"},
+    {id:"v3",t:"valeurs",lb:"Mes valeurs",tx:"Quelles valeurs te ressemblent le plus ?",ht:"Coche les 1 ou 2 qui te définissent le mieux"}
+  ]},
+  {id:"comp",l:"Ce que je sais faire",i:"⭐",c:"var(--cyan)",bg:"#E0F7FA",tbg:"#B2EBF2",tc:"#005F72",sc:"st",hbg:"#E0F7FA",pc:"var(--cyan)",desc:"Tes compétences, tes expériences, ton projet",
+   qs:[
+    {id:"c1",t:"scale",lb:"Confiance",tx:"Tu te sens confiant(e) pour trouver ta voie ?",ls:["Pas du tout","Un peu","Moyennement","Plutôt bien","Très confiant(e)"],is:["🫥","🌱","🪴","🌳","🦁"],bg:"#E0F7FA"},
+    {id:"c2",t:"multi",lb:"Expériences",tx:"Qu'est-ce que tu as déjà fait dans ta vie ?",ht:"Tout compte — job, bénévolat, sport, famille, création...",os:[{i:"💼",l:"Travail / stage",d:"Même court ou informel"},{i:"🤝",l:"Bénévolat",d:"Association, aide"},{i:"🎨",l:"Création",d:"Musique, art, vidéo..."},{i:"🏃",l:"Sport / club",d:"Activité régulière"},{i:"🏠",l:"Aide famille",d:"Proches, maison"},{i:"💻",l:"Numérique",d:"Réseaux, contenus"}]},
+    {id:"c3",t:"single",lb:"Projet",tx:"Tu as une idée de ce que tu veux faire comme travail ou formation ?",os:[{i:"🎯",l:"Oui, c'est clair",d:"J'ai un projet précis"},{i:"🔍",l:"Une idée vague",d:"Quelques pistes"},{i:"🌫️",l:"Pas vraiment",d:"Je cherche encore"},{i:"🙈",l:"Aucune idée",d:"Je ne sais pas"}]}
+  ]},
+  {id:"sante",l:"Ma santé",i:"💚",c:"var(--green)",bg:"#E6FBF5",tbg:"#B2DFDB",tc:"#004D40",sc:"sg",hbg:"#E6FBF5",pc:"var(--green)",desc:"Forme physique, mentale, accès aux soins",
+   qs:[
+    {id:"s1",t:"scale",lb:"Forme",tx:"Comment tu évalues ta forme physique et mentale en ce moment ?",ls:["Vraiment pas bien","Pas terrible","Ça va","Bien","En pleine forme"],is:["🪨","⚡","🔋","💡","🚀"],bg:"#E6FBF5"},
+    {id:"s2",t:"multi",lb:"Accès santé",tx:"Tu as accès à ces choses en ce moment ?",ht:"Coche ce qui s'applique",os:[{i:"💊",l:"Carte vitale",d:"Sécu active"},{i:"🏥",l:"Médecin",d:"Je sais où aller"},{i:"🛡️",l:"Mutuelle",d:"Complémentaire"},{i:"🥗",l:"Manger bien",d:"Repas réguliers"},{i:"🛌",l:"Bien dormir",d:"7-8h par nuit"},{i:"🏃",l:"Bouger",d:"Activité physique"}]},
+    {id:"s3",t:"single",lb:"Impact santé",tx:"Ta santé impacte-t-elle ton quotidien ou ta recherche d'emploi ?",os:[{i:"✅",l:"Non",d:"Pas de problème"},{i:"🔶",l:"Un peu",d:"Parfois"},{i:"🔴",l:"Oui, souvent",d:"Vrai obstacle"},{i:"🤫",l:"Pas envie d'en parler",d:""}]}
+  ]},
+  {id:"ress",l:"Mes ressources",i:"🏡",c:"var(--yellow)",bg:"#FFF8E1",tbg:"#FFE0B2",tc:"#7A4F00",sc:"sy",hbg:"var(--yellow)",pc:"var(--yellow)",desc:"Logement, budget, mobilité, numérique",
+   qs:[
+    {id:"r1",t:"single",lb:"Logement",tx:"Où est-ce que tu habites en ce moment ?",os:[{i:"🏠",l:"Chez moi",d:"Logement stable"},{i:"👨‍👩‍👧",l:"Chez mes parents",d:"Par choix ou obligation"},{i:"🛋️",l:"Chez quelqu'un",d:"Ami, proche"},{i:"⚠️",l:"Situation précaire",d:"Pas de logement stable"}]},
+    {id:"r2",t:"multi",lb:"Déplacements & numérique",tx:"Tu as ces ressources pour te déplacer et rester connecté(e) ?",os:[{i:"🚗",l:"Voiture / moto",d:"Permis + véhicule"},{i:"🚲",l:"Vélo / trottinette",d:""},{i:"🚌",l:"Transports",d:"Avec abonnement"},{i:"📱",l:"Téléphone",d:"Avec internet"},{i:"💻",l:"Ordinateur",d:"Accès internet"},{i:"💳",l:"Compte bancaire",d:"A mon nom"}]},
+    {id:"r3",t:"scale",lb:"Budget",tx:"Comment tu t'en sors financièrement en ce moment ?",ls:["Très difficile","Difficile","Ca se passe","Bien","Très bien"],is:["😓","😕","😐","🙂","😄"],bg:"var(--yellow)"}
+  ]},
+  {id:"parc",l:"Mon parcours",i:"🎓",c:"var(--purple)",bg:"#F0ECFF",tbg:"#D1C4E9",tc:"#311B92",sc:"sp",hbg:"#F0ECFF",pc:"var(--purple)",desc:"Formation, emploi, droits et savoirs de base",
+   qs:[
+    {id:"f1",t:"single",lb:"Formation",tx:"Quelle est ta situation par rapport à la formation ?",os:[{i:"🎓",l:"Diplômé(e)",d:"J'ai un diplôme"},{i:"📚",l:"En formation",d:"Je suis un cursus"},{i:"🚪",l:"J'ai arrêté",d:"Décrochage scolaire"},{i:"⏸️",l:"Pause +6 mois",d:"Plus de formation"}]},
+    {id:"f2",t:"multi",lb:"Outils emploi",tx:"Pour chercher un emploi, tu sais faire ces choses ?",ht:"Coche ce que tu maitrises",os:[{i:"📄",l:"Faire un CV",d:""},{i:"✉️",l:"Lettre de motivation",d:""},{i:"🔍",l:"Chercher des offres",d:""},{i:"🤝",l:"Passer un entretien",d:""},{i:"📱",l:"Outils numériques",d:""},{i:"🗣️",l:"Parler de moi",d:""}]},
+    {id:"f3",t:"single",lb:"Droits et aides",tx:"Tu connais tes droits et les aides auxquelles tu peux avoir droit ?",os:[{i:"✅",l:"Oui, bien",d:""},{i:"🔶",l:"Un peu",d:"Quelques notions"},{i:"❌",l:"Pas vraiment",d:"Je ne sais pas"},{i:"🆘",l:"Besoin d'aide",d:"Les demarches m'angoissent"}]},
+    {id:"f4",t:"multi",lb:"Savoirs essentiels",tx:"Dans quels domaines tu aimerais progresser ?",ht:"Plusieurs réponses possibles",os:[{i:"📖",l:"Lire en français",d:""},{i:"✍️",l:"Ecrire en français",d:""},{i:"🔢",l:"Calcul",d:""},{i:"🗺️",l:"Démarches admin.",d:""},{i:"🌐",l:"Internet",d:""},{i:"😌",l:"Tout va bien",d:""}]}
+  ]},
+  {id:"clea",l:"Mes compétences clés",i:"🔑",c:"var(--cyan)",bg:"#E0F7FA",tbg:"#B2EBF2",tc:"#005F72",sc:"st",hbg:"#E0F7FA",pc:"var(--cyan)",desc:"6 compétences essentielles — référentiel CléA",
+   qs:[
+    {id:"k1",t:"scale",lb:"D1 — Lire et écrire",tx:"Comment tu te sens avec la lecture et l'écriture en français ?",ls:["Je cherche encore mes marques","J'ai besoin de pratiquer","Je me débrouille","A l'aise","Très à l'aise"],is:["📕","📗","📖","✍️","🏆"],bg:"#E0F7FA"},
+    {id:"k2",t:"scale",lb:"D2 — Calcul et chiffres",tx:"Comment tu te sens avec les chiffres, les calculs, lire un tableau ?",ls:["Je cherche encore mes marques","J'ai besoin de pratiquer","Je me débrouille","A l'aise","Très à l'aise"],is:["🔴","🟠","🟡","🟢","⭐"],bg:"#E0F7FA"},
+    {id:"k3",t:"scale",lb:"D3 — Numérique",tx:"Comment tu te sens avec un ordinateur, internet, la messagerie ?",ls:["Je cherche encore mes marques","J'ai besoin de pratiquer","Je me débrouille","A l'aise","Très à l'aise"],is:["📵","📱","💻","🖥️","🚀"],bg:"#E0F7FA"},
+    {id:"k4",t:"scale",lb:"D4 — Travailler en équipe",tx:"Comment tu te sens pour travailler avec d'autres, respecter des règles ?",ls:["Je cherche encore mes marques","J'ai besoin de pratiquer","Je me débrouille","A l'aise","Très à l'aise"],is:["😟","😕","😐","🤝","👥"],bg:"#E0F7FA"},
+    {id:"k5",t:"scale",lb:"D5 — Autonomie et initiative",tx:"Comment tu te sens pour t'organiser seul(e), prendre des décisions ?",ls:["Je cherche encore mes marques","J'ai besoin de pratiquer","Je me débrouille","A l'aise","Très à l'aise"],is:["🌱","🌿","🌳","💪","🦁"],bg:"#E0F7FA"},
+    {id:"k6",t:"scale",lb:"D6 — Apprendre à apprendre",tx:"Comment tu te sens pour identifier ce que tu sais faire et ce que tu dois apprendre ?",ls:["Je cherche encore mes marques","J'ai besoin de pratiquer","Je me débrouille","A l'aise","Très à l'aise"],is:["❓","🔍","💡","📚","🎯"],bg:"#E0F7FA"}
+  ]}
+];
+
+const SERVICES={
+  orientation:{icon:"🧭",title:"Orientation professionnelle",desc:"Faire le point sur tes envies, découvrir des métiers, confirmer ton projet avec un conseiller.",url:"https://www.missionlocale-paysbasque.org/orientation-1",label:"Voir l'accompagnement orientation",bg:"#FFEBEE",tc:"#B71C1C",lbg:"#C62828"},
+  emploi:{icon:"💼",title:"Trouver un emploi",desc:"Offres d'emploi, préparation de candidatures et d'entretiens, accompagnement vers l'accès à l'emploi.",url:"https://www.missionlocale-paysbasque.org/emploi",label:"Voir les offres et l'accompagnement",bg:"#E0F7FA",tc:"#00695C",lbg:"#00897B"},
+  formation:{icon:"🎓",title:"Trouver une formation",desc:"Trouver la formation qui te correspond, candidater, la financer et être rémunéré pendant ta formation.",url:"https://www.missionlocale-paysbasque.org/formation",label:"Découvrir les formations",bg:"#E8EAF6",tc:"#1A237E",lbg:"#3949AB"},
+  candidature:{icon:"📄",title:"Préparer ta candidature",desc:"CV, lettre de motivation, simulation d'entretien — on t'accompagne étape par étape.",url:"https://www.missionlocale-paysbasque.org/emploi",label:"Préparer ma candidature",bg:"#FFFDE7",tc:"#E65100",lbg:"#F57F17"},
+  mobilite:{icon:"🚗",title:"Se déplacer",desc:"Passer ton permis, accéder aux transports, trouver des solutions de mobilité sur ton territoire.",url:"https://www.missionlocale-paysbasque.org/med%C3%A9placer",label:"Voir les solutions mobilité",bg:"#FFF3E0",tc:"#BF360C",lbg:"#EF6C00"},
+  sante:{icon:"💚",title:"Infos santé",desc:"Accès aux soins, mutuelle, professionnels de santé — la Mission Locale t'aide à prendre soin de toi.",url:"https://www.missionlocale-paysbasque.org/infossant%C3%A9",label:"Infos santé et accès aux soins",bg:"#E0F7FA",tc:"#00695C",lbg:"#00897B"},
+  demarches:{icon:"📋",title:"Démarches et vie quotidienne",desc:"Démarches administratives, aides sociales et financières, outils du quotidien.",url:"https://www.missionlocale-paysbasque.org/demarchesadministratives",label:"Voir les démarches et aides",bg:"#FFF8E1",tc:"#E65100",lbg:"#F57F17"},
+  international:{icon:"🌍",title:"Partir à l'étranger",desc:"Vivre des expériences à l'étranger, développer tes compétences, bouger à travers le monde.",url:"https://www.missionlocale-paysbasque.org/partir%C3%A0letranger",label:"Explorer les opportunités",bg:"#F3E5F5",tc:"#4A148C",lbg:"#7B1FA2"},
+  cej:{icon:"📝",title:"Contrat d'Engagement Jeunes",desc:"Accompagnement intensif vers l'emploi ou la formation avec une allocation mensuelle.",url:"https://www.missionlocale-paysbasque.org/cejpacea",label:"En savoir plus sur le CEJ",bg:"#FFEBEE",tc:"#B71C1C",lbg:"#C62828"},
+  numerique:{icon:"💻",title:"Numérique et citoyenneté",desc:"Accéder aux outils numériques, maîtriser les bases, s'engager sur le territoire.",url:"https://www.missionlocale-paysbasque.org/engagementcitoyen",label:"Découvrir les ressources",bg:"#E8EAF6",tc:"#1A237E",lbg:"#3949AB"},
+  erip:{icon:"🗺️",title:"ERIP Pays Basque",desc:"Un espace d'information sur les métiers, formations et création d'entreprise sur le Pays Basque.",url:"https://www.missionlocale-paysbasque.org/erip-pays-basque",label:"Explorer l'ERIP",bg:"#F3E5F5",tc:"#4A148C",lbg:"#7B1FA2"},
+  clea:{icon:"🔑",title:"Certification CléA — Socle de compétences",desc:"CléA est une certification nationale qui valorise tes compétences de base : lire, écrire, calculer, numérique, travailler en équipe. La Mission Locale peut t'accompagner vers cette certification.",url:"https://www.missionlocale-paysbasque.org/formation",label:"En savoir plus sur CléA",bg:"#E8F5E9",tc:"#1B5E20",lbg:"#2E7D32"}
+};
+
+// ============================================================
+// ÉTAT
+// ============================================================
+const A={};
+let cur=0;
+DOM.forEach(d=>d.qs.forEach(q=>{if(q.t==="scale")A[q.id]=3;}));
+const TOT=DOM.length+3; // welcome + 7 domaines + destinations + résultats
+
+// ============================================================
+// HELPERS HTML — DESIGN MLPB
+// ============================================================
+function mlbar(){
+  return '<div style="display:flex;height:5px"><div style="flex:1;background:var(--yellow)"></div><div style="flex:1;background:var(--pink)"></div><div style="flex:1;background:var(--cyan)"></div><div style="flex:1;background:var(--green)"></div></div>';
+}
+function pzb(){
+  var cols=['var(--yellow)','var(--pink)','var(--cyan)','var(--green)','var(--orange)','var(--purple)','var(--yellow)'];
+  var ws=[40,24,52,30,44,28,36];
+  return '<div class="pzb" style="padding:0 1.75rem">'+ws.map(function(w,i){return '<div class="pz" style="background:'+cols[i%cols.length]+';width:'+w+'px"></div>';}).join('')+'</div>';
+}
+function dots(active){
+  var h='<div class="dots">';
+  for(var i=0;i<TOT;i++) h+='<div class="dot'+(i<active?' done':i===active?' active':'')+'"></div>';
+  return h+'</div>';
+}
+function nbar(prev,next,nextLabel){
+  return '<div class="nbar"><button class="btn-back" data-go="'+prev+'">← Retour</button>'+dots(prev+1)+'<button class="btn-next" data-go="'+next+'">'+nextLabel+'</button></div>';
+}
+
+// ============================================================
+// CONSTRUCTION DES PAGES
+// ============================================================
+function buildWelcome(){
+  return '<div class="step active" id="s0">'+
+    '<div class="topbar">'+
+    '<img class="topbar-logo" src="https://static.wixstatic.com/media/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif/v1/fill/w_224,h_60,al_c,q_80,enc_avif,quality_auto/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif" alt="LS4YOU">'+
+    '<div class="topbar-badge">Mission Locale</div>'+
+    '</div>'+
+    '<div class="hero">'+
+    '<div class="hero-eyebrow">Bienvenue à la</div>'+
+    '<div class="hero-title">Mission Locale<br><span class="hero-title-block">Pays Basque</span></div>'+
+    '<div class="hero-sub">Réponds à ces quelques questions pour nous aider à faire connaissance et t\'accompagner au mieux.</div>'+
+    '<div class="pills">'+DOM.map(function(d){return '<div class="pill" style="background:'+d.pc+'">'+d.i+' '+d.l+'</div>';}).join('')+'<div class="pill" style="background:var(--cyan);color:var(--white)">🧭 Mon projet</div></div>'+
+    '</div>'+
+    '<div class="istrip"><b>8 étapes · environ 20 minutes · Confidentiel</b><br>Tes réponses sont partagées avec ton conseiller uniquement si tu le souhaites.</div>'+
+    '<div class="snav"><div></div>'+dots(0)+'<button class="btn-start" data-go="1">Passons en mode avenir →</button></div>'+
+    mlbar()+'</div>';
+}
+
+function buildDomain(di){
+  var d=DOM[di];
+  var si=di+1;
+  var h='<div class="step" id="s'+si+'">'+
+    '<div class="dhead">'+
+    '<div class="dhead-color" style="background:'+d.hbg+'">'+
+    '<div class="dtag-inner" style="background:'+d.pc+';color:var(--black)">'+d.i+' '+d.l+'</div>'+
+    '<div class="ddesc">'+d.desc+'</div>'+
+    '</div>'+
+    '</div>';
+
+  d.qs.forEach(function(q){
+    h+='<div class="qb">';
+    h+='<div class="qlbl" style="color:'+d.c+'">'+q.lb+'</div>';
+    h+='<div class="qtxt">'+q.tx+'</div>';
+    if(q.ht) h+='<div class="qhint">'+q.ht+'</div>';
+
+    if(q.t==='scale'){
+      var v=A[q.id]||3;
+      h+='<div class="sdis" id="sd'+q.id+'" style="background:'+q.bg+'">';
+      h+='<span class="semi" id="se'+q.id+'">'+q.is[v-1]+'</span>';
+      h+='<span class="slbl" id="sl'+q.id+'" style="color:'+d.c+'">'+q.ls[v-1]+'</span>';
+      h+='</div>';
+      h+='<input type="range" min="1" max="5" step="1" value="'+v+'" class="js-scale" data-qid="'+q.id+'" data-di="'+di+'">';
+      h+='<div class="sticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>';
+    } else if(q.t==='forces'){
+      h+='<div class="chip-grid" id="cg-'+q.id+'">';
+      FORCES_DATA.forEach(function(f,fi){
+        var k='forces_'+fi;
+        var sel=A[k]||false;
+        h+='<div class="fchip'+(sel?' fc-sy':'')+'" id="fc-'+k+'" data-action="chip" data-pool="forces" data-idx="'+fi+'" data-selcls="fc-sy">';
+        h+='<span class="fchip-icon">'+f.i+'</span>'+f.l+'</div>';
+      });
+      h+='</div>';
+    } else if(q.t==='besoins'){
+      h+='<div class="chip-grid" id="cg-'+q.id+'">';
+      BESOINS_DATA.forEach(function(b,bi){
+        var k='besoins_'+bi;
+        var sel=A[k]||false;
+        h+='<div class="fchip'+(sel?' fc-sr':'')+'" id="fc-'+k+'" data-action="chip" data-pool="besoins" data-idx="'+bi+'" data-selcls="fc-sr">';
+        h+='<span class="fchip-icon">'+b.i+'</span>'+b.l+'</div>';
+      });
+      h+='</div>';
+    } else if(q.t==='valeurs'){
+      h+='<div class="chip-grid" id="cg-'+q.id+'">';
+      VALEURS_DATA.forEach(function(v,vi){
+        var k='valeurs_'+vi;
+        var sel=A[k]||false;
+        h+='<div class="fchip'+(sel?' fc-sp':'')+'" id="fc-'+k+'" data-action="chip" data-pool="valeurs" data-idx="'+vi+'" data-selcls="fc-sp">';
+        h+='<span class="fchip-icon">'+v.i+'</span>'+v.l+'</div>';
+      });
+      h+='</div>';
+    } else {
+      var isM=q.t==='multi';
+      h+='<div class="og'+(q.os.length===3?' c3':'')+'">';
+      q.os.forEach(function(o,oi){
+        var k=q.id+'_'+oi;
+        var sel=isM?(A[k]||false):(A[q.id]===oi);
+        var selClass=sel?' '+d.sc:'';
+        h+='<div class="oc'+selClass+'" id="oc'+k+'"';
+        h+=' data-action="'+(isM?'multi':'single')+'"';
+        h+=' data-qid="'+q.id+'" data-idx="'+oi+'" data-sc="'+d.sc+'" data-tot="'+q.os.length+'">';
+        h+='<div class="oemi">'+o.i+'</div>';
+        h+='<div class="olbl">'+o.l+'</div>';
+        if(o.d) h+='<div class="odesc">'+o.d+'</div>';
+        h+='</div>';
+      });
+      h+='</div>';
+    }
+    h+='</div>';
+  });
+
+  var isLast=di===DOM.length-1;
+  h+=pzb()+nbar(si-1,si+1,isLast?'Dernière étape →':'Suite →')+mlbar()+'</div>';
+  return h;
+}
+
+function buildDest(){
+  var si=DOM.length+1;
+  var h='<div class="step" id="s'+si+'">'+
+    '<div class="dest-wrap">'+
+    '<div class="dest-header">'+
+    '<div style="font-size:32px;margin-bottom:8px">🧭</div>'+
+    '<div class="dest-title">Vers où tu veux aller ?</div>'+
+    '<div class="dest-sub">Qu\'est-ce qui t\'attire le plus en ce moment ? Plusieurs réponses possibles.</div>'+
+    '</div>'+
+    '<div class="dg">';
+
+  DT.forEach(function(d){
+    var sel=A['d_'+d.id]||false;
+    h+='<div class="dc2'+(sel?' sel':'')+'" id="dc'+d.id+'"';
+    h+=' data-action="dest" data-did="'+d.id+'"';
+    h+=' style="background:'+d.bg+';border-color:'+(sel?d.bc:'transparent')+'">';
+    h+='<div class="demi">'+d.i+'</div>';
+    h+='<div class="dname" style="color:'+d.tc+'">'+d.n+'</div>';
+    h+='<div class="ddesc2" style="color:'+d.tc+'">'+d.d+'</div>';
+    h+='</div>';
+  });
+
+  h+='</div></div>';
+  h+=nbar(si-1,si+1,'Voir mon bilan →')+mlbar()+'</div>';
+  return h;
+}
+
+function buildResult(){
+  var si=TOT-1;
+  return '<div class="step" id="s'+si+'">'+
+    '<div class="rpage">'+
+    '<div class="r-hero">'+
+    '<div style="font-size:32px;margin-bottom:6px">🌟</div>'+
+    '<div class="rtitle">Voilà ce qu\'on a retenu</div>'+
+    '<div class="rsub">Ton premier pas vers l\'accompagnement</div>'+
+    '</div>'+
+    '<div id="r-atouts"></div>'+
+    '<div id="r-services"></div>'+
+    '<div id="r-clea"></div>'+
+    '<div id="r-dest"></div>'+
+    '<div id="r-rdv"></div>'+
+    '</div>'+
+    '<div class="nbar"><button class="btn-back" data-go="'+(si-1)+'">← Modifier mes réponses</button>'+dots(si)+'<div></div></div>'+
+    mlbar()+'</div>';
+}
+
+// ============================================================
+// REMPLIR LES RÉSULTATS
+// ============================================================
+function fillResults(){
+  // Atouts
+  var atouts=[];
+  if(Object.keys(A).some(function(k){return k.startsWith('c2_')&&A[k];})) atouts.push({i:'⭐',t:'Des expériences à valoriser'});
+  if(A.c3===0) atouts.push({i:'🎯',t:'Un projet professionnel défini'});
+  if(A.f2_0&&A.f2_1) atouts.push({i:'📄',t:'CV et lettre de motivation maîtrisés'});
+  if((A.c1||3)>=4) atouts.push({i:'🦁',t:'Une belle confiance en toi'});
+  if((A.p1||3)>=4) atouts.push({i:'☀️',t:'Un bon état d\'esprit pour avancer'});
+  if((A.s1||3)>=4) atouts.push({i:'🚀',t:'De l\'énergie et de la forme'});
+  if(A['r2_3']||A['r2_4']) atouts.push({i:'💻',t:'Connecté(e) pour tes démarches'});
+  if(A['r2_0']||A['r2_2']) atouts.push({i:'🚗',t:'Autonome pour te déplacer'});
+
+  var aHtml='<div class="bilan-intro"><b>Merci d\'avoir répondu !</b><br>Voici ce que ton conseiller pourra aborder avec toi. C\'est un point de départ, pas un verdict — chaque parcours est unique.</div>';
+
+  // Forces cochées
+  var selForces=FORCES_DATA.filter(function(_,i){return A['forces_'+i];});
+  if(selForces.length){
+    aHtml+='<div class="sec-title" style="color:#E65100">⭐ Mes forces</div>';
+    aHtml+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem">';
+    selForces.forEach(function(f){aHtml+='<div class="pts-chip" style="background:#FFFDE7;color:#E65100">'+f.i+' '+f.l+'</div>';});
+    aHtml+='</div>';
+  }
+
+  // Valeurs cochées
+  var selValeurs=VALEURS_DATA.filter(function(_,i){return A['valeurs_'+i];});
+  if(selValeurs.length){
+    aHtml+='<div class="sec-title" style="color:#6A1B9A">✨ Mes valeurs</div>';
+    aHtml+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem">';
+    selValeurs.forEach(function(v){aHtml+='<div class="pts-chip" style="background:#F3E5F5;color:#4A148C">'+v.i+' '+v.l+'</div>';});
+    aHtml+='</div>';
+  }
+
+  // Besoins cochés
+  var selBesoins=BESOINS_DATA.filter(function(_,i){return A['besoins_'+i];});
+  if(selBesoins.length){
+    aHtml+='<div class="sec-title" style="color:#C62828">💬 Mes besoins en ce moment</div>';
+    aHtml+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem">';
+    selBesoins.forEach(function(b){aHtml+='<div class="pts-chip" style="background:#FFEBEE;color:#B71C1C">'+b.i+' '+b.l+'</div>';});
+    aHtml+='</div>';
+  }
+
+  if(atouts.length){
+    aHtml+='<div class="sec-title" style="color:#2E7D32">🌟 Ce que tu apportes avec toi</div>';
+    aHtml+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem">';
+    atouts.forEach(function(a){aHtml+='<div class="pts-chip" style="background:#F1F8E9;color:#2E7D32">'+a.i+' '+a.t+'</div>';});
+    aHtml+='</div>';
+  }
+
+  // Bloc points de vie à aborder (remplace l'ancien bloc contraintes — sans jugement)
+  var points=[];
+  if((A.r3||3)<=2) points.push({i:'💰',t:'Budget et ressources financières'});
+  if(A.r1===3) points.push({i:'🏠',t:'Situation de logement'});
+  if(A.s3===2) points.push({i:'💊',t:'Santé et quotidien'});
+  if(!A['r2_0']&&!A['r2_2']) points.push({i:'🚗',t:'Mobilité et déplacements'});
+  if((A.p1||3)<=2||A.p3===2||A.p3===3) points.push({i:'🌧️',t:'Comment tu te sens en ce moment'});
+  if(A.f3===2||A.f3===3) points.push({i:'📋',t:'Droits et démarches administratives'});
+  if(A.f4_0||A.f4_1||A.f4_2) points.push({i:'📖',t:'Lecture, écriture ou calcul à renforcer'});
+  if(points.length){
+    aHtml+='<div class="sec-title" style="color:#E65100">💬 Points à explorer ensemble avec ton conseiller</div>';
+    aHtml+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem">';
+    points.forEach(function(p){aHtml+='<div class="pts-chip" style="background:#FFF8E1;color:#E65100">'+p.i+' '+p.t+'</div>';});
+    aHtml+='</div>';
+  }
+
+  document.getElementById('r-atouts').innerHTML=aHtml;
+
+  // Services recommandés
+  var recs=[];
+  var seen={};
+  function addSvc(key,why){if(!seen[key]){seen[key]=1;recs.push(Object.assign({},SERVICES[key],{why:why}));}}
+
+  if((A.p1||3)<=2||A.p3===2||A.p3===3) addSvc('demarches','Tu traverses une période difficile — la Mission Locale peut t\'aider à trouver du soutien et des ressources adaptées.');
+  if(A.c3===1||A.c3===2||A.c3===3) addSvc('orientation','Tu cherches encore ta voie — c\'est tout à fait normal. L\'accompagnement orientation est fait pour ça.');
+  if(A.c3===1||A.c3===2||A.c3===3) addSvc('erip','L\'ERIP Pays Basque peut t\'aider à explorer les métiers et les formations disponibles sur le territoire.');
+  if(A['d_emploi']||(!A.f2_0||!A.f2_1)) addSvc('emploi','Tu veux trouver un emploi — la Mission Locale t\'accompagne avec des offres, des ateliers et un suivi personnalisé.');
+  if(A['d_emploi']||A['d_candi']||(!A.f2_0||!A.f2_1)) addSvc('candidature','Préparer un bon CV et une lettre percutante, ça s\'apprend — on peut t\'y aider pas à pas.');
+  if(A['d_former']||A.f1===2||A.f1===3) addSvc('formation','Tu veux te (re)former — la Mission Locale t\'aide à trouver la formation qui te correspond et à la financer.');
+  if(A['d_inter']) addSvc('international','Tu veux bouger à l\'étranger — la Mission Locale Pays Basque t\'accompagne pour concrétiser ce projet.');
+  if(!A['r2_0']&&!A['r2_2']) addSvc('mobilite','Te déplacer peut être un frein — la Mission Locale peut t\'aider à trouver des solutions : permis, transports, aides.');
+  if(A.s3===2||!A['s2_0']||!A['s2_2']) addSvc('sante','La Mission Locale peut t\'orienter vers des professionnels de santé et t\'aider à accéder aux soins.');
+  if(A.f3===2||A.f3===3||(A.r3||3)<=2||A.r1===3) addSvc('demarches','Des aides financières ou administratives existent peut-être pour toi — un conseiller peut faire le point.');
+  if(A.f4_4||(!A['r2_3']&&!A['r2_4'])) addSvc('numerique','La Mission Locale peut t\'aider à accéder aux outils numériques et à les utiliser pour tes démarches.');
+  if((!A.f2_0&&!A.f2_1)&&(A.f1===2||A.f1===3)) addSvc('cej','Le Contrat d\'Engagement Jeunes (CEJ) peut te proposer un accompagnement intensif avec une allocation — renseigne-toi !');
+  // CléA — recommander si fragilités détectées sur les 6 domaines
+  var cleaFrag=[(A.k1||3)<=2,(A.k2||3)<=2,(A.k3||3)<=2,(A.k4||3)<=2,(A.k5||3)<=2,(A.k6||3)<=2].filter(Boolean).length;
+  if(cleaFrag>=2) addSvc('clea','Plusieurs compétences clés sont encore en cours de construction — c\'est tout à fait normal. La certification CléA peut t\'aider à les travailler et les faire reconnaître officiellement.');
+  else if(cleaFrag===1) addSvc('clea','Une compétence clé mérite un peu plus de pratique. La Mission Locale peut t\'accompagner pour la renforcer, avec la certification CléA si tu le souhaites.');
+  if(!recs.length) addSvc('orientation','Ton conseiller Mission Locale sera le mieux placé pour t\'orienter vers les bons outils et dispositifs.');
+
+  var ext='<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
+  var sHtml='<div class="sec-title" style="color:#C62828">💡 Ce que la Mission Locale peut faire pour toi</div>';
+  recs.forEach(function(s){
+    sHtml+='<div class="serv-card" style="background:'+s.bg+'">';
+    sHtml+='<div class="serv-icon">'+s.icon+'</div>';
+    sHtml+='<div class="serv-body">';
+    sHtml+='<div class="serv-title" style="color:'+s.tc+'">'+s.title+'</div>';
+    sHtml+='<div class="serv-desc">'+s.why+'</div>';
+    sHtml+='<a href="'+s.url+'" target="_blank" class="serv-link" style="background:'+s.lbg+';color:#fff">'+ext+' '+s.label+'</a>';
+    sHtml+='</div></div>';
+  });
+  document.getElementById('r-services').innerHTML=sHtml;
+
+  // Bilan CléA visuel
+  var cleaDomains=[
+    {id:'k1',lb:'Lire et écrire',i:'📖'},
+    {id:'k2',lb:'Calcul',i:'🔢'},
+    {id:'k3',lb:'Numérique',i:'💻'},
+    {id:'k4',lb:'Travail en équipe',i:'🤝'},
+    {id:'k5',lb:'Autonomie',i:'💪'},
+    {id:'k6',lb:'Apprendre',i:'🎯'}
+  ];
+  var cleaHtml='<div class="sec-title" style="color:#1B5E20">🔑 Mes compétences clés — auto-positionnement CléA</div>';
+  cleaHtml+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1rem">';
+  var cleaLabels=['Je cherche mes marques','A pratiquer davantage','Je me débrouille','A l\'aise','Très à l\'aise'];
+  var cleaColors=['#FB8C00','#FDD835','#A5D6A7','#66BB6A','#2E7D32'];
+  cleaDomains.forEach(function(cd){
+    var v=A[cd.id]||3;
+    var col=cleaColors[v-1];
+    var lbl=cleaLabels[v-1];
+    cleaHtml+='<div style="background:#E8F5E9;border-radius:12px;padding:10px 8px;text-align:center;">';
+    cleaHtml+='<div style="font-size:18px;margin-bottom:4px">'+cd.i+'</div>';
+    cleaHtml+='<div style="font-family:Nunito,sans-serif;font-weight:800;font-size:10px;color:#1B5E20;margin-bottom:4px">'+cd.lb+'</div>';
+    cleaHtml+='<div style="background:'+col+';border-radius:8px;padding:2px 6px;font-size:10px;font-weight:700;color:#fff;display:inline-block">'+lbl+'</div>';
+    cleaHtml+='</div>';
+  });
+  cleaHtml+='</div>';
+  document.getElementById('r-clea').innerHTML=cleaHtml;
+
+  // Destinations
+  var selDests=DT.filter(function(d){return A['d_'+d.id];});
+  if(selDests.length){
+    var dHtml='<div class="sec-title" style="color:#4A148C">🧭 Ton projet en tête</div>';
+    dHtml+='<div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:1rem">';
+    selDests.forEach(function(d){dHtml+='<div class="pts-chip" style="background:'+d.bg+';color:'+d.tc+'">'+d.i+' '+d.n+'</div>';});
+    dHtml+='</div>';
+    document.getElementById('r-dest').innerHTML=dHtml;
+  }
+
+  // RDV
+  document.getElementById('r-rdv').innerHTML=
+    '<div class="rdv-block">'+
+    '<div style="font-family:Nunito,sans-serif;font-weight:900;font-size:18px;color:var(--white);margin-bottom:6px">Prêt(e) à rencontrer ton conseiller ?</div>'+
+    '<div style="font-size:12px;color:rgba(255,255,255,.7);margin-bottom:16px;line-height:1.55">Apporte ce bilan à ton premier rendez-vous — il sera le point de départ de ton accompagnement.</div>'+
+    '<a href="https://www.missionlocale-paysbasque.org/contact" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:var(--yellow);color:var(--black);font-family:Nunito,sans-serif;font-weight:900;font-size:14px;padding:12px 26px;border-radius:25px;text-decoration:none;border:2px solid var(--yellow);box-shadow:3px 3px 0 rgba(255,255,255,.3)">📅 Prendre rendez-vous</a>'+
+    '</div>';
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function goTo(idx){
+  document.querySelectorAll('.step').forEach(function(s){s.classList.remove('active');});
+  var t=document.getElementById('s'+idx);
+  if(t){t.classList.add('active');cur=idx;window.scrollTo(0,0);}
+  if(idx===TOT-1) fillResults();
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function init(){
+  var sw=document.getElementById('sw');
+  var h=buildWelcome();
+  DOM.forEach(function(_,i){h+=buildDomain(i);});
+  h+=buildDest();
+  h+=buildResult();
+  sw.innerHTML=h;
+
+  // Un seul listener sur document (pas sw) pour tout capturer
+  document.addEventListener('click',function(e){
+    // Navigation (boutons data-go)
+    var goEl=e.target.closest('[data-go]');
+    if(goEl){
+      e.preventDefault();
+      goTo(parseInt(goEl.dataset.go));
+      return;
+    }
+
+    // Chips forces / besoins / valeurs
+    var chip=e.target.closest('.fchip[data-action="chip"]');
+    if(chip){
+      var pool=chip.dataset.pool;
+      var idx=parseInt(chip.dataset.idx);
+      var cls=chip.dataset.selcls;
+      var k=pool+'_'+idx;
+      A[k]=!A[k];
+      chip.className='fchip'+(A[k]?' '+cls:'');
+      return;
+    }
+
+    // Options (cards cliquables)
+    var oc=e.target.closest('.oc[data-action]');
+    if(oc){
+      var action=oc.dataset.action;
+      var qid=oc.dataset.qid;
+      var idx=parseInt(oc.dataset.idx);
+      var sc=oc.dataset.sc;
+      var tot=parseInt(oc.dataset.tot);
+
+      if(action==='single'){
+        A[qid]=idx;
+        for(var i=0;i<tot;i++){
+          var el=document.getElementById('oc'+qid+'_'+i);
+          if(el) el.className='oc'+(i===idx?' '+sc:'');
+        }
+      } else if(action==='multi'){
+        var k=qid+'_'+idx;
+        A[k]=!A[k];
+        oc.className='oc'+(A[k]?' '+sc:'');
+      }
+      return;
+    }
+
+    // Destinations
+    var dc=e.target.closest('.dc2[data-action="dest"]');
+    if(dc){
+      var did=dc.dataset.did;
+      var dt=DT.find(function(d){return d.id===did;});
+      A['d_'+did]=!A['d_'+did];
+      dc.className='dc2'+(A['d_'+did]?' sel':'');
+      dc.style.borderColor=A['d_'+did]?dt.bc:'transparent';
+      return;
+    }
+  });
+
+  // Sliders
+  // Construire un index global qid -> {is, ls, color} pour tous les scales
+  var SCALE_META={};
+  DOM.forEach(function(d){
+    d.qs.forEach(function(q){
+      if(q.t==='scale') SCALE_META[q.id]={is:q.is,ls:q.ls,c:d.c};
+    });
+  });
+
+  document.addEventListener('input',function(e){
+    if(!e.target.classList.contains('js-scale')) return;
+    var qid=e.target.dataset.qid;
+    var v=parseInt(e.target.value);
+    var meta=SCALE_META[qid];
+    if(!meta) return;
+    A[qid]=v;
+    var se=document.getElementById('se'+qid);
+    var sl=document.getElementById('sl'+qid);
+    if(se) se.textContent=meta.is[v-1];
+    if(sl){sl.textContent=meta.ls[v-1];sl.style.color=meta.c;}
+  });
+}
+
+init();
+</script>
+</body>
+</html>
