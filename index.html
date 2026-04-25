@@ -1,669 +1,759 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>LS4YOU — Bienvenue à la Mission Locale Pays Basque</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,700;0,800;0,900;1,900&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bienvenue à la Mission Locale — RPE MLPB Signature</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --yellow:#FFD166;--cream:#FFF8ED;--black:#111111;--white:#FFFFFF;
-  --pink:#E91E8C;--cyan:#00B4D8;--green:#06D6A0;--orange:#FF6B35;--purple:#7B5EA7;
-  --border:2.5px solid var(--black);
-  --r:clamp(10px,2.5vw,16px);--rb:clamp(16px,3.5vw,22px);
-  --pad:clamp(14px,4.5vw,28px);--gap:clamp(8px,2vw,12px);
-  --fs-xs:clamp(10px,2.5vw,12px);--fs-sm:clamp(11px,2.8vw,13px);
-  --fs-md:clamp(13px,3.2vw,15px);--fs-lg:clamp(16px,4vw,20px);
-  --fs-xl:clamp(22px,6vw,30px);
+  --orange:#f39200;
+  --green:#95c11f;
+  --blue:#2897d5;
+  --pink:#d60b52;
+  --purple:#a3195b;
+  --brick:#9f3d3f;
+  --black:#171718;
+  --cream:#fff7ee;
+  --white:#ffffff;
+  --ink:#171718;
+  --soft:#f8f3ee;
+  --line:2px solid #171718;
+  --shadow:0 22px 70px rgba(23,23,24,.16);
+  --hard:5px 5px 0 #171718;
 }
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth}
-body{font-family:'Nunito',sans-serif;background:var(--cream);display:flex;justify-content:center;align-items:flex-start;padding:clamp(0px,2vw,16px);min-height:100vh;min-height:100dvh}
-.app{width:100%;max-width:680px;background:var(--white);border-radius:clamp(0px,3vw,24px);overflow:hidden;border:var(--border);box-shadow:6px 6px 0 var(--black)}
-@media(max-width:480px){body{padding:0}.app{border-radius:0;border-left:none;border-right:none;box-shadow:none;min-height:100dvh}}
-.step{display:none}.step.active{display:block}
-.topbar{background:var(--yellow);border-bottom:var(--border);padding:clamp(10px,2.5vw,14px) var(--pad);display:flex;align-items:center;justify-content:space-between;gap:8px}
-.topbar-logo{height:clamp(24px,6vw,34px);width:auto;flex-shrink:0}
-.topbar-badge{background:var(--pink);color:#fff;font-weight:900;font-size:var(--fs-xs);letter-spacing:.07em;padding:5px clamp(10px,2.5vw,16px);border-radius:25px;border:2px solid var(--black);text-transform:uppercase;box-shadow:2px 2px 0 var(--black);white-space:nowrap}
-.hero{background:var(--yellow);padding:clamp(1.2rem,4vw,2rem) var(--pad) clamp(1rem,3vw,1.5rem);text-align:center;position:relative;border-bottom:var(--border)}
-.hero-eyebrow{font-weight:800;font-size:var(--fs-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--black);margin-bottom:6px}
-.hero-title{font-weight:900;font-size:var(--fs-xl);color:var(--black);line-height:1.05;margin-bottom:6px}
-.hero-title-block{display:inline-block;background:var(--black);color:var(--white);padding:2px clamp(6px,2vw,12px);border-radius:5px}
-.hero-sub{font-size:var(--fs-sm);color:var(--black);opacity:.7;line-height:1.6;max-width:400px;margin:0 auto clamp(1rem,3vw,1.5rem)}
-.pills{display:flex;flex-wrap:wrap;gap:var(--gap);justify-content:center;margin-bottom:clamp(.8rem,2.5vw,1.25rem)}
-.pill{display:flex;align-items:center;gap:5px;border-radius:25px;padding:5px clamp(10px,2.5vw,14px);font-weight:800;font-size:var(--fs-xs);border:2px solid var(--black);background:var(--white);box-shadow:2px 2px 0 var(--black);pointer-events:none}
-.istrip{background:var(--white);border-radius:var(--r);border:var(--border);padding:clamp(10px,2.5vw,14px) var(--pad);font-size:var(--fs-sm);color:var(--black);text-align:center;margin:0 var(--pad) clamp(1rem,3vw,1.5rem);line-height:1.5;box-shadow:3px 3px 0 var(--black)}
-.istrip b{font-weight:900}
-.snav{display:flex;align-items:center;justify-content:space-between;padding:clamp(.8rem,2.5vw,1rem) var(--pad);background:var(--yellow);border-top:var(--border);padding-bottom:max(clamp(.8rem,2.5vw,1rem),env(safe-area-inset-bottom))}
-.dots{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
-.dot{width:8px;height:8px;border-radius:50%;background:rgba(0,0,0,.2);border:1.5px solid var(--black);transition:all .2s;pointer-events:none}
-.dot.done{background:var(--black)}.dot.active{width:22px;border-radius:5px;background:var(--black)}
-.btn-start,.btn-next{cursor:pointer;font-family:'Nunito',sans-serif;font-weight:900;font-size:var(--fs-sm);background:var(--black);color:var(--white);border:var(--border);border-radius:25px;padding:clamp(10px,2.5vw,13px) clamp(18px,4vw,28px);box-shadow:3px 3px 0 rgba(0,0,0,.3);transition:transform .12s,box-shadow .12s;min-height:44px;white-space:nowrap}
-.btn-start:hover,.btn-next:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 rgba(0,0,0,.3)}
-.btn-start:active,.btn-next:active{transform:translate(1px,1px);box-shadow:1px 1px 0 rgba(0,0,0,.3)}
-.btn-back{cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:var(--fs-xs);background:transparent;color:var(--black);border:2px solid var(--black);border-radius:25px;padding:clamp(8px,2vw,11px) clamp(14px,3vw,22px);transition:background .15s;min-height:44px;white-space:nowrap}
-.btn-back:hover{background:rgba(0,0,0,.06)}.btn-back:active{background:rgba(0,0,0,.12)}
-.dhead{padding:0}
-.dhead-color{padding:clamp(1rem,3vw,1.4rem) var(--pad) clamp(.8rem,2.5vw,1.1rem);border-bottom:var(--border)}
-.dtag-inner{display:inline-flex;align-items:center;gap:7px;border-radius:25px;padding:6px clamp(12px,3vw,18px);font-weight:900;font-size:var(--fs-sm);border:2px solid var(--black);box-shadow:2px 2px 0 var(--black);margin-bottom:6px}
-.ddesc{font-size:var(--fs-xs);color:var(--black);opacity:.65}
-.qb{padding:clamp(1rem,3vw,1.4rem) var(--pad) 0}
-.qlbl{font-size:var(--fs-xs);font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;color:rgba(0,0,0,.5)}
-.qtxt{font-weight:900;font-size:var(--fs-md);color:var(--black);line-height:1.3;margin-bottom:4px}
-.qhint{font-size:var(--fs-xs);color:rgba(0,0,0,.5);margin-bottom:10px}
-.sdis{border-radius:var(--r);padding:clamp(12px,3vw,16px);text-align:center;margin-bottom:8px;border:2px solid var(--black);display:block;min-height:66px;box-shadow:3px 3px 0 var(--black)}
-.semi,.slbl{pointer-events:none;display:block}
-.semi{font-size:clamp(24px,6vw,30px);margin-bottom:4px}
-.slbl{font-weight:900;font-size:var(--fs-sm)}
-input[type=range]{width:100%;margin:4px 0;cursor:pointer;accent-color:var(--black);height:22px}
-.sticks{display:flex;justify-content:space-between;font-size:var(--fs-xs);color:rgba(0,0,0,.4);font-weight:800;pointer-events:none}
-.og{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
-.og.c3{grid-template-columns:repeat(3,1fr)}
-@media(max-width:360px){.og.c3{grid-template-columns:repeat(2,1fr)}}
-.oc{border:2px solid rgba(0,0,0,.15);border-radius:var(--r);padding:clamp(10px,2.5vw,14px) clamp(8px,2vw,12px);cursor:pointer;text-align:center;background:var(--white);transition:all .15s;user-select:none;min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.oc:hover{border-color:var(--black);box-shadow:3px 3px 0 var(--black);transform:translate(-1px,-1px)}
-.oc:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--black)}
-.oc *{pointer-events:none}
-.sr{border-color:var(--pink)!important;background:#FFF0F8!important;box-shadow:3px 3px 0 var(--pink)!important}
-.sy{border-color:#E5A000!important;background:var(--yellow)!important;box-shadow:3px 3px 0 #E5A000!important}
-.st{border-color:var(--cyan)!important;background:#E0F7FA!important;box-shadow:3px 3px 0 var(--cyan)!important}
-.so{border-color:var(--orange)!important;background:#FFF0E8!important;box-shadow:3px 3px 0 var(--orange)!important}
-.sp{border-color:var(--purple)!important;background:#F0ECFF!important;box-shadow:3px 3px 0 var(--purple)!important}
-.sg{border-color:var(--green)!important;background:#E6FBF5!important;box-shadow:3px 3px 0 var(--green)!important}
-.spk{border-color:var(--pink)!important;background:#FFF0F8!important;box-shadow:3px 3px 0 var(--pink)!important}
-.oemi{font-size:clamp(18px,5vw,24px);margin-bottom:5px}
-.olbl{font-weight:900;font-size:var(--fs-xs);color:var(--black);line-height:1.2}
-.odesc{font-size:clamp(9px,2.2vw,11px);color:rgba(0,0,0,.5);margin-top:3px;line-height:1.3}
-.pzb{display:flex;gap:3px;padding:0 var(--pad);margin:clamp(.8rem,2.5vw,1.2rem) 0 0;flex-wrap:wrap;pointer-events:none}
-.pz{height:5px;border-radius:3px}
-.nbar{display:flex;align-items:center;justify-content:space-between;padding:clamp(.8rem,2.5vw,1rem) var(--pad);border-top:var(--border);gap:8px;padding-bottom:max(clamp(.8rem,2.5vw,1rem),env(safe-area-inset-bottom))}
-@media(max-width:360px){.nbar{flex-wrap:wrap;gap:10px}.nbar .dots{order:3;width:100%;justify-content:center}}
-.dest-wrap{padding:var(--pad)}
-.dest-header{background:var(--yellow);border:var(--border);border-radius:var(--rb);padding:clamp(1rem,3.5vw,1.5rem);text-align:center;margin-bottom:clamp(.8rem,2.5vw,1.25rem);box-shadow:4px 4px 0 var(--black)}
-.dest-title{font-weight:900;font-size:var(--fs-lg);color:var(--black);margin-bottom:4px}
-.dest-sub{font-size:var(--fs-sm);color:var(--black);opacity:.65;max-width:360px;margin:0 auto .4rem}
-.mhint{font-size:var(--fs-xs);color:rgba(0,0,0,.5)}
-.dg{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
-.dc2{border-radius:var(--r);padding:clamp(12px,3vw,18px) clamp(10px,2.5vw,14px);cursor:pointer;text-align:center;border:2px solid rgba(0,0,0,.15);background:var(--white);transition:all .18s;user-select:none;min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.dc2:hover{border-color:var(--black);box-shadow:3px 3px 0 var(--black);transform:translate(-1px,-1px)}
-.dc2:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--black)}
-.dc2.sel{border-color:var(--black)!important;box-shadow:4px 4px 0 var(--black)!important;transform:translate(-2px,-2px)}
-.dc2 *{pointer-events:none}
-.demi{font-size:clamp(24px,6vw,32px);margin-bottom:6px}
-.dname{font-weight:900;font-size:var(--fs-sm);line-height:1.2;margin-bottom:3px}
-.ddesc2{font-size:clamp(9px,2.2vw,11px);line-height:1.3;opacity:.65}
-.chip-grid{display:flex;flex-wrap:wrap;gap:var(--gap)}
-.fchip{display:flex;align-items:center;gap:6px;border:2px solid rgba(0,0,0,.2);border-radius:25px;padding:clamp(6px,1.8vw,9px) clamp(10px,2.5vw,15px);cursor:pointer;background:var(--white);font-weight:800;font-size:var(--fs-xs);color:var(--black);transition:all .15s;user-select:none;min-height:38px}
-.fchip *{pointer-events:none}
-.fchip:hover{border-color:var(--black);box-shadow:2px 2px 0 var(--black);transform:translate(-1px,-1px)}
-.fchip:active{transform:translate(1px,1px);box-shadow:none}
-.fchip.fc-sr{border-color:var(--pink);background:#FFF0F8;box-shadow:2px 2px 0 var(--pink)}
-.fchip.fc-sy{border-color:#E5A000;background:var(--yellow);box-shadow:2px 2px 0 #E5A000}
-.fchip.fc-sp{border-color:var(--purple);background:#F0ECFF;box-shadow:2px 2px 0 var(--purple)}
-.fchip-icon{font-size:clamp(13px,3.5vw,16px)}
-.rpage{padding:var(--pad)}
-.r-hero{background:var(--yellow);border:var(--border);border-radius:var(--rb);padding:clamp(1rem,4vw,1.5rem);text-align:center;margin-bottom:clamp(.8rem,2.5vw,1.25rem);box-shadow:4px 4px 0 var(--black)}
-.rtitle{font-weight:900;font-size:var(--fs-lg);color:var(--black);margin-bottom:4px}
-.rsub{font-size:var(--fs-xs);color:var(--black);opacity:.6;letter-spacing:.04em;text-transform:uppercase;font-weight:800}
-.serv-card{border-radius:var(--r);padding:clamp(10px,2.5vw,14px) clamp(12px,3vw,16px);margin-bottom:var(--gap);display:flex;align-items:flex-start;gap:10px;border:2px solid rgba(0,0,0,.12);background:var(--white);transition:all .15s}
-.serv-card:hover{border-color:var(--black);box-shadow:3px 3px 0 var(--black);transform:translate(-1px,-1px)}
-.serv-icon{font-size:clamp(18px,4.5vw,22px);flex-shrink:0;margin-top:2px;pointer-events:none}
-.serv-body{flex:1;min-width:0}
-.serv-title{font-weight:900;font-size:var(--fs-sm);margin-bottom:3px;color:var(--black)}
-.serv-desc{font-size:var(--fs-xs);line-height:1.45;color:rgba(0,0,0,.6);margin-bottom:7px}
-.serv-link{display:inline-flex;align-items:center;gap:4px;font-size:var(--fs-xs);font-weight:900;padding:5px clamp(10px,2.5vw,14px);border-radius:12px;text-decoration:none;border:2px solid var(--black);box-shadow:2px 2px 0 var(--black);transition:transform .12s;min-height:36px}
-.serv-link:hover{transform:translate(-1px,-1px)}.serv-link:active{transform:translate(1px,1px);box-shadow:none}
-.pts-chip{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:5px clamp(8px,2vw,12px);font-weight:800;font-size:var(--fs-xs);margin:3px;border:1.5px solid rgba(0,0,0,.15)}
-.bilan-intro{background:var(--cream);border-radius:var(--r);border:2px solid rgba(0,0,0,.1);padding:clamp(10px,2.5vw,14px) clamp(12px,3vw,16px);margin-bottom:clamp(.8rem,2.5vw,1.2rem);font-size:var(--fs-sm);color:var(--black);line-height:1.55;text-align:center}
-.bilan-intro b{font-weight:900}
-.sec-title{font-weight:900;font-size:var(--fs-xs);display:flex;align-items:center;gap:7px;margin:clamp(.8rem,2.5vw,1rem) 0 clamp(.4rem,1.5vw,.6rem);color:var(--black);text-transform:uppercase;letter-spacing:.08em;border-bottom:2px solid var(--black);padding-bottom:5px}
-.rdv-block{background:var(--black);border-radius:var(--rb);padding:clamp(1rem,4vw,1.5rem);text-align:center;margin-top:.5rem;border:var(--border)}
-.clea-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);margin-bottom:1rem}
-@media(max-width:360px){.clea-grid{grid-template-columns:repeat(2,1fr)}}
-.clea-tile{border-radius:var(--r);border:2px solid var(--black);padding:clamp(8px,2vw,12px) 8px;text-align:center;box-shadow:3px 3px 0 var(--black)}
-.clea-tile-icon{font-size:clamp(16px,4.5vw,20px);margin-bottom:4px}
-.clea-tile-lbl{font-weight:900;font-size:clamp(9px,2.3vw,11px);line-height:1.2;margin-bottom:6px;color:var(--black)}
-.clea-badge{display:inline-block;border-radius:8px;padding:2px 8px;font-size:clamp(9px,2.2vw,11px);font-weight:800;color:#fff}
-::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--cream)}::-webkit-scrollbar-thumb{background:rgba(0,0,0,.25);border-radius:4px}
-:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
-@media print{body{background:#fff;padding:0}.app{box-shadow:none;border:1px solid #ccc}.nbar,.snav{display:none}.step{display:block!important}}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;scroll-behavior:smooth}
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  color:var(--ink);
+  font-family:Inter,Arial,Helvetica,sans-serif;
+  background:
+    radial-gradient(circle at 8% 8%, rgba(243,146,0,.28), transparent 28%),
+    radial-gradient(circle at 88% 12%, rgba(40,151,213,.20), transparent 30%),
+    radial-gradient(circle at 15% 88%, rgba(149,193,31,.18), transparent 32%),
+    linear-gradient(135deg,#fffaf4 0%,#f7efe7 100%);
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(90deg,rgba(23,23,24,.035) 1px,transparent 1px),
+    linear-gradient(rgba(23,23,24,.035) 1px,transparent 1px);
+  background-size:34px 34px;
+  mask-image:linear-gradient(to bottom,rgba(0,0,0,.65),transparent 80%);
+}
+.app{
+  width:100%;
+  max-width:980px;
+  min-height:100vh;
+  background:rgba(255,255,255,.86);
+  backdrop-filter:blur(16px);
+  border-left:var(--line);
+  border-right:var(--line);
+  box-shadow:var(--shadow);
+  position:relative;
+  overflow:hidden;
+}
+.app:before{
+  content:"";
+  position:absolute;
+  right:-90px;
+  top:120px;
+  width:240px;
+  height:240px;
+  background:var(--blue);
+  border-radius:50%;
+  opacity:.12;
+}
+.app:after{
+  content:"";
+  position:absolute;
+  left:-95px;
+  bottom:80px;
+  width:260px;
+  height:260px;
+  background:var(--pink);
+  border-radius:48% 52% 43% 57%;
+  opacity:.09;
+}
+.top{
+  position:relative;
+  z-index:2;
+  background:rgba(255,255,255,.72);
+  border-bottom:var(--line);
+  padding:18px 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+.logo{
+  font-weight:950;
+  background:#fff;
+  border:2px solid var(--black);
+  border-radius:999px;
+  padding:10px 14px;
+  box-shadow:3px 3px 0 var(--black);
+  font-size:13px;
+  letter-spacing:.01em;
+}
+.badge{
+  font-weight:950;
+  background:var(--black);
+  color:#fff;
+  border:2px solid var(--black);
+  border-radius:999px;
+  padding:10px 14px;
+  box-shadow:3px 3px 0 rgba(23,23,24,.25);
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.page{
+  display:none;
+  min-height:calc(100vh - 70px);
+  position:relative;
+  z-index:1;
+}
+#p0{display:block}
+body:has(.page:target) #p0{display:none}
+.page:target{display:block}
+.progress-wrap{
+  background:rgba(255,255,255,.76);
+  border-bottom:var(--line);
+  padding:16px 22px 14px;
+}
+.progress-top{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  font-size:12px;
+  font-weight:950;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  margin-bottom:9px;
+}
+.progress-bg{
+  height:18px;
+  background:#fff;
+  border:2px solid var(--black);
+  border-radius:999px;
+  overflow:hidden;
+  box-shadow:inset 0 0 0 2px rgba(23,23,24,.04);
+}
+.progress-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--orange),var(--blue),var(--green),var(--pink),var(--purple));
+  position:relative;
+}
+.progress-fill:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.45),transparent);
+  animation:shine 2.4s infinite;
+}
+@keyframes shine{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.hero{
+  min-height:540px;
+  padding:66px 32px 46px;
+  text-align:center;
+  border-bottom:var(--line);
+  background:
+    radial-gradient(circle at 18% 22%, rgba(255,255,255,.78) 0 9%, transparent 10%),
+    radial-gradient(circle at 78% 18%, rgba(255,255,255,.62) 0 8%, transparent 9%),
+    radial-gradient(circle at 12% 76%, rgba(255,255,255,.55) 0 10%, transparent 11%),
+    linear-gradient(135deg,
+      rgba(243,146,0,.96) 0%,
+      rgba(243,146,0,.92) 28%,
+      rgba(40,151,213,.88) 28%,
+      rgba(40,151,213,.86) 52%,
+      rgba(149,193,31,.86) 52%,
+      rgba(149,193,31,.84) 74%,
+      rgba(214,11,82,.88) 74%,
+      rgba(214,11,82,.86) 100%);
+  position:relative;
+  overflow:hidden;
+}
+.hero:before,.hero:after{
+  content:"";
+  position:absolute;
+  border:2px solid var(--black);
+  opacity:.30;
+  z-index:1;
+}
+.hero:before{
+  width:190px;
+  height:92px;
+  border-radius:90px;
+  left:7%;
+  bottom:13%;
+  background:var(--blue);
+  transform:rotate(-12deg);
+  box-shadow:18px 22px 0 rgba(149,193,31,.72), -22px -16px 0 rgba(255,255,255,.48);
+}
+.hero:after{
+  width:138px;
+  height:138px;
+  border-radius:36px;
+  right:8%;
+  top:16%;
+  background:var(--pink);
+  transform:rotate(16deg);
+  box-shadow:-24px 24px 0 rgba(243,146,0,.74), 22px -18px 0 rgba(255,255,255,.44);
+}
+.hero .pills:before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:-18px;
+  transform:translateX(-50%);
+  width:76%;
+  max-width:620px;
+  height:12px;
+  border:2px solid var(--black);
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--orange) 0 25%,var(--blue) 25% 50%,var(--green) 50% 75%,var(--pink) 75% 100%);
+  box-shadow:3px 3px 0 var(--black);
+}
+.eyebrow{
+  display:inline-flex;
+  padding:8px 14px;
+  background:#fff;
+  border:2px solid var(--black);
+  border-radius:999px;
+  box-shadow:3px 3px 0 var(--black);
+  font-size:12px;
+  text-transform:uppercase;
+  font-weight:950;
+  letter-spacing:.10em;
+  position:relative;
+  z-index:2;
+}
+h1{
+  font-size:clamp(42px,8vw,76px);
+  letter-spacing:-.06em;
+  line-height:.88;
+  margin:24px 0 18px;
+  font-weight:950;
+  position:relative;
+  z-index:2;
+}
+.mark{
+  background:#171718;
+  color:#fff;
+  border-radius:16px;
+  padding:4px 18px 8px;
+  display:inline-block;
+  box-shadow:6px 6px 0 rgba(255,255,255,.55);
+}
+.sub{
+  font-size:clamp(17px,2.4vw,22px);
+  line-height:1.42;
+  font-weight:850;
+  max-width:720px;
+  margin:0 auto;
+  position:relative;
+  z-index:2;
+}
+.pills{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  margin-top:28px;
+  position:relative;
+  z-index:2;
+}
+.pill,.token{
+  border:2px solid var(--black);
+  border-radius:999px;
+  padding:8px 13px;
+  background:#fff;
+  font-weight:950;
+  font-size:12px;
+  box-shadow:3px 3px 0 var(--black);
+}
+.notice{
+  margin:24px;
+  padding:20px 22px;
+  border:var(--line);
+  border-radius:24px;
+  box-shadow:var(--hard);
+  text-align:center;
+  font-size:16px;
+  line-height:1.5;
+  background:rgba(255,255,255,.92);
+}
+.head{
+  padding:30px 28px 24px;
+  border-bottom:var(--line);
+  position:relative;
+  overflow:hidden;
+}
+.head:after{
+  content:"";
+  position:absolute;
+  right:24px;
+  top:18px;
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  background:rgba(255,255,255,.45);
+  border:2px solid rgba(23,23,24,.16);
+}
+.tag{
+  display:inline-flex;
+  gap:8px;
+  align-items:center;
+  border:2px solid var(--black);
+  border-radius:999px;
+  padding:10px 18px;
+  font-weight:950;
+  box-shadow:3px 3px 0 var(--black);
+  margin-bottom:10px;
+  position:relative;
+  z-index:2;
+}
+.desc{
+  font-size:15px;
+  font-weight:850;
+  opacity:.74;
+  line-height:1.4;
+  position:relative;
+  z-index:2;
+}
+.content{
+  padding:28px;
+}
+.q{
+  margin-bottom:26px;
+  padding:22px;
+  background:rgba(255,255,255,.88);
+  border:2px solid rgba(23,23,24,.10);
+  border-radius:26px;
+  box-shadow:0 12px 34px rgba(23,23,24,.07);
+}
+.ql{
+  font-size:12px;
+  font-weight:950;
+  text-transform:uppercase;
+  letter-spacing:.10em;
+  color:var(--pink);
+  margin-bottom:7px;
+}
+.qt{
+  font-size:clamp(20px,3vw,28px);
+  font-weight:950;
+  line-height:1.1;
+  margin-bottom:10px;
+  letter-spacing:-.02em;
+}
+.qh{
+  font-size:14px;
+  font-weight:850;
+  opacity:.62;
+  margin-bottom:14px;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+.grid.three{grid-template-columns:repeat(3,1fr)}
+.card{
+  background:#fff;
+  border:2px solid rgba(23,23,24,.18);
+  border-radius:22px;
+  min-height:108px;
+  text-align:center;
+  padding:16px 12px;
+  cursor:pointer;
+  font:inherit;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+}
+.card:hover{
+  transform:translate(-2px,-2px);
+  border-color:var(--black);
+  box-shadow:5px 5px 0 var(--black);
+}
+.card.selected{
+  border-color:var(--black);
+  box-shadow:5px 5px 0 var(--black);
+  transform:translate(-2px,-2px);
+  background:linear-gradient(135deg,#fff,#fff5e0);
+}
+.emoji{font-size:32px;margin-bottom:8px}
+.label{font-size:15px;font-weight:950;line-height:1.12}
+.scaleBox{
+  border:2px solid var(--black);
+  border-radius:24px;
+  box-shadow:var(--hard);
+  padding:18px;
+  text-align:center;
+  margin-bottom:12px;
+  background:linear-gradient(135deg,#fff,#fff8ef);
+}
+.scaleEmoji{font-size:42px;display:block}
+.scaleLabel{font-size:16px;font-weight:950;display:block}
+input[type=range]{width:100%;accent-color:var(--black);height:28px}
+.ticks{display:flex;justify-content:space-between;font-size:12px;font-weight:950;opacity:.45}
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.chip{
+  border:2px solid rgba(23,23,24,.22);
+  border-radius:999px;
+  background:#fff;
+  padding:10px 15px;
+  font-weight:950;
+  cursor:pointer;
+  font-size:14px;
+  transition:all .15s ease;
+}
+.chip:hover{
+  border-color:var(--black);
+  box-shadow:3px 3px 0 var(--black);
+  transform:translate(-1px,-1px);
+}
+.chip.selected{
+  border-color:var(--black);
+  box-shadow:3px 3px 0 var(--black);
+  background:linear-gradient(135deg,#fff5e0,#fff);
+}
+.nav{
+  background:rgba(255,255,255,.82);
+  backdrop-filter:blur(12px);
+  border-top:var(--line);
+  padding:16px 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  position:sticky;
+  bottom:0;
+  z-index:5;
+}
+.btn{
+  display:inline-block;
+  text-decoration:none;
+  text-align:center;
+  border:var(--line);
+  background:var(--black);
+  color:#fff;
+  border-radius:999px;
+  padding:14px 24px;
+  font-weight:950;
+  cursor:pointer;
+  box-shadow:4px 4px 0 rgba(23,23,24,.24);
+  font-size:15px;
+  transition:all .15s ease;
+}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 rgba(23,23,24,.24)}
+.btn.back{background:#fff;color:var(--black)}
+.result{padding:28px}
+.rhero{
+  background:linear-gradient(135deg,var(--orange),#ffba51);
+  border:var(--line);
+  border-radius:30px;
+  box-shadow:7px 7px 0 var(--black);
+  text-align:center;
+  padding:30px 22px;
+  margin-bottom:24px;
+}
+.rtitle{font-size:clamp(28px,4vw,42px);font-weight:950;letter-spacing:-.04em}
+.rsub{font-size:12px;text-transform:uppercase;letter-spacing:.10em;font-weight:950;opacity:.65}
+.sec{
+  font-size:12px;
+  font-weight:950;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+  border-bottom:2px solid var(--black);
+  padding-bottom:7px;
+  margin:24px 0 12px;
+}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+.barCard{
+  background:#fff;
+  border:2px solid rgba(23,23,24,.12);
+  border-radius:22px;
+  padding:15px;
+  margin-bottom:10px;
+  box-shadow:0 10px 28px rgba(23,23,24,.06);
+}
+.barTop{display:flex;justify-content:space-between;font-weight:950;font-size:15px;margin-bottom:8px}
+.barBg{height:20px;background:#eee;border-radius:999px;overflow:hidden}
+.barFill{height:100%;border-radius:999px;color:#fff;font-size:11px;font-weight:950;text-align:center;line-height:20px}
+.svc{
+  border:2px solid rgba(23,23,24,.14);
+  border-radius:22px;
+  padding:16px;
+  margin-bottom:12px;
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  background:#fff;
+  box-shadow:0 10px 28px rgba(23,23,24,.06);
+}
+.svcI{font-size:28px}.svcT{font-weight:950;font-size:16px}.svcD{font-size:14px;opacity:.74;font-weight:760;line-height:1.42;margin-top:4px}
+.panel{
+  background:#fff;
+  border:2px solid rgba(23,23,24,.12);
+  border-radius:22px;
+  padding:16px;
+  margin-bottom:12px;
+  line-height:1.5;
+  font-size:15px;
+  box-shadow:0 10px 28px rgba(23,23,24,.06);
+}
+.strip{display:flex;height:6px}.strip div{flex:1}
+@media(max-width:640px){
+  .grid,.grid.three{grid-template-columns:1fr}
+  .top{align-items:flex-start;flex-direction:column}
+  .nav{flex-wrap:wrap}
+  .btn{width:100%}
+  .app{border-left:0;border-right:0}
+  .hero{min-height:auto;padding:44px 20px 32px}
+}
+@media print{
+  .top,.progress-wrap,.nav,.print{display:none!important}
+  .page{display:none!important}
+  .page:target{display:block!important}
+  .app{border:0;max-width:none;box-shadow:none}
+  body{background:#fff}
+}
 </style>
 </head>
 <body>
-<div class="app"><div id="sw"></div></div>
+<div class="app">
+
+<div class="top">
+  <div class="logo">Mission Locale Pays Basque</div>
+  <div class="badge">Auto-test RPE</div>
+</div>
+
+<section class="page" id="p0">
+  <div class="progress-wrap"><div class="progress-top"><span>Étape 1 / 9</span><span>Accueil</span></div><div class="progress-bg"><div class="progress-fill" style="width:0%"></div></div></div>
+  <div class="hero">
+    <div class="eyebrow">MLPB × LS4YOU</div>
+    <h1>Bienvenue à la<br><span class="mark">Mission Locale</span></h1>
+    <p class="sub">Fais le point sur ta situation, tes forces et tes ressources. On avance ensemble, à ton rythme.</p>
+    <div class="pills"><span class="pill">🧠 Moi</span><span class="pill">⭐ Forces</span><span class="pill">💼 Emploi</span><span class="pill">🎓 Formation</span><span class="pill">🏡 Ressources</span><span class="pill">🔑 Compétences</span></div>
+  </div>
+  <div class="notice"><b>Environ 10 minutes.</b><br>Le test se dévoile page par page. La navigation fonctionne avec de simples liens HTML.</div>
+  <div class="nav"><span></span><a class="btn" href="#p1">Je commence →</a></div>
+</section>
+
+<section class="page" id="p1">
+  <div class="progress-wrap"><div class="progress-top"><span>Étape 2 / 9</span><span>Moi aujourd’hui</span></div><div class="progress-bg"><div class="progress-fill" style="width:12.5%"></div></div></div>
+  <div class="head" style="background:#fde8ef"><div class="tag" style="background:#d60b52;color:white">🧠 Moi aujourd’hui</div><div class="desc">Santé, énergie, entourage, rythme.</div></div>
+  <div class="content">
+    <div class="q scale" data-axis="Bien-être" data-ml="Santé|Mode de vie" data-color="#95c11f" data-labels="Très dur|Compliqué|Ça passe|Plutôt bien|Bien" data-emojis="🌧️|☁️|🌤️|🌈|☀️"><div class="ql">Bien-être</div><div class="qt">Comment tu te sens en ce moment ?</div><div class="scaleBox"><span class="scaleEmoji">🌤️</span><span class="scaleLabel">Ça passe</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
+    <div class="q scale" data-axis="Bien-être" data-ml="Santé|Mode de vie" data-color="#95c11f" data-labels="Vide|Faible|Variable|Correcte|Bonne" data-emojis="🪫|🔋|🌤️|💡|🚀"><div class="ql">Énergie</div><div class="qt">Ton énergie dans la journée ?</div><div class="scaleBox"><span class="scaleEmoji">🌤️</span><span class="scaleLabel">Variable</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
+    <div class="q single" data-axis="Valorisation" data-ml="Citoyenneté / relations"><div class="ql">Lien</div><div class="qt">Quand ça ne va pas, tu as quelqu’un à qui parler ?</div><div class="grid"><button type="button" class="card" data-value="5"><span class="emoji">👥</span><span class="label">Oui, plusieurs</span></button><button type="button" class="card" data-value="4"><span class="emoji">👤</span><span class="label">Une personne</span></button><button type="button" class="card" data-value="1"><span class="emoji">🌱</span><span class="label">Pas vraiment</span></button><button type="button" class="card" data-value="2"><span class="emoji">🔒</span><span class="label">Je préfère passer</span></button></div></div>
+  </div>
+  <div class="nav"><a class="btn back" href="#p0">← Retour</a><a class="btn" href="#p2">Suivant →</a></div>
+</section>
+
+<section class="page" id="p2">
+  <div class="progress-wrap"><div class="progress-top"><span>Étape 3 / 9</span><span>Mes forces</span></div><div class="progress-bg"><div class="progress-fill" style="width:25%"></div></div></div>
+  <div class="head" style="background:#fff5e0"><div class="tag" style="background:#f39200">⭐ Mes forces</div><div class="desc">Forces, besoins, valeurs.</div></div>
+  <div class="content">
+    <div class="q chipsQ" data-axis="Valorisation" data-ml="Emploi|Orientation|Loisirs / sport / culture"><div class="ql">Forces</div><div class="qt">Quelles forces te ressemblent ?</div><div class="qh">Coche tout ce qui te parle.</div><div class="chips"><button type="button" class="chip">🦁 Courageux·se</button><button type="button" class="chip">🎨 Créatif·ve</button><button type="button" class="chip">🤝 Solidaire</button><button type="button" class="chip">🏁 Persévérant·e</button><button type="button" class="chip">⚡ Débrouillard·e</button><button type="button" class="chip">👂 À l’écoute</button><button type="button" class="chip">🧩 Curieux·se</button><button type="button" class="chip">🛠️ Manuel·le</button></div></div>
+    <div class="q chipsQ" data-axis="Bien-être" data-ml="Santé|Logement / stabilité|Citoyenneté / relations"><div class="ql">Besoins</div><div class="qt">De quoi as-tu besoin en ce moment ?</div><div class="chips"><button type="button" class="chip">⭐ Confiance</button><button type="button" class="chip">💛 Parler</button><button type="button" class="chip">🌿 Calme</button><button type="button" class="chip">🔒 Sécurité</button><button type="button" class="chip">🕊️ Autonomie</button><button type="button" class="chip">👥 Entourage</button><button type="button" class="chip">🧭 Repères</button><button type="button" class="chip">💪 Motivation</button></div></div>
+    <div class="q chipsQ" data-axis="Personnalité" data-ml="Orientation|Citoyenneté / relations"><div class="ql">Valeurs</div><div class="qt">Qu’est-ce qui compte pour toi ?</div><div class="chips"><button type="button" class="chip">🎭 Authenticité</button><button type="button" class="chip">⚖️ Justice</button><button type="button" class="chip">🔥 Effort</button><button type="button" class="chip">🕊️ Liberté</button><button type="button" class="chip">🎨 Création</button><button type="button" class="chip">🤗 Lien</button><button type="button" class="chip">🌍 Ouverture</button><button type="button" class="chip">🏡 Stabilité</button></div></div>
+  </div>
+  <div class="nav"><a class="btn back" href="#p1">← Retour</a><a class="btn" href="#p3">Suivant →</a></div>
+</section>
+
+<section class="page" id="p3">
+  <div class="progress-wrap"><div class="progress-top"><span>Étape 4 / 9</span><span>Projet & expériences</span></div><div class="progress-bg"><div class="progress-fill" style="width:37.5%"></div></div></div>
+  <div class="head" style="background:#e4f2fc"><div class="tag" style="background:#2897d5;color:white">🎯 Projet & expériences</div><div class="desc">Orientation, emploi, formation.</div></div>
+  <div class="content">
+    <div class="q scale" data-axis="Personnalité" data-ml="Orientation" data-color="#d60b52" data-labels="Très flou|Flou|Quelques idées|Assez clair|Clair" data-emojis="🌫️|🌱|🌤️|🌳|🎯"><div class="ql">Projet</div><div class="qt">Ton avenir, c’est plutôt…</div><div class="scaleBox"><span class="scaleEmoji">🌤️</span><span class="scaleLabel">Quelques idées</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
+    <div class="q multi" data-axis="Valorisation" data-ml="Emploi|Formation"><div class="ql">Expériences</div><div class="qt">Qu’as-tu déjà fait ?</div><div class="qh">Tout compte : stage, famille, sport, création, aide, projet.</div><div class="grid three"><button type="button" class="card"><span class="emoji">💼</span><span class="label">Travail / stage</span></button><button type="button" class="card"><span class="emoji">🤝</span><span class="label">Bénévolat</span></button><button type="button" class="card"><span class="emoji">🎨</span><span class="label">Création</span></button><button type="button" class="card"><span class="emoji">🏃</span><span class="label">Sport / club</span></button><button type="button" class="card"><span class="emoji">🏠</span><span class="label">Aide famille</span></button><button type="button" class="card"><span class="emoji">💻</span><span class="label">Numérique</span></button></div></div>
+    <div class="q single" data-axis="Personnalité" data-ml="Orientation"><div class="ql">Orientation</div><div class="qt">Ton projet pro ?</div><div class="grid"><button type="button" class="card" data-value="5"><span class="emoji">🎯</span><span class="label">Clair</span></button><button type="button" class="card" data-value="4"><span class="emoji">🔍</span><span class="label">Quelques pistes</span></button><button type="button" class="card" data-value="3"><span class="emoji">🌱</span><span class="label">Je cherche</span></button><button type="button" class="card" data-value="1"><span class="emoji">🌫️</span><span class="label">Pas encore</span></button></div></div>
+  </div>
+  <div class="nav"><a class="btn back" href="#p2">← Retour</a><a class="btn" href="#p4">Suivant →</a></div>
+</section>
+
+<section class="page" id="p4">
+  <div class="progress-wrap"><div class="progress-top"><span>Étape 5 / 9</span><span>Mes ressources</span></div><div class="progress-bg"><div class="progress-fill" style="width:50%"></div></div></div>
+  <div class="head" style="background:#eef7e0"><div class="tag" style="background:#95c11f">🏡 Mes ressources</div><div class="desc">Logement, budget, mobilité, numérique.</div></div>
+  <div class="content">
+    <div class="q single" data-axis="Ressources" data-ml="Logement / stabilité"><div class="ql">Logement</div><div class="qt">Ton logement actuel ?</div><div class="grid"><button type="button" class="card" data-value="5"><span class="emoji">🏠</span><span class="label">Stable</span></button><button type="button" class="card" data-value="4"><span class="emoji">👨‍👩‍👧</span><span class="label">Famille</span></button><button type="button" class="card" data-value="2"><span class="emoji">🛋️</span><span class="label">Chez quelqu’un</span></button><button type="button" class="card" data-value="1"><span class="emoji">🔄</span><span class="label">En transition</span></button></div></div>
+    <div class="q multi" data-axis="Ressources" data-ml="Mobilité|Numérique|Finances / budget"><div class="ql">Outils</div><div class="qt">Qu’as-tu à disposition ?</div><div class="grid three"><button type="button" class="card"><span class="emoji">🚗</span><span class="label">Véhicule</span></button><button type="button" class="card"><span class="emoji">🚲</span><span class="label">Vélo / trott</span></button><button type="button" class="card"><span class="emoji">🚌</span><span class="label">Transport</span></button><button type="button" class="card"><span class="emoji">📱</span><span class="label">Téléphone internet</span></button><button type="button" class="card"><span class="emoji">💻</span><span class="label">Ordinateur</span></button><button type="button" class="card"><span class="emoji">💳</span><span class="label">Compte bancaire</span></button></div></div>
+    <div class="q scale" data-axis="Ressources" data-ml="Finances / budget" data-color="#f39200" data-labels="Très tendu|Serré|Je gère|Ça va|Tranquille" data-emojis="🌧️|☁️|🌤️|🌈|☀️"><div class="ql">Budget</div><div class="qt">Ton budget en ce moment ?</div><div class="scaleBox"><span class="scaleEmoji">🌤️</span><span class="scaleLabel">Je gère</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
+  </div>
+  <div class="nav"><a class="btn back" href="#p3">← Retour</a><a class="btn" href="#p5">Suivant →</a></div>
+</section>
+
+<section class="page" id="p5">
+  <div class="progress-wrap"><div class="progress-top"><span>Étape 6 / 9</span><span>Parcours & droits</span></div><div class="progress-bg"><div class="progress-fill" style="width:62.5%"></div></div></div>
+  <div class="head" style="background:#f6e8ef"><div class="tag" style="background:#a3195b;color:white">🎓 Parcours & droits</div><div class="desc">Formation, candidature, droits, démarches.</div></div>
+  <div class="content">
+    <div class="q single" data-axis="Personnalité" data-ml="Formation"><div class="ql">Formation</div><div class="qt">Ta situation formation ?</div><div class="grid"><button type="button" class="card" data-value="5"><span class="emoji">🎓</span><span class="label">Diplômé·e</span></button><button type="button" class="card" data-value="5"><span class="emoji">📚</span><span class="label">En formation</span></button><button type="button" class="card" data-value="2"><span class="emoji">🚪</span><span class="label">J’ai arrêté</span></button><button type="button" class="card" data-value="2"><span class="emoji">⏸️</span><span class="label">En pause</span></button></div></div>
+    <div class="q multi" data-axis="Valorisation" data-ml="Emploi"><div class="ql">Emploi</div><div class="qt">Tu te sens à l’aise pour…</div><div class="grid three"><button type="button" class="card"><span class="emoji">📄</span><span class="label">CV</span></button><button type="button" class="card"><span class="emoji">✉️</span><span class="label">Lettre</span></button><button type="button" class="card"><span class="emoji">🔍</span><span class="label">Chercher offres</span></button><button type="button" class="card"><span class="emoji">🤝</span><span class="label">Entretien</span></button><button type="button" class="card"><span class="emoji">📱</span><span class="label">Outils numériques</span></button><button type="button" class="card"><span class="emoji">🗣️</span><span class="label">Parler de moi</span></button></div></div>
+    <div class="q single" data-axis="Ressources" data-ml="Citoyenneté / relations|Finances / budget"><div class="ql">Droits</div><div class="qt">Tes droits et aides ?</div><div class="grid"><button type="button" class="card" data-value="5"><span class="emoji">✅</span><span class="label">Je connais</span></button><button type="button" class="card" data-value="3"><span class="emoji">🔶</span><span class="label">Un peu</span></button><button type="button" class="card" data-value="1"><span class="emoji">❌</span><span class="label">Pas vraiment</span></button><button type="button" class="card" data-value="1"><span class="emoji">🆘</span><span class="label">Besoin d’aide</span></button></div></div>
+  </div>
+  <div class="nav"><a class="btn back" href="#p4">← Retour</a><a class="btn" href="#p6">Suivant →</a></div>
+</section>
+
+<section class="page" id="p6">
+  <div class="progress-wrap"><div class="progress-top"><span>Étape 7 / 9</span><span>Compétences clés</span></div><div class="progress-bg"><div class="progress-fill" style="width:75%"></div></div></div>
+  <div class="head" style="background:#e4f2fc"><div class="tag" style="background:#2897d5;color:white">🔑 Compétences clés</div><div class="desc">Socle, CléA, autonomie, numérique.</div></div>
+  <div class="content">
+    <div class="q scale" data-axis="Ressources" data-ml="Formation" data-color="#2897d5" data-labels="À aider|Je pratique|Je me débrouille|À l’aise|Très à l’aise" data-emojis="📕|📗|📖|✍️|🏆"><div class="ql">Socle</div><div class="qt">Lire et écrire en français</div><div class="scaleBox"><span class="scaleEmoji">📖</span><span class="scaleLabel">Je me débrouille</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
+    <div class="q scale" data-axis="Ressources" data-ml="Finances / budget" data-color="#2897d5" data-labels="À aider|Je pratique|Je me débrouille|À l’aise|Très à l’aise" data-emojis="🔴|🟠|🟡|🟢|⭐"><div class="ql">Socle</div><div class="qt">Chiffres, calculs, tableaux</div><div class="scaleBox"><span class="scaleEmoji">🟡</span><span class="scaleLabel">Je me débrouille</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
+    <div class="q scale" data-axis="Ressources" data-ml="Numérique" data-color="#2897d5" data-labels="À aider|Je pratique|Je me débrouille|À l’aise|Très à l’aise" data-emojis="📵|📱|💻|🖥️|🚀"><div class="ql">Socle</div><div class="qt">Ordinateur, internet, messagerie</div><div class="scaleBox"><span class="scaleEmoji">💻</span><span class="scaleLabel">Je me débrouille</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
+    <div class="q scale" data-axis="Valorisation" data-ml="Citoyenneté / relations|Emploi" data-color="#f39200" data-labels="À aider|Je pratique|Je me débrouille|À l’aise|Très à l’aise" data-emojis="😟|😕|😐|🤝|👥"><div class="ql">Socle</div><div class="qt">Travailler avec d’autres</div><div class="scaleBox"><span class="scaleEmoji">😐</span><span class="scaleLabel">Je me débrouille</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
+  </div>
+  <div class="nav"><a class="btn back" href="#p5">← Retour</a><a class="btn" href="#p7">Suivant →</a></div>
+</section>
+
+<section class="page" id="p7">
+  <div class="progress-wrap"><div class="progress-top"><span>Étape 8 / 9</span><span>Mes priorités</span></div><div class="progress-bg"><div class="progress-fill" style="width:87.5%"></div></div></div>
+  <div class="head" style="background:#f9ede0"><div class="tag" style="background:#9f3d3f;color:white">🧭 Mes priorités</div><div class="desc">Ce que tu veux travailler maintenant.</div></div>
+  <div class="content">
+    <div class="q multi" data-axis="Personnalité" data-ml="Orientation"><div class="ql">Priorités</div><div class="qt">Qu’est-ce que tu veux améliorer en priorité ?</div><div class="grid"><button type="button" class="card"><span class="emoji">🎯</span><span class="label">Trouver un métier</span></button><button type="button" class="card"><span class="emoji">🎓</span><span class="label">Formation</span></button><button type="button" class="card"><span class="emoji">💼</span><span class="label">Emploi</span></button><button type="button" class="card"><span class="emoji">🚗</span><span class="label">Mobilité</span></button><button type="button" class="card"><span class="emoji">💚</span><span class="label">Me sentir mieux</span></button><button type="button" class="card"><span class="emoji">💶</span><span class="label">Budget</span></button><button type="button" class="card"><span class="emoji">📋</span><span class="label">Démarches</span></button><button type="button" class="card"><span class="emoji">⭐</span><span class="label">Confiance</span></button><button type="button" class="card"><span class="emoji">⏰</span><span class="label">Organisation</span></button><button type="button" class="card"><span class="emoji">👥</span><span class="label">Rencontres</span></button></div></div>
+  </div>
+  <div class="nav"><a class="btn back" href="#p6">← Retour</a><a class="btn" href="#p8" onclick="setTimeout(fillResults,50)">Voir mon bilan →</a></div>
+</section>
+
+<section class="page" id="p8">
+  <div class="progress-wrap"><div class="progress-top"><span>Étape 9 / 9</span><span>Bilan</span></div><div class="progress-bg"><div class="progress-fill" style="width:100%"></div></div></div>
+  <div class="result">
+    <div class="rhero"><div style="font-size:34px">🌟</div><div class="rtitle">Ton bilan de départ</div><div class="rsub">Jeune + conseiller + RPE</div></div>
+    <div id="res"><div class="panel"><strong>Ton bilan va s’afficher ici.</strong><br>Si rien n’apparaît, clique sur “Calculer mon bilan”.</div></div>
+    <button type="button" class="btn" onclick="fillResults()">Calculer mon bilan</button>
+    <button type="button" class="btn print" onclick="window.print()">Imprimer / Export PDF</button>
+  </div>
+  <div class="nav"><a class="btn back" href="#p7">← Retour</a><a class="btn" href="#p0">Recommencer</a></div>
+</section>
 
 <script>
-// ============================================================
-// DONNÉES
-// ============================================================
-const CP=["#C62828","#FFD600","#26C6DA","#FF8A50","#A5D6A7","#7B1FA2","#1A237E","#C62828","#FFD600"];
-
-const DT=[
-  {id:"metier",i:"🎯",n:"Choisir un métier",d:"Identifier mes points forts, trouver ma voie",bg:"#FFEBEE",bc:"#C62828",tc:"#B71C1C"},
-  {id:"former",i:"🎓",n:"Me former",d:"Trouver une formation, construire mon dossier",bg:"#E8EAF6",bc:"#3949AB",tc:"#1A237E"},
-  {id:"candi",i:"📄",n:"Préparer ma candidature",d:"CV, lettre de motivation, entretien",bg:"#FFFDE7",bc:"#F9A825",tc:"#E65100"},
-  {id:"emploi",i:"💼",n:"Trouver un emploi",d:"Répondre aux offres, convaincre les recruteurs",bg:"#E0F7FA",bc:"#00ACC1",tc:"#00695C"},
-  {id:"entrep",i:"🚀",n:"Créer mon entreprise",d:"Définir et structurer mon projet de création",bg:"#FFF3E0",bc:"#EF6C00",tc:"#BF360C"},
-  {id:"inter",i:"🌍",n:"Partir à l'étranger",d:"Travailler ou me former à l'étranger",bg:"#F3E5F5",bc:"#8E24AA",tc:"#4A148C"}
-];
-
-// ============================================================
-// DONNÉES FORCES / BESOINS / VALEURS (issues des fiches ML)
-// ============================================================
-const FORCES_DATA=[
-  {i:"🦁",l:"Je suis courageux(se)"},
-  {i:"🎨",l:"Je suis créatif(ve)"},
-  {i:"🤝",l:"Je travaille bien en équipe"},
-  {i:"🏁",l:"Je suis persévérant(e)"},
-  {i:"⚡",l:"Je prends des initiatives"},
-  {i:"👂",l:"Je suis à l'écoute des autres"}
-];
-
-const BESOINS_DATA=[
-  {i:"⭐",l:"Avoir confiance en moi"},
-  {i:"💛",l:"Parler de ce qui me pèse"},
-  {i:"🌿",l:"Avoir du calme"},
-  {i:"🔒",l:"Me sentir en sécurité"},
-  {i:"🕊️",l:"Être autonome"},
-  {i:"👥",l:"Me sentir entouré(e)"}
-];
-
-const VALEURS_DATA=[
-  {i:"🎭",l:"Être authentique"},
-  {i:"⚖️",l:"Chercher l'équité"},
-  {i:"🔥",l:"Persévérer"},
-  {i:"🕊️",l:"Être libre"},
-  {i:"🎨",l:"Créer"},
-  {i:"🤗",l:"Se sentir connecté(e)"}
-];
-
-const DOM=[
-  {id:"perso",l:"Qui je suis",i:"🧠",c:"var(--pink)",bg:"#FFF0F8",tbg:"#F8BBD9",tc:"#880E4F",sc:"sr",hbg:"#FFF0F8",pc:"var(--yellow)",desc:"Ton ressenti, ta personnalité, ton entourage",
-   qs:[
-    {id:"p1",t:"scale",lb:"Bien-être",tx:"Comment tu te sens en ce moment, dans ta vie en général ?",ls:["Vraiment pas bien","Pas top","Ça va","Plutôt bien","Très bien"],is:["🌧️","☁️","🌤️","🌈","☀️"],bg:"var(--yellow)"},
-    {id:"p2",t:"multi",lb:"Ressenti",tx:"Ce qui décrit le mieux comment tu te vis en ce moment ?",ht:"Plusieurs réponses possibles",os:[{i:"🧭",l:"Perdu(e)",d:"Je cherche ma direction"},{i:"🧱",l:"Bloqué(e)",d:"Du mal à avancer"},{i:"🔥",l:"Motivé(e)",d:"J'ai envie de me bouger"},{i:"🪫",l:"Fatigué(e)",d:"Tout demande un effort"},{i:"🌪️",l:"Inquiet(e)",d:"Des soucis m'occupent"},{i:"🌿",l:"Bien",d:"Je me sens serein(e)"}]},
-    {id:"p3",t:"single",lb:"Entourage",tx:"Tu as des personnes à qui parler autour de toi ?",os:[{i:"👥",l:"Oui, plusieurs",d:"Famille, amis, proches"},{i:"👤",l:"Une ou deux",d:"Pas beaucoup"},{i:"🚪",l:"Pas vraiment",d:"Je me sens seul(e)"},{i:"❓",l:"Je ne sais pas",d:"C'est compliqué"}]}
-  ]},
-  {id:"profil",l:"Mon profil",i:"✨",c:"var(--orange)",bg:"#FFF0E8",tbg:"#FFE0B2",tc:"#7A3B00",sc:"so",hbg:"#FFF0E8",pc:"var(--orange)",desc:"Tes forces, tes besoins et ce qui compte pour toi",
-   qs:[
-    {id:"v1",t:"forces",lb:"Mes forces",tx:"Quelles forces te ressemblent ?",ht:"Coche tout ce qui te parle"},
-    {id:"v2",t:"besoins",lb:"Mes besoins en ce moment",tx:"Qu'est-ce dont tu as le plus besoin en ce moment ?",ht:"Coche les 1 ou 2 qui te parlent le plus"},
-    {id:"v3",t:"valeurs",lb:"Mes valeurs",tx:"Quelles valeurs te ressemblent le plus ?",ht:"Coche les 1 ou 2 qui te définissent le mieux"}
-  ]},
-  {id:"comp",l:"Ce que je sais faire",i:"⭐",c:"var(--cyan)",bg:"#E0F7FA",tbg:"#B2EBF2",tc:"#005F72",sc:"st",hbg:"#E0F7FA",pc:"var(--cyan)",desc:"Tes compétences, tes expériences, ton projet",
-   qs:[
-    {id:"c1",t:"scale",lb:"Confiance",tx:"Tu te sens confiant(e) pour trouver ta voie ?",ls:["Pas du tout","Un peu","Moyennement","Plutôt bien","Très confiant(e)"],is:["🫥","🌱","🪴","🌳","🦁"],bg:"#E0F7FA"},
-    {id:"c2",t:"multi",lb:"Expériences",tx:"Qu'est-ce que tu as déjà fait dans ta vie ?",ht:"Tout compte — job, bénévolat, sport, famille, création...",os:[{i:"💼",l:"Travail / stage",d:"Même court ou informel"},{i:"🤝",l:"Bénévolat",d:"Association, aide"},{i:"🎨",l:"Création",d:"Musique, art, vidéo..."},{i:"🏃",l:"Sport / club",d:"Activité régulière"},{i:"🏠",l:"Aide famille",d:"Proches, maison"},{i:"💻",l:"Numérique",d:"Réseaux, contenus"}]},
-    {id:"c3",t:"single",lb:"Projet",tx:"Tu as une idée de ce que tu veux faire comme travail ou formation ?",os:[{i:"🎯",l:"Oui, c'est clair",d:"J'ai un projet précis"},{i:"🔍",l:"Une idée vague",d:"Quelques pistes"},{i:"🌫️",l:"Pas vraiment",d:"Je cherche encore"},{i:"🙈",l:"Aucune idée",d:"Je ne sais pas"}]}
-  ]},
-  {id:"sante",l:"Ma santé",i:"💚",c:"var(--green)",bg:"#E6FBF5",tbg:"#B2DFDB",tc:"#004D40",sc:"sg",hbg:"#E6FBF5",pc:"var(--green)",desc:"Forme physique, mentale, accès aux soins",
-   qs:[
-    {id:"s1",t:"scale",lb:"Forme",tx:"Comment tu évalues ta forme physique et mentale en ce moment ?",ls:["Vraiment pas bien","Pas terrible","Ça va","Bien","En pleine forme"],is:["🪨","⚡","🔋","💡","🚀"],bg:"#E6FBF5"},
-    {id:"s2",t:"multi",lb:"Accès santé",tx:"Tu as accès à ces choses en ce moment ?",ht:"Coche ce qui s'applique",os:[{i:"💊",l:"Carte vitale",d:"Sécu active"},{i:"🏥",l:"Médecin",d:"Je sais où aller"},{i:"🛡️",l:"Mutuelle",d:"Complémentaire"},{i:"🥗",l:"Manger bien",d:"Repas réguliers"},{i:"🛌",l:"Bien dormir",d:"7-8h par nuit"},{i:"🏃",l:"Bouger",d:"Activité physique"}]},
-    {id:"s3",t:"single",lb:"Impact santé",tx:"Ta santé impacte-t-elle ton quotidien ou ta recherche d'emploi ?",os:[{i:"✅",l:"Non",d:"Pas de problème"},{i:"🔶",l:"Un peu",d:"Parfois"},{i:"🔴",l:"Oui, souvent",d:"Vrai obstacle"},{i:"🤫",l:"Pas envie d'en parler",d:""}]}
-  ]},
-  {id:"ress",l:"Mes ressources",i:"🏡",c:"var(--yellow)",bg:"#FFF8E1",tbg:"#FFE0B2",tc:"#7A4F00",sc:"sy",hbg:"var(--yellow)",pc:"var(--yellow)",desc:"Logement, budget, mobilité, numérique",
-   qs:[
-    {id:"r1",t:"single",lb:"Logement",tx:"Où est-ce que tu habites en ce moment ?",os:[{i:"🏠",l:"Chez moi",d:"Logement stable"},{i:"👨‍👩‍👧",l:"Chez mes parents",d:"Par choix ou obligation"},{i:"🛋️",l:"Chez quelqu'un",d:"Ami, proche"},{i:"⚠️",l:"Situation précaire",d:"Pas de logement stable"}]},
-    {id:"r2",t:"multi",lb:"Déplacements & numérique",tx:"Tu as ces ressources pour te déplacer et rester connecté(e) ?",os:[{i:"🚗",l:"Voiture / moto",d:"Permis + véhicule"},{i:"🚲",l:"Vélo / trottinette",d:""},{i:"🚌",l:"Transports",d:"Avec abonnement"},{i:"📱",l:"Téléphone",d:"Avec internet"},{i:"💻",l:"Ordinateur",d:"Accès internet"},{i:"💳",l:"Compte bancaire",d:"A mon nom"}]},
-    {id:"r3",t:"scale",lb:"Budget",tx:"Comment tu t'en sors financièrement en ce moment ?",ls:["Très difficile","Difficile","Ca se passe","Bien","Très bien"],is:["😓","😕","😐","🙂","😄"],bg:"var(--yellow)"}
-  ]},
-  {id:"parc",l:"Mon parcours",i:"🎓",c:"var(--purple)",bg:"#F0ECFF",tbg:"#D1C4E9",tc:"#311B92",sc:"sp",hbg:"#F0ECFF",pc:"var(--purple)",desc:"Formation, emploi, droits et savoirs de base",
-   qs:[
-    {id:"f1",t:"single",lb:"Formation",tx:"Quelle est ta situation par rapport à la formation ?",os:[{i:"🎓",l:"Diplômé(e)",d:"J'ai un diplôme"},{i:"📚",l:"En formation",d:"Je suis un cursus"},{i:"🚪",l:"J'ai arrêté",d:"Décrochage scolaire"},{i:"⏸️",l:"Pause +6 mois",d:"Plus de formation"}]},
-    {id:"f2",t:"multi",lb:"Outils emploi",tx:"Pour chercher un emploi, tu sais faire ces choses ?",ht:"Coche ce que tu maitrises",os:[{i:"📄",l:"Faire un CV",d:""},{i:"✉️",l:"Lettre de motivation",d:""},{i:"🔍",l:"Chercher des offres",d:""},{i:"🤝",l:"Passer un entretien",d:""},{i:"📱",l:"Outils numériques",d:""},{i:"🗣️",l:"Parler de moi",d:""}]},
-    {id:"f3",t:"single",lb:"Droits et aides",tx:"Tu connais tes droits et les aides auxquelles tu peux avoir droit ?",os:[{i:"✅",l:"Oui, bien",d:""},{i:"🔶",l:"Un peu",d:"Quelques notions"},{i:"❌",l:"Pas vraiment",d:"Je ne sais pas"},{i:"🆘",l:"Besoin d'aide",d:"Les demarches m'angoissent"}]},
-    {id:"f4",t:"multi",lb:"Savoirs essentiels",tx:"Dans quels domaines tu aimerais progresser ?",ht:"Plusieurs réponses possibles",os:[{i:"📖",l:"Lire en français",d:""},{i:"✍️",l:"Ecrire en français",d:""},{i:"🔢",l:"Calcul",d:""},{i:"🗺️",l:"Démarches admin.",d:""},{i:"🌐",l:"Internet",d:""},{i:"😌",l:"Tout va bien",d:""}]}
-  ]},
-  {id:"clea",l:"Mes compétences clés",i:"🔑",c:"var(--cyan)",bg:"#E0F7FA",tbg:"#B2EBF2",tc:"#005F72",sc:"st",hbg:"#E0F7FA",pc:"var(--cyan)",desc:"6 compétences essentielles — référentiel CléA",
-   qs:[
-    {id:"k1",t:"scale",lb:"D1 — Lire et écrire",tx:"Comment tu te sens avec la lecture et l'écriture en français ?",ls:["Je cherche encore mes marques","J'ai besoin de pratiquer","Je me débrouille","A l'aise","Très à l'aise"],is:["📕","📗","📖","✍️","🏆"],bg:"#E0F7FA"},
-    {id:"k2",t:"scale",lb:"D2 — Calcul et chiffres",tx:"Comment tu te sens avec les chiffres, les calculs, lire un tableau ?",ls:["Je cherche encore mes marques","J'ai besoin de pratiquer","Je me débrouille","A l'aise","Très à l'aise"],is:["🔴","🟠","🟡","🟢","⭐"],bg:"#E0F7FA"},
-    {id:"k3",t:"scale",lb:"D3 — Numérique",tx:"Comment tu te sens avec un ordinateur, internet, la messagerie ?",ls:["Je cherche encore mes marques","J'ai besoin de pratiquer","Je me débrouille","A l'aise","Très à l'aise"],is:["📵","📱","💻","🖥️","🚀"],bg:"#E0F7FA"},
-    {id:"k4",t:"scale",lb:"D4 — Travailler en équipe",tx:"Comment tu te sens pour travailler avec d'autres, respecter des règles ?",ls:["Je cherche encore mes marques","J'ai besoin de pratiquer","Je me débrouille","A l'aise","Très à l'aise"],is:["😟","😕","😐","🤝","👥"],bg:"#E0F7FA"},
-    {id:"k5",t:"scale",lb:"D5 — Autonomie et initiative",tx:"Comment tu te sens pour t'organiser seul(e), prendre des décisions ?",ls:["Je cherche encore mes marques","J'ai besoin de pratiquer","Je me débrouille","A l'aise","Très à l'aise"],is:["🌱","🌿","🌳","💪","🦁"],bg:"#E0F7FA"},
-    {id:"k6",t:"scale",lb:"D6 — Apprendre à apprendre",tx:"Comment tu te sens pour identifier ce que tu sais faire et ce que tu dois apprendre ?",ls:["Je cherche encore mes marques","J'ai besoin de pratiquer","Je me débrouille","A l'aise","Très à l'aise"],is:["❓","🔍","💡","📚","🎯"],bg:"#E0F7FA"}
-  ]}
-];
-
-const SERVICES={
-  orientation:{icon:"🧭",title:"Orientation professionnelle",desc:"Faire le point sur tes envies, découvrir des métiers, confirmer ton projet avec un conseiller.",url:"https://www.missionlocale-paysbasque.org/orientation-1",label:"Voir l'accompagnement orientation",bg:"#FFEBEE",tc:"#B71C1C",lbg:"#C62828"},
-  emploi:{icon:"💼",title:"Trouver un emploi",desc:"Offres d'emploi, préparation de candidatures et d'entretiens, accompagnement vers l'accès à l'emploi.",url:"https://www.missionlocale-paysbasque.org/emploi",label:"Voir les offres et l'accompagnement",bg:"#E0F7FA",tc:"#00695C",lbg:"#00897B"},
-  formation:{icon:"🎓",title:"Trouver une formation",desc:"Trouver la formation qui te correspond, candidater, la financer et être rémunéré pendant ta formation.",url:"https://www.missionlocale-paysbasque.org/formation",label:"Découvrir les formations",bg:"#E8EAF6",tc:"#1A237E",lbg:"#3949AB"},
-  candidature:{icon:"📄",title:"Préparer ta candidature",desc:"CV, lettre de motivation, simulation d'entretien — on t'accompagne étape par étape.",url:"https://www.missionlocale-paysbasque.org/emploi",label:"Préparer ma candidature",bg:"#FFFDE7",tc:"#E65100",lbg:"#F57F17"},
-  mobilite:{icon:"🚗",title:"Se déplacer",desc:"Passer ton permis, accéder aux transports, trouver des solutions de mobilité sur ton territoire.",url:"https://www.missionlocale-paysbasque.org/med%C3%A9placer",label:"Voir les solutions mobilité",bg:"#FFF3E0",tc:"#BF360C",lbg:"#EF6C00"},
-  sante:{icon:"💚",title:"Infos santé",desc:"Accès aux soins, mutuelle, professionnels de santé — la Mission Locale t'aide à prendre soin de toi.",url:"https://www.missionlocale-paysbasque.org/infossant%C3%A9",label:"Infos santé et accès aux soins",bg:"#E0F7FA",tc:"#00695C",lbg:"#00897B"},
-  demarches:{icon:"📋",title:"Démarches et vie quotidienne",desc:"Démarches administratives, aides sociales et financières, outils du quotidien.",url:"https://www.missionlocale-paysbasque.org/demarchesadministratives",label:"Voir les démarches et aides",bg:"#FFF8E1",tc:"#E65100",lbg:"#F57F17"},
-  international:{icon:"🌍",title:"Partir à l'étranger",desc:"Vivre des expériences à l'étranger, développer tes compétences, bouger à travers le monde.",url:"https://www.missionlocale-paysbasque.org/partir%C3%A0letranger",label:"Explorer les opportunités",bg:"#F3E5F5",tc:"#4A148C",lbg:"#7B1FA2"},
-  cej:{icon:"📝",title:"Contrat d'Engagement Jeunes",desc:"Accompagnement intensif vers l'emploi ou la formation avec une allocation mensuelle.",url:"https://www.missionlocale-paysbasque.org/cejpacea",label:"En savoir plus sur le CEJ",bg:"#FFEBEE",tc:"#B71C1C",lbg:"#C62828"},
-  numerique:{icon:"💻",title:"Numérique et citoyenneté",desc:"Accéder aux outils numériques, maîtriser les bases, s'engager sur le territoire.",url:"https://www.missionlocale-paysbasque.org/engagementcitoyen",label:"Découvrir les ressources",bg:"#E8EAF6",tc:"#1A237E",lbg:"#3949AB"},
-  erip:{icon:"🗺️",title:"ERIP Pays Basque",desc:"Un espace d'information sur les métiers, formations et création d'entreprise sur le Pays Basque.",url:"https://www.missionlocale-paysbasque.org/erip-pays-basque",label:"Explorer l'ERIP",bg:"#F3E5F5",tc:"#4A148C",lbg:"#7B1FA2"},
-  clea:{icon:"🔑",title:"Certification CléA — Socle de compétences",desc:"CléA est une certification nationale qui valorise tes compétences de base : lire, écrire, calculer, numérique, travailler en équipe. La Mission Locale peut t'accompagner vers cette certification.",url:"https://www.missionlocale-paysbasque.org/formation",label:"En savoir plus sur CléA",bg:"#E8F5E9",tc:"#1B5E20",lbg:"#2E7D32"}
+var colors={p:'#d60b52',o:'#f39200',g:'#95c11f',b:'#2897d5',v:'#a3195b',br:'#9f3d3f'};
+var services={
+ 'Emploi':['💼','Emploi / candidature','Préparer CV, entretien, offres et contacts employeurs.',colors.b],
+ 'Formation':['🎓','Formation','Explorer une formation, vérifier les prérequis, financer le parcours.',colors.b],
+ 'Orientation':['🧭','Orientation / ERIP','Découvrir des métiers, clarifier les pistes, tester avant de choisir.',colors.p],
+ 'Mobilité':['🚗','Mobilité','Trouver un trajet, une aide transport, préparer permis ou solutions locales.',colors.br],
+ 'Santé':['💚','Santé / bien-être','Parler santé, fatigue, stress, accès aux soins ou point écoute.',colors.g],
+ 'Logement / stabilité':['🏠','Logement / stabilité','Sécuriser la situation, identifier les partenaires et aides possibles.',colors.o],
+ 'Citoyenneté / relations':['🤝','Citoyenneté / relations','Travailler la place dans le groupe, les droits, l’engagement.',colors.v],
+ 'Finances / budget':['💶','Budget / droits','Mettre à plat ressources, aides, priorités et dépenses.',colors.o],
+ 'Loisirs / sport / culture':['🎨','Activités ressources','Identifier ce qui fait du bien, crée du lien et valorise les compétences.',colors.g],
+ 'Numérique':['📱','Numérique','Démarches en ligne, accès matériel, image numérique.',colors.b],
+ 'Mode de vie':['⏳','Mode de vie','Rythme, sommeil, organisation, routines simples.',colors.br]
+};
+var activities={
+ 'Emploi':'Questions sans tabou + Pitch 30 secondes',
+ 'Formation':'Feedback qui fait grandir + mini-plan d’effort',
+ 'Orientation':'Boussole des envies + Mini-zine projet',
+ 'Mobilité':'Carte trajet + scénario rendez-vous',
+ 'Santé':'Stressomètre + kit apaisement',
+ 'Logement / stabilité':'Lieu sûr + carte des soutiens',
+ 'Citoyenneté / relations':'Carte de soutien + droit ou pas droit ?',
+ 'Finances / budget':'Panier malin + budget réel/projet',
+ 'Loisirs / sport / culture':'Boosters d’énergie',
+ 'Numérique':'Avatar protecteur + démarche guidée',
+ 'Mode de vie':'Routine qui fait du bien'
 };
 
-// ============================================================
-// ÉTAT
-// ============================================================
-const A={};
-let cur=0;
-DOM.forEach(d=>d.qs.forEach(q=>{if(q.t==="scale")A[q.id]=3;}));
-const TOT=DOM.length+3; // welcome + 7 domaines + destinations + résultats
-
-// ============================================================
-// HELPERS HTML — DESIGN MLPB
-// ============================================================
-function mlbar(){
-  return '<div style="display:flex;height:5px"><div style="flex:1;background:var(--yellow)"></div><div style="flex:1;background:var(--pink)"></div><div style="flex:1;background:var(--cyan)"></div><div style="flex:1;background:var(--green)"></div></div>';
-}
-function pzb(){
-  var cols=['var(--yellow)','var(--pink)','var(--cyan)','var(--green)','var(--orange)','var(--purple)','var(--yellow)'];
-  var ws=[40,24,52,30,44,28,36];
-  return '<div class="pzb" style="padding:0 1.75rem">'+ws.map(function(w,i){return '<div class="pz" style="background:'+cols[i%cols.length]+';width:'+w+'px"></div>';}).join('')+'</div>';
-}
-function dots(active){
-  var h='<div class="dots">';
-  for(var i=0;i<TOT;i++) h+='<div class="dot'+(i<active?' done':i===active?' active':'')+'"></div>';
-  return h+'</div>';
-}
-function nbar(prev,next,nextLabel){
-  return '<div class="nbar"><button class="btn-back" data-go="'+prev+'">← Retour</button>'+dots(prev+1)+'<button class="btn-next" data-go="'+next+'">'+nextLabel+'</button></div>';
-}
-
-// ============================================================
-// CONSTRUCTION DES PAGES
-// ============================================================
-function buildWelcome(){
-  return '<div class="step active" id="s0">'+
-    '<div class="topbar">'+
-    '<img class="topbar-logo" src="https://static.wixstatic.com/media/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif/v1/fill/w_224,h_60,al_c,q_80,enc_avif,quality_auto/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif" alt="LS4YOU">'+
-    '<div class="topbar-badge">Mission Locale</div>'+
-    '</div>'+
-    '<div class="hero">'+
-    '<div class="hero-eyebrow">Bienvenue à la</div>'+
-    '<div class="hero-title">Mission Locale<br><span class="hero-title-block">Pays Basque</span></div>'+
-    '<div class="hero-sub">Réponds à ces quelques questions pour nous aider à faire connaissance et t\'accompagner au mieux.</div>'+
-    '<div class="pills">'+DOM.map(function(d){return '<div class="pill" style="background:'+d.pc+'">'+d.i+' '+d.l+'</div>';}).join('')+'<div class="pill" style="background:var(--cyan);color:var(--white)">🧭 Mon projet</div></div>'+
-    '</div>'+
-    '<div class="istrip"><b>8 étapes · environ 20 minutes · Confidentiel</b><br>Tes réponses sont partagées avec ton conseiller uniquement si tu le souhaites.</div>'+
-    '<div class="snav"><div></div>'+dots(0)+'<button class="btn-start" data-go="1">Passons en mode avenir →</button></div>'+
-    mlbar()+'</div>';
-}
-
-function buildDomain(di){
-  var d=DOM[di];
-  var si=di+1;
-  var h='<div class="step" id="s'+si+'">'+
-    '<div class="dhead">'+
-    '<div class="dhead-color" style="background:'+d.hbg+'">'+
-    '<div class="dtag-inner" style="background:'+d.pc+';color:var(--black)">'+d.i+' '+d.l+'</div>'+
-    '<div class="ddesc">'+d.desc+'</div>'+
-    '</div>'+
-    '</div>';
-
-  d.qs.forEach(function(q){
-    h+='<div class="qb">';
-    h+='<div class="qlbl" style="color:'+d.c+'">'+q.lb+'</div>';
-    h+='<div class="qtxt">'+q.tx+'</div>';
-    if(q.ht) h+='<div class="qhint">'+q.ht+'</div>';
-
-    if(q.t==='scale'){
-      var v=A[q.id]||3;
-      h+='<div class="sdis" id="sd'+q.id+'" style="background:'+q.bg+'">';
-      h+='<span class="semi" id="se'+q.id+'">'+q.is[v-1]+'</span>';
-      h+='<span class="slbl" id="sl'+q.id+'" style="color:'+d.c+'">'+q.ls[v-1]+'</span>';
-      h+='</div>';
-      h+='<input type="range" min="1" max="5" step="1" value="'+v+'" class="js-scale" data-qid="'+q.id+'" data-di="'+di+'">';
-      h+='<div class="sticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>';
-    } else if(q.t==='forces'){
-      h+='<div class="chip-grid" id="cg-'+q.id+'">';
-      FORCES_DATA.forEach(function(f,fi){
-        var k='forces_'+fi;
-        var sel=A[k]||false;
-        h+='<div class="fchip'+(sel?' fc-sy':'')+'" id="fc-'+k+'" data-action="chip" data-pool="forces" data-idx="'+fi+'" data-selcls="fc-sy">';
-        h+='<span class="fchip-icon">'+f.i+'</span>'+f.l+'</div>';
-      });
-      h+='</div>';
-    } else if(q.t==='besoins'){
-      h+='<div class="chip-grid" id="cg-'+q.id+'">';
-      BESOINS_DATA.forEach(function(b,bi){
-        var k='besoins_'+bi;
-        var sel=A[k]||false;
-        h+='<div class="fchip'+(sel?' fc-sr':'')+'" id="fc-'+k+'" data-action="chip" data-pool="besoins" data-idx="'+bi+'" data-selcls="fc-sr">';
-        h+='<span class="fchip-icon">'+b.i+'</span>'+b.l+'</div>';
-      });
-      h+='</div>';
-    } else if(q.t==='valeurs'){
-      h+='<div class="chip-grid" id="cg-'+q.id+'">';
-      VALEURS_DATA.forEach(function(v,vi){
-        var k='valeurs_'+vi;
-        var sel=A[k]||false;
-        h+='<div class="fchip'+(sel?' fc-sp':'')+'" id="fc-'+k+'" data-action="chip" data-pool="valeurs" data-idx="'+vi+'" data-selcls="fc-sp">';
-        h+='<span class="fchip-icon">'+v.i+'</span>'+v.l+'</div>';
-      });
-      h+='</div>';
-    } else {
-      var isM=q.t==='multi';
-      h+='<div class="og'+(q.os.length===3?' c3':'')+'">';
-      q.os.forEach(function(o,oi){
-        var k=q.id+'_'+oi;
-        var sel=isM?(A[k]||false):(A[q.id]===oi);
-        var selClass=sel?' '+d.sc:'';
-        h+='<div class="oc'+selClass+'" id="oc'+k+'"';
-        h+=' data-action="'+(isM?'multi':'single')+'"';
-        h+=' data-qid="'+q.id+'" data-idx="'+oi+'" data-sc="'+d.sc+'" data-tot="'+q.os.length+'">';
-        h+='<div class="oemi">'+o.i+'</div>';
-        h+='<div class="olbl">'+o.l+'</div>';
-        if(o.d) h+='<div class="odesc">'+o.d+'</div>';
-        h+='</div>';
-      });
-      h+='</div>';
+document.addEventListener('click',function(e){
+  var chip=e.target.closest('.chip');
+  if(chip){chip.classList.toggle('selected');return;}
+  var card=e.target.closest('.card');
+  if(card){
+    var q=card.closest('.q');
+    if(q && q.classList.contains('single')){
+      var all=q.querySelectorAll('.card');
+      for(var i=0;i<all.length;i++) all[i].classList.remove('selected');
+      card.classList.add('selected');
+    }else{
+      card.classList.toggle('selected');
     }
-    h+='</div>';
-  });
-
-  var isLast=di===DOM.length-1;
-  h+=pzb()+nbar(si-1,si+1,isLast?'Dernière étape →':'Suite →')+mlbar()+'</div>';
-  return h;
+  }
+});
+document.addEventListener('input',function(e){
+  if(e.target && e.target.type==='range'){
+    var q=e.target.closest('.scale');
+    var v=parseInt(e.target.value,10)-1;
+    var labels=(q.getAttribute('data-labels')||'').split('|');
+    var emojis=(q.getAttribute('data-emojis')||'').split('|');
+    var color=q.getAttribute('data-color')||'#171718';
+    q.querySelector('.scaleEmoji').textContent=emojis[v]||'';
+    var lab=q.querySelector('.scaleLabel');
+    lab.textContent=labels[v]||'';
+    lab.style.color=color;
+  }
+});
+function scoreData(){
+  var ml={},axis={'Personnalité':[],'Valorisation':[],'Bien-être':[],'Ressources':[]};
+  var qs=document.querySelectorAll('.q');
+  for(var i=0;i<qs.length;i++){
+    var q=qs[i],val=3;
+    if(q.classList.contains('scale')) val=parseInt(q.querySelector('input').value,10);
+    else if(q.classList.contains('single')){var sel=q.querySelector('.card.selected');val=sel?parseInt(sel.getAttribute('data-value')||'3',10):2;}
+    else if(q.classList.contains('multi')){var c=q.querySelectorAll('.card.selected').length;val=c>=4?5:c>=2?4:c>=1?3:1;}
+    else if(q.classList.contains('chipsQ')){var cc=q.querySelectorAll('.chip.selected').length;val=cc>=4?5:cc>=2?4:cc>=1?3:1;}
+    var ax=q.getAttribute('data-axis')||'Personnalité';
+    if(!axis[ax]) axis[ax]=[];
+    axis[ax].push(val);
+    var ms=(q.getAttribute('data-ml')||'').split('|');
+    for(var m=0;m<ms.length;m++){if(!ms[m])continue;if(!ml[ms[m]])ml[ms[m]]=[];ml[ms[m]].push(val);}
+  }
+  var outMl={},outAx={};
+  for(var k in ml)outMl[k]=pct(ml[k]);
+  for(var a in axis)outAx[a]=pct(axis[a]);
+  return {ml:outMl,axis:outAx};
 }
-
-function buildDest(){
-  var si=DOM.length+1;
-  var h='<div class="step" id="s'+si+'">'+
-    '<div class="dest-wrap">'+
-    '<div class="dest-header">'+
-    '<div style="font-size:32px;margin-bottom:8px">🧭</div>'+
-    '<div class="dest-title">Vers où tu veux aller ?</div>'+
-    '<div class="dest-sub">Qu\'est-ce qui t\'attire le plus en ce moment ? Plusieurs réponses possibles.</div>'+
-    '</div>'+
-    '<div class="dg">';
-
-  DT.forEach(function(d){
-    var sel=A['d_'+d.id]||false;
-    h+='<div class="dc2'+(sel?' sel':'')+'" id="dc'+d.id+'"';
-    h+=' data-action="dest" data-did="'+d.id+'"';
-    h+=' style="background:'+d.bg+';border-color:'+(sel?d.bc:'transparent')+'">';
-    h+='<div class="demi">'+d.i+'</div>';
-    h+='<div class="dname" style="color:'+d.tc+'">'+d.n+'</div>';
-    h+='<div class="ddesc2" style="color:'+d.tc+'">'+d.d+'</div>';
-    h+='</div>';
-  });
-
-  h+='</div></div>';
-  h+=nbar(si-1,si+1,'Voir mon bilan →')+mlbar()+'</div>';
-  return h;
-}
-
-function buildResult(){
-  var si=TOT-1;
-  return '<div class="step" id="s'+si+'">'+
-    '<div class="rpage">'+
-    '<div class="r-hero">'+
-    '<div style="font-size:32px;margin-bottom:6px">🌟</div>'+
-    '<div class="rtitle">Voilà ce qu\'on a retenu</div>'+
-    '<div class="rsub">Ton premier pas vers l\'accompagnement</div>'+
-    '</div>'+
-    '<div id="r-atouts"></div>'+
-    '<div id="r-services"></div>'+
-    '<div id="r-clea"></div>'+
-    '<div id="r-dest"></div>'+
-    '<div id="r-rdv"></div>'+
-    '</div>'+
-    '<div class="nbar"><button class="btn-back" data-go="'+(si-1)+'">← Modifier mes réponses</button>'+dots(si)+'<div></div></div>'+
-    mlbar()+'</div>';
-}
-
-// ============================================================
-// REMPLIR LES RÉSULTATS
-// ============================================================
+function pct(arr){if(!arr.length)return 0;var s=0;for(var i=0;i<arr.length;i++)s+=arr[i];return Math.round((s/arr.length)/5*100);}
+function bar(name,val,color){return '<div class="barCard"><div class="barTop"><span>'+name+'</span><span>'+val+'%</span></div><div class="barBg"><div class="barFill" style="width:'+val+'%;background:'+color+'">'+val+'%</div></div></div>';}
+function selectedLabels(selector){var out=[],els=document.querySelectorAll(selector+' .selected');for(var i=0;i<els.length;i++)out.push(els[i].innerText.replace(/\\n/g,' ').trim());return out;}
 function fillResults(){
-  // Atouts
-  var atouts=[];
-  if(Object.keys(A).some(function(k){return k.startsWith('c2_')&&A[k];})) atouts.push({i:'⭐',t:'Des expériences à valoriser'});
-  if(A.c3===0) atouts.push({i:'🎯',t:'Un projet professionnel défini'});
-  if(A.f2_0&&A.f2_1) atouts.push({i:'📄',t:'CV et lettre de motivation maîtrisés'});
-  if((A.c1||3)>=4) atouts.push({i:'🦁',t:'Une belle confiance en toi'});
-  if((A.p1||3)>=4) atouts.push({i:'☀️',t:'Un bon état d\'esprit pour avancer'});
-  if((A.s1||3)>=4) atouts.push({i:'🚀',t:'De l\'énergie et de la forme'});
-  if(A['r2_3']||A['r2_4']) atouts.push({i:'💻',t:'Connecté(e) pour tes démarches'});
-  if(A['r2_0']||A['r2_2']) atouts.push({i:'🚗',t:'Autonome pour te déplacer'});
-
-  var aHtml='<div class="bilan-intro"><b>Merci d\'avoir répondu !</b><br>Voici ce que ton conseiller pourra aborder avec toi. C\'est un point de départ, pas un verdict — chaque parcours est unique.</div>';
-
-  // Forces cochées
-  var selForces=FORCES_DATA.filter(function(_,i){return A['forces_'+i];});
-  if(selForces.length){
-    aHtml+='<div class="sec-title" style="color:#E65100">⭐ Mes forces</div>';
-    aHtml+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem">';
-    selForces.forEach(function(f){aHtml+='<div class="pts-chip" style="background:#FFFDE7;color:#E65100">'+f.i+' '+f.l+'</div>';});
-    aHtml+='</div>';
-  }
-
-  // Valeurs cochées
-  var selValeurs=VALEURS_DATA.filter(function(_,i){return A['valeurs_'+i];});
-  if(selValeurs.length){
-    aHtml+='<div class="sec-title" style="color:#6A1B9A">✨ Mes valeurs</div>';
-    aHtml+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem">';
-    selValeurs.forEach(function(v){aHtml+='<div class="pts-chip" style="background:#F3E5F5;color:#4A148C">'+v.i+' '+v.l+'</div>';});
-    aHtml+='</div>';
-  }
-
-  // Besoins cochés
-  var selBesoins=BESOINS_DATA.filter(function(_,i){return A['besoins_'+i];});
-  if(selBesoins.length){
-    aHtml+='<div class="sec-title" style="color:#C62828">💬 Mes besoins en ce moment</div>';
-    aHtml+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem">';
-    selBesoins.forEach(function(b){aHtml+='<div class="pts-chip" style="background:#FFEBEE;color:#B71C1C">'+b.i+' '+b.l+'</div>';});
-    aHtml+='</div>';
-  }
-
-  if(atouts.length){
-    aHtml+='<div class="sec-title" style="color:#2E7D32">🌟 Ce que tu apportes avec toi</div>';
-    aHtml+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem">';
-    atouts.forEach(function(a){aHtml+='<div class="pts-chip" style="background:#F1F8E9;color:#2E7D32">'+a.i+' '+a.t+'</div>';});
-    aHtml+='</div>';
-  }
-
-  // Bloc points de vie à aborder (remplace l'ancien bloc contraintes — sans jugement)
-  var points=[];
-  if((A.r3||3)<=2) points.push({i:'💰',t:'Budget et ressources financières'});
-  if(A.r1===3) points.push({i:'🏠',t:'Situation de logement'});
-  if(A.s3===2) points.push({i:'💊',t:'Santé et quotidien'});
-  if(!A['r2_0']&&!A['r2_2']) points.push({i:'🚗',t:'Mobilité et déplacements'});
-  if((A.p1||3)<=2||A.p3===2||A.p3===3) points.push({i:'🌧️',t:'Comment tu te sens en ce moment'});
-  if(A.f3===2||A.f3===3) points.push({i:'📋',t:'Droits et démarches administratives'});
-  if(A.f4_0||A.f4_1||A.f4_2) points.push({i:'📖',t:'Lecture, écriture ou calcul à renforcer'});
-  if(points.length){
-    aHtml+='<div class="sec-title" style="color:#E65100">💬 Points à explorer ensemble avec ton conseiller</div>';
-    aHtml+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem">';
-    points.forEach(function(p){aHtml+='<div class="pts-chip" style="background:#FFF8E1;color:#E65100">'+p.i+' '+p.t+'</div>';});
-    aHtml+='</div>';
-  }
-
-  document.getElementById('r-atouts').innerHTML=aHtml;
-
-  // Services recommandés
-  var recs=[];
-  var seen={};
-  function addSvc(key,why){if(!seen[key]){seen[key]=1;recs.push(Object.assign({},SERVICES[key],{why:why}));}}
-
-  if((A.p1||3)<=2||A.p3===2||A.p3===3) addSvc('demarches','Tu traverses une période difficile — la Mission Locale peut t\'aider à trouver du soutien et des ressources adaptées.');
-  if(A.c3===1||A.c3===2||A.c3===3) addSvc('orientation','Tu cherches encore ta voie — c\'est tout à fait normal. L\'accompagnement orientation est fait pour ça.');
-  if(A.c3===1||A.c3===2||A.c3===3) addSvc('erip','L\'ERIP Pays Basque peut t\'aider à explorer les métiers et les formations disponibles sur le territoire.');
-  if(A['d_emploi']||(!A.f2_0||!A.f2_1)) addSvc('emploi','Tu veux trouver un emploi — la Mission Locale t\'accompagne avec des offres, des ateliers et un suivi personnalisé.');
-  if(A['d_emploi']||A['d_candi']||(!A.f2_0||!A.f2_1)) addSvc('candidature','Préparer un bon CV et une lettre percutante, ça s\'apprend — on peut t\'y aider pas à pas.');
-  if(A['d_former']||A.f1===2||A.f1===3) addSvc('formation','Tu veux te (re)former — la Mission Locale t\'aide à trouver la formation qui te correspond et à la financer.');
-  if(A['d_inter']) addSvc('international','Tu veux bouger à l\'étranger — la Mission Locale Pays Basque t\'accompagne pour concrétiser ce projet.');
-  if(!A['r2_0']&&!A['r2_2']) addSvc('mobilite','Te déplacer peut être un frein — la Mission Locale peut t\'aider à trouver des solutions : permis, transports, aides.');
-  if(A.s3===2||!A['s2_0']||!A['s2_2']) addSvc('sante','La Mission Locale peut t\'orienter vers des professionnels de santé et t\'aider à accéder aux soins.');
-  if(A.f3===2||A.f3===3||(A.r3||3)<=2||A.r1===3) addSvc('demarches','Des aides financières ou administratives existent peut-être pour toi — un conseiller peut faire le point.');
-  if(A.f4_4||(!A['r2_3']&&!A['r2_4'])) addSvc('numerique','La Mission Locale peut t\'aider à accéder aux outils numériques et à les utiliser pour tes démarches.');
-  if((!A.f2_0&&!A.f2_1)&&(A.f1===2||A.f1===3)) addSvc('cej','Le Contrat d\'Engagement Jeunes (CEJ) peut te proposer un accompagnement intensif avec une allocation — renseigne-toi !');
-  // CléA — recommander si fragilités détectées sur les 6 domaines
-  var cleaFrag=[(A.k1||3)<=2,(A.k2||3)<=2,(A.k3||3)<=2,(A.k4||3)<=2,(A.k5||3)<=2,(A.k6||3)<=2].filter(Boolean).length;
-  if(cleaFrag>=2) addSvc('clea','Plusieurs compétences clés sont encore en cours de construction — c\'est tout à fait normal. La certification CléA peut t\'aider à les travailler et les faire reconnaître officiellement.');
-  else if(cleaFrag===1) addSvc('clea','Une compétence clé mérite un peu plus de pratique. La Mission Locale peut t\'accompagner pour la renforcer, avec la certification CléA si tu le souhaites.');
-  if(!recs.length) addSvc('orientation','Ton conseiller Mission Locale sera le mieux placé pour t\'orienter vers les bons outils et dispositifs.');
-
-  var ext='<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
-  var sHtml='<div class="sec-title" style="color:#C62828">💡 Ce que la Mission Locale peut faire pour toi</div>';
-  recs.forEach(function(s){
-    sHtml+='<div class="serv-card" style="background:'+s.bg+'">';
-    sHtml+='<div class="serv-icon">'+s.icon+'</div>';
-    sHtml+='<div class="serv-body">';
-    sHtml+='<div class="serv-title" style="color:'+s.tc+'">'+s.title+'</div>';
-    sHtml+='<div class="serv-desc">'+s.why+'</div>';
-    sHtml+='<a href="'+s.url+'" target="_blank" class="serv-link" style="background:'+s.lbg+';color:#fff">'+ext+' '+s.label+'</a>';
-    sHtml+='</div></div>';
-  });
-  document.getElementById('r-services').innerHTML=sHtml;
-
-  // Bilan CléA visuel
-  var cleaDomains=[
-    {id:'k1',lb:'Lire et écrire',i:'📖'},
-    {id:'k2',lb:'Calcul',i:'🔢'},
-    {id:'k3',lb:'Numérique',i:'💻'},
-    {id:'k4',lb:'Travail en équipe',i:'🤝'},
-    {id:'k5',lb:'Autonomie',i:'💪'},
-    {id:'k6',lb:'Apprendre',i:'🎯'}
-  ];
-  var cleaHtml='<div class="sec-title" style="color:#1B5E20">🔑 Mes compétences clés — auto-positionnement CléA</div>';
-  cleaHtml+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1rem">';
-  var cleaLabels=['Je cherche mes marques','A pratiquer davantage','Je me débrouille','A l\'aise','Très à l\'aise'];
-  var cleaColors=['#FB8C00','#FDD835','#A5D6A7','#66BB6A','#2E7D32'];
-  cleaDomains.forEach(function(cd){
-    var v=A[cd.id]||3;
-    var col=cleaColors[v-1];
-    var lbl=cleaLabels[v-1];
-    cleaHtml+='<div style="background:#E8F5E9;border-radius:12px;padding:10px 8px;text-align:center;">';
-    cleaHtml+='<div style="font-size:18px;margin-bottom:4px">'+cd.i+'</div>';
-    cleaHtml+='<div style="font-family:Nunito,sans-serif;font-weight:800;font-size:10px;color:#1B5E20;margin-bottom:4px">'+cd.lb+'</div>';
-    cleaHtml+='<div style="background:'+col+';border-radius:8px;padding:2px 6px;font-size:10px;font-weight:700;color:#fff;display:inline-block">'+lbl+'</div>';
-    cleaHtml+='</div>';
-  });
-  cleaHtml+='</div>';
-  document.getElementById('r-clea').innerHTML=cleaHtml;
-
-  // Destinations
-  var selDests=DT.filter(function(d){return A['d_'+d.id];});
-  if(selDests.length){
-    var dHtml='<div class="sec-title" style="color:#4A148C">🧭 Ton projet en tête</div>';
-    dHtml+='<div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:1rem">';
-    selDests.forEach(function(d){dHtml+='<div class="pts-chip" style="background:'+d.bg+';color:'+d.tc+'">'+d.i+' '+d.n+'</div>';});
-    dHtml+='</div>';
-    document.getElementById('r-dest').innerHTML=dHtml;
-  }
-
-  // RDV
-  document.getElementById('r-rdv').innerHTML=
-    '<div class="rdv-block">'+
-    '<div style="font-family:Nunito,sans-serif;font-weight:900;font-size:18px;color:var(--white);margin-bottom:6px">Prêt(e) à rencontrer ton conseiller ?</div>'+
-    '<div style="font-size:12px;color:rgba(255,255,255,.7);margin-bottom:16px;line-height:1.55">Apporte ce bilan à ton premier rendez-vous — il sera le point de départ de ton accompagnement.</div>'+
-    '<a href="https://www.missionlocale-paysbasque.org/contact" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:var(--yellow);color:var(--black);font-family:Nunito,sans-serif;font-weight:900;font-size:14px;padding:12px 26px;border-radius:25px;text-decoration:none;border:2px solid var(--yellow);box-shadow:3px 3px 0 rgba(255,255,255,.3)">📅 Prendre rendez-vous</a>'+
-    '</div>';
+  var data=scoreData(),ml=data.ml,axis=data.axis;
+  var arr=[];for(var k in ml)arr.push([k,ml[k]]);
+  arr.sort(function(a,b){return a[1]-b[1];});
+  var low=arr.slice(0,5);
+  var strong=arr.slice().sort(function(a,b){return b[1]-a[1];}).slice(0,5);
+  var forces=selectedLabels('#p2 .chipsQ:nth-of-type(1)');
+  var needs=selectedLabels('#p2 .chipsQ:nth-of-type(2)');
+  var values=selectedLabels('#p2 .chipsQ:nth-of-type(3)');
+  var h='<div class="panel"><strong>Important :</strong> ce bilan ne juge pas le jeune. Il sert à ouvrir la discussion, repérer les ressources et construire un accompagnement adapté.</div>';
+  h+='<div class="sec">🌟 Ce que tu apportes déjà</div><div class="row">';
+  if(forces.length){for(var f=0;f<forces.length;f++)h+='<span class="token" style="background:#f1f8e9;color:#2e7d32">'+forces[f]+'</span>';}
+  else{for(var s=0;s<strong.length;s++)h+='<span class="token" style="background:#f1f8e9;color:#2e7d32">⭐ '+strong[s][0]+'</span>';}
+  h+='</div>';
+  if(needs.length){h+='<div class="sec">💬 Tes besoins du moment</div><div class="row">';for(var n=0;n<needs.length;n++)h+='<span class="token" style="background:#ffebee;color:#b71c1c">'+needs[n]+'</span>';h+='</div>';}
+  if(values.length){h+='<div class="sec">✨ Ce qui compte pour toi</div><div class="row">';for(var v=0;v<values.length;v++)h+='<span class="token" style="background:#f3e5f5;color:#4a148c">'+values[v]+'</span>';h+='</div>';}
+  h+='<div class="sec">🧠 Lecture Life Skills</div>';
+  h+=bar('Personnalité',axis['Personnalité']||0,colors.p);
+  h+=bar('Valorisation de soi',axis['Valorisation']||0,colors.o);
+  h+=bar('Bien-être physique & mental',axis['Bien-être']||0,colors.g);
+  h+=bar('Ressources matérielles & financières',axis['Ressources']||0,colors.b);
+  h+='<div class="sec">📍 Domaines Mission Locale à explorer</div>';
+  for(var i=0;i<low.length;i++){var val=low[i][1];h+=bar(low[i][0],val,val<45?colors.p:val<65?colors.o:colors.g);}
+  h+='<div class="sec">🎲 Activités LS4YOU conseillées</div><div class="row">';
+  for(i=0;i<low.length;i++)h+='<span class="token" style="background:#fff5e0;color:#7a3800">'+(activities[low[i][0]]||'Mini-activité adaptée')+'</span>';
+  h+='</div><div class="sec">💡 Ce que la Mission Locale peut proposer</div>';
+  for(i=0;i<low.length;i++){var svc=services[low[i][0]];if(!svc)continue;h+='<div class="svc" style="background:'+svc[3]+'22"><div class="svcI">'+svc[0]+'</div><div><div class="svcT" style="color:'+svc[3]+'">'+svc[1]+'</div><div class="svcD">'+svc[2]+'</div></div></div>';}
+  h+='<div class="sec">📋 Lecture conseiller — Diagnostic RPE</div><div class="panel"><strong>Utilisation conseillère :</strong><br>1. Reprendre avec le jeune ses forces et besoins exprimés.<br>2. Vérifier les domaines faibles sans conclure trop vite.<br>3. Co-construire 1 à 3 priorités d’accompagnement.<br>4. Orienter vers les mini-parcours LS4YOU ou l’offre de service MLPB adaptée.<br><br><strong>Logique RPE :</strong> ce support contribue au diagnostic global partagé : situation, ressources, freins, compétences, autonomie et besoins d’accompagnement.</div>';
+  document.getElementById('res').innerHTML=h;
 }
-
-// ============================================================
-// NAVIGATION
-// ============================================================
-function goTo(idx){
-  document.querySelectorAll('.step').forEach(function(s){s.classList.remove('active');});
-  var t=document.getElementById('s'+idx);
-  if(t){t.classList.add('active');cur=idx;window.scrollTo(0,0);}
-  if(idx===TOT-1) fillResults();
-}
-
-// ============================================================
-// INIT
-// ============================================================
-function init(){
-  var sw=document.getElementById('sw');
-  var h=buildWelcome();
-  DOM.forEach(function(_,i){h+=buildDomain(i);});
-  h+=buildDest();
-  h+=buildResult();
-  sw.innerHTML=h;
-
-  // Un seul listener sur document (pas sw) pour tout capturer
-  document.addEventListener('click',function(e){
-    // Navigation (boutons data-go)
-    var goEl=e.target.closest('[data-go]');
-    if(goEl){
-      e.preventDefault();
-      goTo(parseInt(goEl.dataset.go));
-      return;
-    }
-
-    // Chips forces / besoins / valeurs
-    var chip=e.target.closest('.fchip[data-action="chip"]');
-    if(chip){
-      var pool=chip.dataset.pool;
-      var idx=parseInt(chip.dataset.idx);
-      var cls=chip.dataset.selcls;
-      var k=pool+'_'+idx;
-      A[k]=!A[k];
-      chip.className='fchip'+(A[k]?' '+cls:'');
-      return;
-    }
-
-    // Options (cards cliquables)
-    var oc=e.target.closest('.oc[data-action]');
-    if(oc){
-      var action=oc.dataset.action;
-      var qid=oc.dataset.qid;
-      var idx=parseInt(oc.dataset.idx);
-      var sc=oc.dataset.sc;
-      var tot=parseInt(oc.dataset.tot);
-
-      if(action==='single'){
-        A[qid]=idx;
-        for(var i=0;i<tot;i++){
-          var el=document.getElementById('oc'+qid+'_'+i);
-          if(el) el.className='oc'+(i===idx?' '+sc:'');
-        }
-      } else if(action==='multi'){
-        var k=qid+'_'+idx;
-        A[k]=!A[k];
-        oc.className='oc'+(A[k]?' '+sc:'');
-      }
-      return;
-    }
-
-    // Destinations
-    var dc=e.target.closest('.dc2[data-action="dest"]');
-    if(dc){
-      var did=dc.dataset.did;
-      var dt=DT.find(function(d){return d.id===did;});
-      A['d_'+did]=!A['d_'+did];
-      dc.className='dc2'+(A['d_'+did]?' sel':'');
-      dc.style.borderColor=A['d_'+did]?dt.bc:'transparent';
-      return;
-    }
-  });
-
-  // Sliders
-  // Construire un index global qid -> {is, ls, color} pour tous les scales
-  var SCALE_META={};
-  DOM.forEach(function(d){
-    d.qs.forEach(function(q){
-      if(q.t==='scale') SCALE_META[q.id]={is:q.is,ls:q.ls,c:d.c};
-    });
-  });
-
-  document.addEventListener('input',function(e){
-    if(!e.target.classList.contains('js-scale')) return;
-    var qid=e.target.dataset.qid;
-    var v=parseInt(e.target.value);
-    var meta=SCALE_META[qid];
-    if(!meta) return;
-    A[qid]=v;
-    var se=document.getElementById('se'+qid);
-    var sl=document.getElementById('sl'+qid);
-    if(se) se.textContent=meta.is[v-1];
-    if(sl){sl.textContent=meta.ls[v-1];sl.style.color=meta.c;}
-  });
-}
-
-init();
 </script>
+</div>
 </body>
 </html>
