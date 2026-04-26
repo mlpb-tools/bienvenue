@@ -1,4 +1,6 @@
-<!doctype html>
+from pathlib import Path
+
+html = r'''<!doctype html>
 <html lang="fr">
 <head>
 <meta charset="utf-8">
@@ -34,14 +36,9 @@ body:before{
 }
 .app:before{content:"";position:absolute;right:-90px;top:120px;width:240px;height:240px;background:var(--blue);border-radius:50%;opacity:.12}
 .app:after{content:"";position:absolute;left:-95px;bottom:80px;width:260px;height:260px;background:var(--pink);border-radius:48% 52% 43% 57%;opacity:.09}
-.top{position:relative;z-index:2;background:rgba(255,255,255,.92);border-bottom:var(--line);padding:14px 22px;display:flex;justify-content:flex-start;align-items:center}
-
-
-
-.page{display:none;min-height:calc(100vh - 70px);position:relative;z-index:1}
-#p0{display:block}
-body:has(.page:target) #p0{display:none}
-.page:target{display:block}
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);border-bottom:var(--line);padding:14px 22px;display:flex;justify-content:flex-start;align-items:center}
+.top img{height:48px;width:auto;display:block}
+.page{min-height:calc(100vh - 78px);position:relative;z-index:1;scroll-margin-top:78px}
 .progress-wrap{background:rgba(255,255,255,.78);border-bottom:var(--line);padding:16px 22px 14px}
 .progress-top{display:flex;justify-content:space-between;gap:12px;font-size:12px;font-weight:950;text-transform:uppercase;letter-spacing:.08em;margin-bottom:9px}
 .progress-bg{height:18px;background:#fff;border:2px solid var(--black);border-radius:999px;overflow:hidden;box-shadow:inset 0 0 0 2px rgba(23,23,24,.04)}
@@ -109,115 +106,128 @@ input[type=range]{width:100%;accent-color:var(--black);height:28px}
 .svc{border:2px solid rgba(23,23,24,.14);border-radius:22px;padding:16px;margin-bottom:12px;display:flex;gap:12px;align-items:flex-start;background:#fff;box-shadow:0 10px 28px rgba(23,23,24,.06)}
 .svcI{font-size:28px}.svcT{font-weight:950;font-size:16px}.svcD{font-size:14px;opacity:.74;font-weight:760;line-height:1.42;margin-top:4px}
 .panel{background:#fff;border:2px solid rgba(23,23,24,.12);border-radius:22px;padding:16px;margin-bottom:12px;line-height:1.5;font-size:15px;box-shadow:0 10px 28px rgba(23,23,24,.06)}
+.radar-wrap{display:grid;grid-template-columns:280px 1fr;gap:18px;align-items:center}
+canvas{width:280px;height:280px;max-width:100%}
 @media(max-width:640px){
   .grid,.grid.three{grid-template-columns:1fr}
-  .top{position:relative;z-index:2;background:rgba(255,255,255,.92);border-bottom:var(--line);padding:14px 22px;display:flex;justify-content:flex-start;align-items:center}
   .nav{flex-wrap:wrap}
   .btn{width:100%}
   .app{border-left:0;border-right:0}
   .hero{min-height:auto;padding:44px 20px 32px}
-  
+  .radar-wrap{grid-template-columns:1fr}
 }
 @media print{
   .top,.progress-wrap,.nav,.print{display:none!important}
-  .page{display:none!important} .page:target{display:block!important}
   .app{border:0;max-width:none;box-shadow:none} body{background:#fff}
 }
 </style>
 </head>
 <body>
 <div class="app">
-<div class="top"><img src="https://static.wixstatic.com/media/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif/v1/fill/w_224,h_60,al_c,q_80,enc_avif,quality_auto/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif" alt="Logo Mission Locale Pays Basque" style="height:48px;width:auto;display:block"></div>
+  <div class="top"><img src="https://static.wixstatic.com/media/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif/v1/fill/w_224,h_60,al_c,q_80,enc_avif,quality_auto/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif" alt="Logo Mission Locale Pays Basque"></div>
 
-<section class="page" id="p0">
-  <div class="progress-wrap"><div class="progress-top"><span>Étape 1 / 9</span><span>Accueil</span></div><div class="progress-bg"><div class="progress-fill" style="width:0%"></div></div></div>
-  <div class="hero">
-    <div class="eyebrow">MLPB × LS4YOU</div>
-    <h1>Bienvenue à la<br><span class="mark">Mission Locale</span></h1>
-    <p class="sub">Fais le point sur ta situation. On avance ensemble, à ton rythme.</p>
-    <div class="pills"><span class="pill">🧠 Moi</span><span class="pill">⭐ Forces</span><span class="pill">💼 Emploi</span><span class="pill">🎓 Formation</span><span class="pill">🏡 Ressources</span><span class="pill">🔑 Compétences</span></div>
-  </div>
-  <div class="nav"><span></span><a class="btn" href="#p1">Je commence →</a></div>
-</section>
+  <section class="page" id="p0">
+    <div class="progress-wrap"><div class="progress-top"><span>Étape 1 / 10</span><span>Accueil</span></div><div class="progress-bg"><div class="progress-fill" style="width:0%"></div></div></div>
+    <div class="hero">
+      <div class="eyebrow">MLPB × LS4YOU</div>
+      <h1>Bienvenue à la<br><span class="mark">Mission Locale</span></h1>
+      <p class="sub">Fais le point sur ta situation. On avance ensemble, à ton rythme.</p>
+      <div class="pills"><span class="pill">🧠 Moi</span><span class="pill">⭐ Forces</span><span class="pill">💼 Emploi</span><span class="pill">🎓 Formation</span><span class="pill">🏡 Ressources</span><span class="pill">🔑 Compétences</span></div>
+    </div>
+    <div class="nav"><span></span><a class="btn" href="#p1">Je commence →</a></div>
+  </section>
 
-<section class="page" id="p1">
-  <div class="progress-wrap"><div class="progress-top"><span>Étape 2 / 9</span><span>Moi aujourd'hui</span></div><div class="progress-bg"><div class="progress-fill" style="width:12.5%"></div></div></div>
-  <div class="head" style="background:#fde8ef"><div class="tag" style="background:#d60b52;color:white">🧠 Moi aujourd'hui</div><div class="desc">Santé, énergie, entourage, rythme.</div></div>
-  <div class="content">
-    <div class="q scale" data-axis="Bien-être" data-ml="Santé|Mode de vie" data-color="#95c11f" data-labels="Très dur|Compliqué|Ça passe|Plutôt bien|Bien" data-emojis="🌧️|☁️|🌤️|🌈|☀️"><div class="ql">Bien-être</div><div class="qt">Comment tu te sens en ce moment ?</div><div class="scaleBox"><span class="scaleEmoji">🌤️</span><span class="scaleLabel">Ça passe</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
-    <div class="q scale" data-axis="Bien-être" data-ml="Santé|Mode de vie" data-color="#95c11f" data-labels="Vide|Faible|Variable|Correcte|Bonne" data-emojis="🪫|🔋|🌤️|💡|🚀"><div class="ql">Énergie</div><div class="qt">Ton énergie dans la journée ?</div><div class="scaleBox"><span class="scaleEmoji">🌤️</span><span class="scaleLabel">Variable</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
-    <div class="q single" data-axis="Valorisation" data-ml="Citoyenneté / relations"><div class="ql">Lien</div><div class="qt">Quand ça ne va pas, tu as quelqu'un à qui parler ?</div><div class="grid"><button type="button" class="card" data-value="5"><span class="emoji">👥</span><span class="label">Oui, plusieurs</span></button><button type="button" class="card" data-value="4"><span class="emoji">👤</span><span class="label">Une personne</span></button><button type="button" class="card" data-value="1"><span class="emoji">🌱</span><span class="label">Pas vraiment</span></button><button type="button" class="card" data-value="2"><span class="emoji">🔒</span><span class="label">Je préfère passer</span></button></div></div>
-  </div><div class="nav"><a class="btn back" href="#p0">← Retour</a><a class="btn" href="#p2">Suivant →</a></div>
-</section>
+  <section class="page" id="p1">
+    <div class="progress-wrap"><div class="progress-top"><span>Étape 2 / 10</span><span>Moi aujourd'hui</span></div><div class="progress-bg"><div class="progress-fill" style="width:11%"></div></div></div>
+    <div class="head" style="background:#fde8ef"><div class="tag" style="background:#d60b52;color:white">🧠 Moi aujourd'hui</div><div class="desc">Santé, énergie, entourage, rythme.</div></div>
+    <div class="content">
+      <div class="q scale" data-axis="Bien-être" data-ml="Santé|Mode de vie / rythme quotidien" data-color="#95c11f" data-labels="Très dur|Compliqué|Ça passe|Plutôt bien|Bien" data-emojis="🌧️|☁️|🌤️|🌈|☀️"><div class="ql">Bien-être</div><div class="qt">Comment tu te sens en ce moment ?</div><div class="scaleBox"><span class="scaleEmoji">🌤️</span><span class="scaleLabel">Ça passe</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
+      <div class="q scale" data-axis="Bien-être" data-ml="Santé|Mode de vie / rythme quotidien" data-color="#95c11f" data-labels="Vide|Faible|Variable|Correcte|Bonne" data-emojis="🪫|🔋|🌤️|💡|🚀"><div class="ql">Énergie</div><div class="qt">Ton énergie dans la journée ?</div><div class="scaleBox"><span class="scaleEmoji">🌤️</span><span class="scaleLabel">Variable</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
+      <div class="q single" data-axis="Valorisation" data-ml="Citoyenneté / relations"><div class="ql">Lien</div><div class="qt">Quand ça ne va pas, tu as quelqu'un à qui parler ?</div><div class="grid"><button type="button" class="card" data-value="5"><span class="emoji">👥</span><span class="label">Oui, plusieurs</span></button><button type="button" class="card" data-value="4"><span class="emoji">👤</span><span class="label">Une personne</span></button><button type="button" class="card" data-value="1"><span class="emoji">🌱</span><span class="label">Pas vraiment</span></button><button type="button" class="card" data-value="2"><span class="emoji">🔒</span><span class="label">Je préfère passer</span></button></div></div>
+    </div><div class="nav"><a class="btn back" href="#p0">← Retour</a><a class="btn" href="#p2">Suivant →</a></div>
+  </section>
 
-<section class="page" id="p2">
-  <div class="progress-wrap"><div class="progress-top"><span>Étape 3 / 9</span><span>Mes forces</span></div><div class="progress-bg"><div class="progress-fill" style="width:25%"></div></div></div>
-  <div class="head" style="background:#fff5e0"><div class="tag" style="background:#f39200">⭐ Mes forces</div><div class="desc">Forces, besoins, valeurs.</div></div>
-  <div class="content">
-    <div class="q chipsQ" data-axis="Valorisation" data-ml="Emploi|Orientation|Loisirs / sport / culture"><div class="ql">Forces</div><div class="qt">Quelles forces te ressemblent ?</div><div class="qh">Coche tout ce qui te parle.</div><div class="chips"><button type="button" class="chip">🦁 Courageux·se</button><button type="button" class="chip">🎨 Créatif·ve</button><button type="button" class="chip">🤝 Solidaire</button><button type="button" class="chip">🏁 Persévérant·e</button><button type="button" class="chip">⚡ Débrouillard·e</button><button type="button" class="chip">👂 À l'écoute</button><button type="button" class="chip">🧩 Curieux·se</button><button type="button" class="chip">🛠️ Manuel·le</button></div></div>
-    <div class="q chipsQ" data-axis="Bien-être" data-ml="Santé|Logement / stabilité|Citoyenneté / relations"><div class="ql">Besoins</div><div class="qt">De quoi as-tu besoin en ce moment ?</div><div class="chips"><button type="button" class="chip">⭐ Confiance</button><button type="button" class="chip">💛 Parler</button><button type="button" class="chip">🌿 Calme</button><button type="button" class="chip">🔒 Sécurité</button><button type="button" class="chip">🕊️ Autonomie</button><button type="button" class="chip">👥 Entourage</button><button type="button" class="chip">🧭 Repères</button><button type="button" class="chip">💪 Motivation</button></div></div>
-    <div class="q chipsQ" data-axis="Personnalité" data-ml="Orientation|Citoyenneté / relations"><div class="ql">Valeurs</div><div class="qt">Qu'est-ce qui compte pour toi ?</div><div class="chips"><button type="button" class="chip">🎭 Authenticité</button><button type="button" class="chip">⚖️ Justice</button><button type="button" class="chip">🔥 Effort</button><button type="button" class="chip">🕊️ Liberté</button><button type="button" class="chip">🎨 Création</button><button type="button" class="chip">🤗 Lien</button><button type="button" class="chip">🌍 Ouverture</button><button type="button" class="chip">🏡 Stabilité</button></div></div>
-  </div><div class="nav"><a class="btn back" href="#p1">← Retour</a><a class="btn" href="#p3">Suivant →</a></div>
-</section>
+  <section class="page" id="p2">
+    <div class="progress-wrap"><div class="progress-top"><span>Étape 3 / 10</span><span>Mes forces</span></div><div class="progress-bg"><div class="progress-fill" style="width:22%"></div></div></div>
+    <div class="head" style="background:#fff5e0"><div class="tag" style="background:#f39200">⭐ Mes forces</div><div class="desc">Forces, besoins, valeurs.</div></div>
+    <div class="content">
+      <div class="q chipsQ" data-axis="Valorisation" data-ml="Emploi|Orientation|Loisirs / sport / culture"><div class="ql">Forces</div><div class="qt">Quelles forces te ressemblent ?</div><div class="qh">Coche tout ce qui te parle.</div><div class="chips"><button type="button" class="chip">🦁 Courageux·se</button><button type="button" class="chip">🎨 Créatif·ve</button><button type="button" class="chip">🤝 Solidaire</button><button type="button" class="chip">🏁 Persévérant·e</button><button type="button" class="chip">⚡ Débrouillard·e</button><button type="button" class="chip">👂 À l'écoute</button><button type="button" class="chip">🧩 Curieux·se</button><button type="button" class="chip">🛠️ Manuel·le</button></div></div>
+      <div class="q chipsQ" data-axis="Bien-être" data-ml="Santé|Logement / stabilité|Citoyenneté / relations"><div class="ql">Besoins</div><div class="qt">De quoi as-tu besoin en ce moment ?</div><div class="chips"><button type="button" class="chip">⭐ Confiance</button><button type="button" class="chip">💛 Parler</button><button type="button" class="chip">🌿 Calme</button><button type="button" class="chip">🔒 Sécurité</button><button type="button" class="chip">🕊️ Autonomie</button><button type="button" class="chip">👥 Entourage</button><button type="button" class="chip">🧭 Repères</button><button type="button" class="chip">💪 Motivation</button></div></div>
+      <div class="q chipsQ" data-axis="Personnalité" data-ml="Orientation|Citoyenneté / relations"><div class="ql">Valeurs</div><div class="qt">Qu'est-ce qui compte pour toi ?</div><div class="chips"><button type="button" class="chip">🎭 Authenticité</button><button type="button" class="chip">⚖️ Justice</button><button type="button" class="chip">🔥 Effort</button><button type="button" class="chip">🕊️ Liberté</button><button type="button" class="chip">🎨 Création</button><button type="button" class="chip">🤗 Lien</button><button type="button" class="chip">🌍 Ouverture</button><button type="button" class="chip">🏡 Stabilité</button></div></div>
+    </div><div class="nav"><a class="btn back" href="#p1">← Retour</a><a class="btn" href="#p3">Suivant →</a></div>
+  </section>
 
-<section class="page" id="p3">
-  <div class="progress-wrap"><div class="progress-top"><span>Étape 4 / 9</span><span>Projet & expériences</span></div><div class="progress-bg"><div class="progress-fill" style="width:37.5%"></div></div></div>
-  <div class="head" style="background:#e4f2fc"><div class="tag" style="background:#2897d5;color:white">🎯 Projet & expériences</div><div class="desc">Orientation, emploi, formation.</div></div>
-  <div class="content">
-    <div class="q scale" data-axis="Personnalité" data-ml="Orientation" data-color="#d60b52" data-labels="Très flou|Flou|Quelques idées|Assez clair|Clair" data-emojis="🌫️|🌱|🌤️|🌳|🎯"><div class="ql">Projet</div><div class="qt">Ton avenir, c'est plutôt…</div><div class="scaleBox"><span class="scaleEmoji">🌤️</span><span class="scaleLabel">Quelques idées</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
-    <div class="q multi" data-axis="Valorisation" data-ml="Emploi|Formation"><div class="ql">Expériences</div><div class="qt">Qu'as-tu déjà fait ?</div><div class="qh">Tout compte : stage, famille, sport, création, aide, projet.</div><div class="grid three"><button type="button" class="card"><span class="emoji">💼</span><span class="label">Travail / stage</span></button><button type="button" class="card"><span class="emoji">🤝</span><span class="label">Bénévolat</span></button><button type="button" class="card"><span class="emoji">🎨</span><span class="label">Création</span></button><button type="button" class="card"><span class="emoji">🏃</span><span class="label">Sport / club</span></button><button type="button" class="card"><span class="emoji">🏠</span><span class="label">Aide famille</span></button><button type="button" class="card"><span class="emoji">💻</span><span class="label">Numérique</span></button></div></div>
-    <div class="q single" data-axis="Personnalité" data-ml="Orientation"><div class="ql">Orientation</div><div class="qt">Ton projet pro ?</div><div class="grid"><button type="button" class="card" data-value="5"><span class="emoji">🎯</span><span class="label">Clair</span></button><button type="button" class="card" data-value="4"><span class="emoji">🔍</span><span class="label">Quelques pistes</span></button><button type="button" class="card" data-value="3"><span class="emoji">🌱</span><span class="label">Je cherche</span></button><button type="button" class="card" data-value="1"><span class="emoji">🌫️</span><span class="label">Pas encore</span></button></div></div>
-  </div><div class="nav"><a class="btn back" href="#p2">← Retour</a><a class="btn" href="#p4">Suivant →</a></div>
-</section>
+  <section class="page" id="p3">
+    <div class="progress-wrap"><div class="progress-top"><span>Étape 4 / 10</span><span>Projet & expériences</span></div><div class="progress-bg"><div class="progress-fill" style="width:33%"></div></div></div>
+    <div class="head" style="background:#e4f2fc"><div class="tag" style="background:#2897d5;color:white">🎯 Projet & expériences</div><div class="desc">Orientation, emploi, formation.</div></div>
+    <div class="content">
+      <div class="q scale" data-axis="Personnalité" data-ml="Orientation" data-color="#d60b52" data-labels="Très flou|Flou|Quelques idées|Assez clair|Clair" data-emojis="🌫️|🌱|🌤️|🌳|🎯"><div class="ql">Projet</div><div class="qt">Ton avenir, c'est plutôt…</div><div class="scaleBox"><span class="scaleEmoji">🌤️</span><span class="scaleLabel">Quelques idées</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
+      <div class="q multi" data-axis="Valorisation" data-ml="Emploi|Formation|Loisirs / sport / culture"><div class="ql">Expériences</div><div class="qt">Qu'as-tu déjà fait ?</div><div class="qh">Tout compte : stage, famille, sport, création, aide, projet.</div><div class="grid three"><button type="button" class="card"><span class="emoji">💼</span><span class="label">Travail / stage</span></button><button type="button" class="card"><span class="emoji">🤝</span><span class="label">Bénévolat</span></button><button type="button" class="card"><span class="emoji">🎨</span><span class="label">Création</span></button><button type="button" class="card"><span class="emoji">🏃</span><span class="label">Sport / club</span></button><button type="button" class="card"><span class="emoji">🏠</span><span class="label">Aide famille</span></button><button type="button" class="card"><span class="emoji">💻</span><span class="label">Numérique</span></button></div></div>
+      <div class="q single" data-axis="Personnalité" data-ml="Orientation"><div class="ql">Orientation</div><div class="qt">Ton projet pro ?</div><div class="grid"><button type="button" class="card" data-value="5"><span class="emoji">🎯</span><span class="label">Clair</span></button><button type="button" class="card" data-value="4"><span class="emoji">🔍</span><span class="label">Quelques pistes</span></button><button type="button" class="card" data-value="3"><span class="emoji">🌱</span><span class="label">Je cherche</span></button><button type="button" class="card" data-value="1"><span class="emoji">🌫️</span><span class="label">Pas encore</span></button></div></div>
+    </div><div class="nav"><a class="btn back" href="#p2">← Retour</a><a class="btn" href="#p4">Suivant →</a></div>
+  </section>
 
-<section class="page" id="p4">
-  <div class="progress-wrap"><div class="progress-top"><span>Étape 5 / 9</span><span>Mes ressources</span></div><div class="progress-bg"><div class="progress-fill" style="width:50%"></div></div></div>
-  <div class="head" style="background:#eef7e0"><div class="tag" style="background:#95c11f">🏡 Mes ressources</div><div class="desc">Logement, budget, mobilité, numérique.</div></div>
-  <div class="content">
-    <div class="q single" data-axis="Ressources" data-ml="Logement / stabilité"><div class="ql">Logement</div><div class="qt">Ton logement actuel ?</div><div class="grid"><button type="button" class="card" data-value="5"><span class="emoji">🏠</span><span class="label">Stable</span></button><button type="button" class="card" data-value="4"><span class="emoji">👨‍👩‍👧</span><span class="label">Famille</span></button><button type="button" class="card" data-value="2"><span class="emoji">🛋️</span><span class="label">Chez quelqu'un</span></button><button type="button" class="card" data-value="1"><span class="emoji">🔄</span><span class="label">En transition</span></button></div></div>
-    <div class="q multi" data-axis="Ressources" data-ml="Mobilité|Numérique|Finances / budget"><div class="ql">Outils</div><div class="qt">Qu'as-tu à disposition ?</div><div class="grid three"><button type="button" class="card"><span class="emoji">🚗</span><span class="label">Véhicule</span></button><button type="button" class="card"><span class="emoji">🚲</span><span class="label">Vélo / trott</span></button><button type="button" class="card"><span class="emoji">🚌</span><span class="label">Transport</span></button><button type="button" class="card"><span class="emoji">📱</span><span class="label">Téléphone internet</span></button><button type="button" class="card"><span class="emoji">💻</span><span class="label">Ordinateur</span></button><button type="button" class="card"><span class="emoji">💳</span><span class="label">Compte bancaire</span></button></div></div>
-    <div class="q scale" data-axis="Ressources" data-ml="Finances / budget" data-color="#f39200" data-labels="Très tendu|Serré|Je gère|Ça va|Tranquille" data-emojis="🌧️|☁️|🌤️|🌈|☀️"><div class="ql">Budget</div><div class="qt">Ton budget en ce moment ?</div><div class="scaleBox"><span class="scaleEmoji">🌤️</span><span class="scaleLabel">Je gère</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
-  </div><div class="nav"><a class="btn back" href="#p3">← Retour</a><a class="btn" href="#p5">Suivant →</a></div>
-</section>
+  <section class="page" id="p4">
+    <div class="progress-wrap"><div class="progress-top"><span>Étape 5 / 10</span><span>Mes ressources</span></div><div class="progress-bg"><div class="progress-fill" style="width:44%"></div></div></div>
+    <div class="head" style="background:#eef7e0"><div class="tag" style="background:#95c11f">🏡 Mes ressources</div><div class="desc">Logement, budget, mobilité, numérique.</div></div>
+    <div class="content">
+      <div class="q single" data-axis="Ressources" data-ml="Logement / stabilité"><div class="ql">Logement</div><div class="qt">Ton logement actuel ?</div><div class="grid"><button type="button" class="card" data-value="5"><span class="emoji">🏠</span><span class="label">Stable</span></button><button type="button" class="card" data-value="4"><span class="emoji">👨‍👩‍👧</span><span class="label">Famille</span></button><button type="button" class="card" data-value="2"><span class="emoji">🛋️</span><span class="label">Chez quelqu'un</span></button><button type="button" class="card" data-value="1"><span class="emoji">🔄</span><span class="label">En transition</span></button></div></div>
+      <div class="q multi" data-axis="Ressources" data-ml="Mobilité|Numérique|Finances / budget"><div class="ql">Outils</div><div class="qt">Qu'as-tu à disposition ?</div><div class="grid three"><button type="button" class="card"><span class="emoji">🚗</span><span class="label">Véhicule</span></button><button type="button" class="card"><span class="emoji">🚲</span><span class="label">Vélo / trott</span></button><button type="button" class="card"><span class="emoji">🚌</span><span class="label">Transport</span></button><button type="button" class="card"><span class="emoji">📱</span><span class="label">Téléphone internet</span></button><button type="button" class="card"><span class="emoji">💻</span><span class="label">Ordinateur</span></button><button type="button" class="card"><span class="emoji">💳</span><span class="label">Compte bancaire</span></button></div></div>
+      <div class="q scale" data-axis="Ressources" data-ml="Finances / budget" data-color="#f39200" data-labels="Très tendu|Serré|Je gère|Ça va|Tranquille" data-emojis="🌧️|☁️|🌤️|🌈|☀️"><div class="ql">Budget</div><div class="qt">Ton budget en ce moment ?</div><div class="scaleBox"><span class="scaleEmoji">🌤️</span><span class="scaleLabel">Je gère</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
+    </div><div class="nav"><a class="btn back" href="#p3">← Retour</a><a class="btn" href="#p5">Suivant →</a></div>
+  </section>
 
-<section class="page" id="p5">
-  <div class="progress-wrap"><div class="progress-top"><span>Étape 6 / 9</span><span>Parcours & droits</span></div><div class="progress-bg"><div class="progress-fill" style="width:62.5%"></div></div></div>
-  <div class="head" style="background:#f6e8ef"><div class="tag" style="background:#a3195b;color:white">🎓 Parcours & droits</div><div class="desc">Formation, candidature, droits, démarches.</div></div>
-  <div class="content">
-    <div class="q single" data-axis="Personnalité" data-ml="Formation"><div class="ql">Formation</div><div class="qt">Ta situation formation ?</div><div class="grid"><button type="button" class="card" data-value="5"><span class="emoji">🎓</span><span class="label">Diplômé·e</span></button><button type="button" class="card" data-value="5"><span class="emoji">📚</span><span class="label">En formation</span></button><button type="button" class="card" data-value="2"><span class="emoji">🚪</span><span class="label">J'ai arrêté</span></button><button type="button" class="card" data-value="2"><span class="emoji">⏸️</span><span class="label">En pause</span></button></div></div>
-    <div class="q multi" data-axis="Valorisation" data-ml="Emploi"><div class="ql">Emploi</div><div class="qt">Tu te sens à l'aise pour…</div><div class="grid three"><button type="button" class="card"><span class="emoji">📄</span><span class="label">CV</span></button><button type="button" class="card"><span class="emoji">✉️</span><span class="label">Lettre</span></button><button type="button" class="card"><span class="emoji">🔍</span><span class="label">Chercher offres</span></button><button type="button" class="card"><span class="emoji">🤝</span><span class="label">Entretien</span></button><button type="button" class="card"><span class="emoji">📱</span><span class="label">Outils numériques</span></button><button type="button" class="card"><span class="emoji">🗣️</span><span class="label">Parler de moi</span></button></div></div>
-    <div class="q single" data-axis="Ressources" data-ml="Citoyenneté / relations|Finances / budget"><div class="ql">Droits</div><div class="qt">Tes droits et aides ?</div><div class="grid"><button type="button" class="card" data-value="5"><span class="emoji">✅</span><span class="label">Je connais</span></button><button type="button" class="card" data-value="3"><span class="emoji">🔶</span><span class="label">Un peu</span></button><button type="button" class="card" data-value="1"><span class="emoji">❌</span><span class="label">Pas vraiment</span></button><button type="button" class="card" data-value="1"><span class="emoji">🆘</span><span class="label">Besoin d'aide</span></button></div></div>
-  </div><div class="nav"><a class="btn back" href="#p4">← Retour</a><a class="btn" href="#p6">Suivant →</a></div>
-</section>
+  <section class="page" id="p5">
+    <div class="progress-wrap"><div class="progress-top"><span>Étape 6 / 10</span><span>Parcours & droits</span></div><div class="progress-bg"><div class="progress-fill" style="width:55%"></div></div></div>
+    <div class="head" style="background:#f6e8ef"><div class="tag" style="background:#a3195b;color:white">🎓 Parcours & droits</div><div class="desc">Formation, candidature, droits, démarches.</div></div>
+    <div class="content">
+      <div class="q single" data-axis="Personnalité" data-ml="Formation"><div class="ql">Formation</div><div class="qt">Ta situation formation ?</div><div class="grid"><button type="button" class="card" data-value="5"><span class="emoji">🎓</span><span class="label">Diplômé·e</span></button><button type="button" class="card" data-value="5"><span class="emoji">📚</span><span class="label">En formation</span></button><button type="button" class="card" data-value="2"><span class="emoji">🚪</span><span class="label">J'ai arrêté</span></button><button type="button" class="card" data-value="2"><span class="emoji">⏸️</span><span class="label">En pause</span></button></div></div>
+      <div class="q multi" data-axis="Valorisation" data-ml="Emploi|Numérique"><div class="ql">Emploi</div><div class="qt">Tu te sens à l'aise pour…</div><div class="grid three"><button type="button" class="card"><span class="emoji">📄</span><span class="label">CV</span></button><button type="button" class="card"><span class="emoji">✉️</span><span class="label">Lettre</span></button><button type="button" class="card"><span class="emoji">🔍</span><span class="label">Chercher offres</span></button><button type="button" class="card"><span class="emoji">🤝</span><span class="label">Entretien</span></button><button type="button" class="card"><span class="emoji">📱</span><span class="label">Outils numériques</span></button><button type="button" class="card"><span class="emoji">🗣️</span><span class="label">Parler de moi</span></button></div></div>
+      <div class="q single" data-axis="Ressources" data-ml="Citoyenneté / relations|Finances / budget"><div class="ql">Droits</div><div class="qt">Tes droits et aides ?</div><div class="grid"><button type="button" class="card" data-value="5"><span class="emoji">✅</span><span class="label">Je connais</span></button><button type="button" class="card" data-value="3"><span class="emoji">🔶</span><span class="label">Un peu</span></button><button type="button" class="card" data-value="1"><span class="emoji">❌</span><span class="label">Pas vraiment</span></button><button type="button" class="card" data-value="1"><span class="emoji">🆘</span><span class="label">Besoin d'aide</span></button></div></div>
+    </div><div class="nav"><a class="btn back" href="#p4">← Retour</a><a class="btn" href="#p6">Suivant →</a></div>
+  </section>
 
-<section class="page" id="p6">
-  <div class="progress-wrap"><div class="progress-top"><span>Étape 7 / 9</span><span>Compétences clés</span></div><div class="progress-bg"><div class="progress-fill" style="width:75%"></div></div></div>
-  <div class="head" style="background:#e4f2fc"><div class="tag" style="background:#2897d5;color:white">🔑 Compétences clés</div><div class="desc">Socle, CléA, autonomie, numérique.</div></div>
-  <div class="content">
-    <div class="q scale" data-axis="Ressources" data-ml="Formation" data-color="#2897d5" data-labels="À aider|Je pratique|Je me débrouille|À l'aise|Très à l'aise" data-emojis="📕|📗|📖|✍️|🏆"><div class="ql">Socle</div><div class="qt">Lire et écrire en français</div><div class="scaleBox"><span class="scaleEmoji">📖</span><span class="scaleLabel">Je me débrouille</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
-    <div class="q scale" data-axis="Ressources" data-ml="Finances / budget" data-color="#2897d5" data-labels="À aider|Je pratique|Je me débrouille|À l'aise|Très à l'aise" data-emojis="🔴|🟠|🟡|🟢|⭐"><div class="ql">Socle</div><div class="qt">Chiffres, calculs, tableaux</div><div class="scaleBox"><span class="scaleEmoji">🟡</span><span class="scaleLabel">Je me débrouille</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
-    <div class="q scale" data-axis="Ressources" data-ml="Numérique" data-color="#2897d5" data-labels="À aider|Je pratique|Je me débrouille|À l'aise|Très à l'aise" data-emojis="📵|📱|💻|🖥️|🚀"><div class="ql">Socle</div><div class="qt">Ordinateur, internet, messagerie</div><div class="scaleBox"><span class="scaleEmoji">💻</span><span class="scaleLabel">Je me débrouille</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
-    <div class="q scale" data-axis="Valorisation" data-ml="Citoyenneté / relations|Emploi" data-color="#f39200" data-labels="À aider|Je pratique|Je me débrouille|À l'aise|Très à l'aise" data-emojis="😟|😕|😐|🤝|👥"><div class="ql">Socle</div><div class="qt">Travailler avec d'autres</div><div class="scaleBox"><span class="scaleEmoji">😐</span><span class="scaleLabel">Je me débrouille</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
-  </div><div class="nav"><a class="btn back" href="#p5">← Retour</a><a class="btn" href="#p7">Suivant →</a></div>
-</section>
+  <section class="page" id="p6">
+    <div class="progress-wrap"><div class="progress-top"><span>Étape 7 / 10</span><span>Compétences clés</span></div><div class="progress-bg"><div class="progress-fill" style="width:66%"></div></div></div>
+    <div class="head" style="background:#e4f2fc"><div class="tag" style="background:#2897d5;color:white">🔑 Compétences clés</div><div class="desc">Socle, CléA, autonomie, numérique.</div></div>
+    <div class="content">
+      <div class="q scale" data-axis="Ressources" data-ml="Formation" data-color="#2897d5" data-labels="À aider|Je pratique|Je me débrouille|À l'aise|Très à l'aise" data-emojis="📕|📗|📖|✍️|🏆"><div class="ql">Socle</div><div class="qt">Lire et écrire en français</div><div class="scaleBox"><span class="scaleEmoji">📖</span><span class="scaleLabel">Je me débrouille</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
+      <div class="q scale" data-axis="Ressources" data-ml="Finances / budget" data-color="#2897d5" data-labels="À aider|Je pratique|Je me débrouille|À l'aise|Très à l'aise" data-emojis="🔴|🟠|🟡|🟢|⭐"><div class="ql">Socle</div><div class="qt">Chiffres, calculs, tableaux</div><div class="scaleBox"><span class="scaleEmoji">🟡</span><span class="scaleLabel">Je me débrouille</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
+      <div class="q scale" data-axis="Ressources" data-ml="Numérique" data-color="#2897d5" data-labels="À aider|Je pratique|Je me débrouille|À l'aise|Très à l'aise" data-emojis="📵|📱|💻|🖥️|🚀"><div class="ql">Socle</div><div class="qt">Ordinateur, internet, messagerie</div><div class="scaleBox"><span class="scaleEmoji">💻</span><span class="scaleLabel">Je me débrouille</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
+      <div class="q scale" data-axis="Valorisation" data-ml="Citoyenneté / relations|Emploi" data-color="#f39200" data-labels="À aider|Je pratique|Je me débrouille|À l'aise|Très à l'aise" data-emojis="😟|😕|😐|🤝|👥"><div class="ql">Socle</div><div class="qt">Travailler avec d'autres</div><div class="scaleBox"><span class="scaleEmoji">😐</span><span class="scaleLabel">Je me débrouille</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
+    </div><div class="nav"><a class="btn back" href="#p5">← Retour</a><a class="btn" href="#p7">Suivant →</a></div>
+  </section>
 
-<section class="page" id="p7">
-  <div class="progress-wrap"><div class="progress-top"><span>Étape 8 / 9</span><span>Mes priorités</span></div><div class="progress-bg"><div class="progress-fill" style="width:87.5%"></div></div></div>
-  <div class="head" style="background:#f9ede0"><div class="tag" style="background:#9f3d3f;color:white">🧭 Mes priorités</div><div class="desc">Ce que tu veux travailler maintenant.</div></div>
-  <div class="content">
-    <div class="q multi" data-axis="Personnalité" data-ml="Orientation"><div class="ql">Priorités</div><div class="qt">Qu'est-ce que tu veux améliorer en priorité ?</div><div class="grid"><button type="button" class="card"><span class="emoji">🎯</span><span class="label">Trouver un métier</span></button><button type="button" class="card"><span class="emoji">🎓</span><span class="label">Formation</span></button><button type="button" class="card"><span class="emoji">💼</span><span class="label">Emploi</span></button><button type="button" class="card"><span class="emoji">🚗</span><span class="label">Mobilité</span></button><button type="button" class="card"><span class="emoji">💚</span><span class="label">Me sentir mieux</span></button><button type="button" class="card"><span class="emoji">💶</span><span class="label">Budget</span></button><button type="button" class="card"><span class="emoji">📋</span><span class="label">Démarches</span></button><button type="button" class="card"><span class="emoji">⭐</span><span class="label">Confiance</span></button><button type="button" class="card"><span class="emoji">⏰</span><span class="label">Organisation</span></button><button type="button" class="card"><span class="emoji">👥</span><span class="label">Rencontres</span></button></div></div>
-  </div><div class="nav"><a class="btn back" href="#p6">← Retour</a><a class="btn" href="#p8" onclick="setTimeout(fillResults,50)">Voir mon bilan →</a></div>
-</section>
+  <section class="page" id="p7">
+    <div class="progress-wrap"><div class="progress-top"><span>Étape 8 / 10</span><span>Vie quotidienne</span></div><div class="progress-bg"><div class="progress-fill" style="width:77%"></div></div></div>
+    <div class="head" style="background:#f0f6ff"><div class="tag" style="background:#2897d5;color:white">📱 Vie quotidienne & mobilité</div><div class="desc">Numérique, déplacements, organisation, activités ressources.</div></div>
+    <div class="content">
+      <div class="q scale" data-axis="Ressources" data-ml="Numérique" data-color="#2897d5" data-labels="Perdu|Difficile|Basique|Autonome|Très à l'aise" data-emojis="📵|📱|💻|🖥️|🚀"><div class="ql">Numérique</div><div class="qt">Tu arrives à faire tes démarches en ligne ?</div><div class="scaleBox"><span class="scaleEmoji">💻</span><span class="scaleLabel">Basique</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
+      <div class="q single" data-axis="Ressources" data-ml="Mobilité"><div class="ql">Mobilité</div><div class="qt">Te déplacer pour un travail ou une formation, c’est :</div><div class="grid"><button class="card" type="button" data-value="1"><span class="emoji">🚫</span><span class="label">Très compliqué</span></button><button class="card" type="button" data-value="2"><span class="emoji">⚠️</span><span class="label">Limité</span></button><button class="card" type="button" data-value="4"><span class="emoji">🚌</span><span class="label">Possible</span></button><button class="card" type="button" data-value="5"><span class="emoji">🚗</span><span class="label">Facile</span></button></div></div>
+      <div class="q scale" data-axis="Bien-être" data-ml="Mode de vie / rythme quotidien" data-color="#9f3d3f" data-labels="Désorganisé|Irrégulier|Ça dépend|Plutôt stable|Stable" data-emojis="🌪️|⏳|🔄|📆|✅"><div class="ql">Rythme</div><div class="qt">Ton rythme de vie — sommeil, horaires, rendez-vous — est :</div><div class="scaleBox"><span class="scaleEmoji">🔄</span><span class="scaleLabel">Ça dépend</span></div><input type="range" min="1" max="5" value="3"><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
+      <div class="q multi" data-axis="Bien-être" data-ml="Loisirs / sport / culture"><div class="ql">Équilibre</div><div class="qt">Qu’est-ce qui te fait du bien aujourd’hui ?</div><div class="grid three"><button class="card" type="button"><span class="emoji">🏃</span><span class="label">Sport</span></button><button class="card" type="button"><span class="emoji">🎨</span><span class="label">Création</span></button><button class="card" type="button"><span class="emoji">🎵</span><span class="label">Musique</span></button><button class="card" type="button"><span class="emoji">👥</span><span class="label">Amis</span></button><button class="card" type="button"><span class="emoji">🌿</span><span class="label">Nature</span></button><button class="card" type="button"><span class="emoji">🎮</span><span class="label">Jeux</span></button></div></div>
+    </div><div class="nav"><a class="btn back" href="#p6">← Retour</a><a class="btn" href="#p8">Suivant →</a></div>
+  </section>
 
-<section class="page" id="p8">
-  <div class="progress-wrap"><div class="progress-top"><span>Étape 9 / 9</span><span>Bilan</span></div><div class="progress-bg"><div class="progress-fill" style="width:100%"></div></div></div>
-  <div class="result">
-    <div class="rhero"><div style="font-size:34px">🌟</div><div class="rtitle">Ton bilan de départ</div><div class="rsub">Jeune + conseiller + RPE</div></div>
-    <div id="res"><div class="panel"><strong>Ton bilan va s'afficher ici.</strong><br>Si rien n'apparaît, clique sur "Calculer mon bilan".</div></div>
-    <button type="button" class="btn" onclick="fillResults()">Calculer mon bilan</button>
-    <button type="button" class="btn print" onclick="window.print()">Imprimer / Export PDF</button>
-  </div><div class="nav"><a class="btn back" href="#p7">← Retour</a><a class="btn" href="#p0">Recommencer</a></div>
-</section>
+  <section class="page" id="p8">
+    <div class="progress-wrap"><div class="progress-top"><span>Étape 9 / 10</span><span>Mes priorités</span></div><div class="progress-bg"><div class="progress-fill" style="width:88%"></div></div></div>
+    <div class="head" style="background:#f9ede0"><div class="tag" style="background:#9f3d3f;color:white">🧭 Mes priorités</div><div class="desc">Ce que tu veux travailler maintenant.</div></div>
+    <div class="content">
+      <div class="q multi" data-axis="Personnalité" data-ml="Orientation|Emploi|Formation|Mobilité|Santé|Finances / budget|Citoyenneté / relations|Mode de vie / rythme quotidien"><div class="ql">Priorités</div><div class="qt">Qu'est-ce que tu veux améliorer en priorité ?</div><div class="grid"><button type="button" class="card"><span class="emoji">🎯</span><span class="label">Trouver un métier</span></button><button type="button" class="card"><span class="emoji">🎓</span><span class="label">Formation</span></button><button type="button" class="card"><span class="emoji">💼</span><span class="label">Emploi</span></button><button type="button" class="card"><span class="emoji">🚗</span><span class="label">Mobilité</span></button><button type="button" class="card"><span class="emoji">💚</span><span class="label">Me sentir mieux</span></button><button type="button" class="card"><span class="emoji">💶</span><span class="label">Budget</span></button><button type="button" class="card"><span class="emoji">📋</span><span class="label">Démarches</span></button><button type="button" class="card"><span class="emoji">⭐</span><span class="label">Confiance</span></button><button type="button" class="card"><span class="emoji">⏰</span><span class="label">Organisation</span></button><button type="button" class="card"><span class="emoji">👥</span><span class="label">Rencontres</span></button></div></div>
+    </div><div class="nav"><a class="btn back" href="#p7">← Retour</a><a class="btn" href="#p9" onclick="setTimeout(fillResults,50)">Voir mon bilan →</a></div>
+  </section>
+
+  <section class="page" id="p9">
+    <div class="progress-wrap"><div class="progress-top"><span>Étape 10 / 10</span><span>Bilan</span></div><div class="progress-bg"><div class="progress-fill" style="width:100%"></div></div></div>
+    <div class="result">
+      <div class="rhero"><div style="font-size:34px">🌟</div><div class="rtitle">Ton bilan de départ</div><div class="rsub">Jeune + conseiller + RPE</div></div>
+      <div id="res"><div class="panel"><strong>Ton bilan va s'afficher ici.</strong><br>Si rien n'apparaît, clique sur "Calculer mon bilan".</div></div>
+      <button type="button" class="btn" onclick="fillResults()">Calculer mon bilan</button>
+      <button type="button" class="btn print" onclick="window.print()">Imprimer / Export PDF</button>
+    </div><div class="nav"><a class="btn back" href="#p8">← Retour</a><a class="btn" href="#p0">Recommencer</a></div>
+  </section>
+
+</div>
 
 <script>
 var colors={p:'#d60b52',o:'#f39200',g:'#95c11f',b:'#2897d5',v:'#a3195b',br:'#9f3d3f'};
@@ -228,81 +238,138 @@ var services={
  'Mobilité':['🚗','Mobilité','Trouver un trajet, une aide transport, préparer permis ou solutions locales.',colors.br],
  'Santé':['💚','Santé / bien-être','Parler santé, fatigue, stress, accès aux soins ou point écoute.',colors.g],
  'Logement / stabilité':['🏠','Logement / stabilité','Sécuriser la situation, identifier les partenaires et aides possibles.',colors.o],
- 'Citoyenneté / relations':['🤝','Citoyenneté / relations','Travailler la place dans le groupe, les droits, l&#39;engagement.',colors.v],
+ 'Citoyenneté / relations':['🤝','Citoyenneté / relations','Travailler la place dans le groupe, les droits, l’engagement.',colors.v],
  'Finances / budget':['💶','Budget / droits','Mettre à plat ressources, aides, priorités et dépenses.',colors.o],
  'Loisirs / sport / culture':['🎨','Activités ressources','Identifier ce qui fait du bien, crée du lien et valorise les compétences.',colors.g],
  'Numérique':['📱','Numérique','Démarches en ligne, accès matériel, image numérique.',colors.b],
- 'Mode de vie':['⏳','Mode de vie','Rythme, sommeil, organisation, routines simples.',colors.br]
+ 'Mode de vie / rythme quotidien':['⏳','Mode de vie','Rythme, sommeil, organisation, routines simples.',colors.br]
 };
 var activities={
- 'Emploi':'Questions sans tabou + Pitch 30 secondes','Formation':'Feedback qui fait grandir + mini-plan d&#39;effort','Orientation':'Boussole des envies + Mini-zine projet','Mobilité':'Carte trajet + scénario rendez-vous','Santé':'Stressomètre + kit apaisement','Logement / stabilité':'Lieu sûr + carte des soutiens','Citoyenneté / relations':'Carte de soutien + droit ou pas droit ?','Finances / budget':'Panier malin + budget réel/projet','Loisirs / sport / culture':'Boosters d&#39;énergie','Numérique':'Avatar protecteur + démarche guidée','Mode de vie':'Routine qui fait du bien'
+ 'Emploi':'Questions sans tabou + Pitch 30 secondes',
+ 'Formation':'Feedback qui fait grandir + mini-plan d’effort',
+ 'Orientation':'Boussole des envies + Mini-zine projet',
+ 'Mobilité':'Carte trajet + scénario rendez-vous',
+ 'Santé':'Stressomètre + kit apaisement',
+ 'Logement / stabilité':'Lieu sûr + carte des soutiens',
+ 'Citoyenneté / relations':'Carte de soutien + droit ou pas droit ?',
+ 'Finances / budget':'Panier malin + budget réel/projet',
+ 'Loisirs / sport / culture':'Boosters d’énergie',
+ 'Numérique':'Avatar protecteur + démarche guidée',
+ 'Mode de vie / rythme quotidien':'Routine qui fait du bien'
 };
 document.addEventListener('click',function(e){
   var chip=e.target.closest('.chip'); if(chip){chip.classList.toggle('selected');return;}
-  var card=e.target.closest('.card'); if(card){var q=card.closest('.q'); if(q&&q.classList.contains('single')){var all=q.querySelectorAll('.card'); for(var i=0;i<all.length;i++)all[i].classList.remove('selected'); card.classList.add('selected');}else{card.classList.toggle('selected');}}
+  var card=e.target.closest('.card');
+  if(card){
+    var q=card.closest('.q');
+    if(q&&q.classList.contains('single')){
+      q.querySelectorAll('.card').forEach(function(c){c.classList.remove('selected');});
+      card.classList.add('selected');
+    }else{
+      card.classList.toggle('selected');
+    }
+  }
 });
-document.addEventListener('input',function(e){if(e.target&&e.target.type==='range'){var q=e.target.closest('.scale'),v=parseInt(e.target.value,10)-1,labels=(q.getAttribute('data-labels')||'').split('|'),emojis=(q.getAttribute('data-emojis')||'').split('|'),color=q.getAttribute('data-color')||'#171718';q.querySelector('.scaleEmoji').textContent=emojis[v]||'';var lab=q.querySelector('.scaleLabel');lab.textContent=labels[v]||'';lab.style.color=color;}});
-function scoreData(){var ml={},axis={'Personnalité':[],'Valorisation':[],'Bien-être':[],'Ressources':[]},qs=document.querySelectorAll('.q');for(var i=0;i<qs.length;i++){var q=qs[i],val=3;if(q.classList.contains('scale'))val=parseInt(q.querySelector('input').value,10);else if(q.classList.contains('single')){var sel=q.querySelector('.card.selected');val=sel?parseInt(sel.getAttribute('data-value')||'3',10):2;}else if(q.classList.contains('multi')){var c=q.querySelectorAll('.card.selected').length;val=c>=4?5:c>=2?4:c>=1?3:1;}else if(q.classList.contains('chipsQ')){var cc=q.querySelectorAll('.chip.selected').length;val=cc>=4?5:cc>=2?4:cc>=1?3:1;}var ax=q.getAttribute('data-axis')||'Personnalité';if(!axis[ax])axis[ax]=[];axis[ax].push(val);var ms=(q.getAttribute('data-ml')||'').split('|');for(var m=0;m<ms.length;m++){if(!ms[m])continue;if(!ml[ms[m]])ml[ms[m]]=[];ml[ms[m]].push(val);}}var outMl={},outAx={};for(var k in ml)outMl[k]=pct(ml[k]);for(var a in axis)outAx[a]=pct(axis[a]);return {ml:outMl,axis:outAx};}
+document.addEventListener('input',function(e){
+  if(e.target&&e.target.type==='range'){
+    var q=e.target.closest('.scale'),v=parseInt(e.target.value,10)-1;
+    var labels=(q.getAttribute('data-labels')||'').split('|'),emojis=(q.getAttribute('data-emojis')||'').split('|'),color=q.getAttribute('data-color')||'#171718';
+    q.querySelector('.scaleEmoji').textContent=emojis[v]||'';
+    var lab=q.querySelector('.scaleLabel'); lab.textContent=labels[v]||''; lab.style.color=color;
+  }
+});
+function scoreData(){
+  var ml={},axis={'Personnalité':[],'Valorisation':[],'Bien-être':[],'Ressources':[]},qs=document.querySelectorAll('.q');
+  for(var i=0;i<qs.length;i++){
+    var q=qs[i],val=3;
+    if(q.classList.contains('scale'))val=parseInt(q.querySelector('input').value,10);
+    else if(q.classList.contains('single')){var sel=q.querySelector('.card.selected');val=sel?parseInt(sel.getAttribute('data-value')||'3',10):2;}
+    else if(q.classList.contains('multi')){var c=q.querySelectorAll('.card.selected').length;val=c>=4?5:c>=2?4:c>=1?3:1;}
+    else if(q.classList.contains('chipsQ')){var cc=q.querySelectorAll('.chip.selected').length;val=cc>=4?5:cc>=2?4:cc>=1?3:1;}
+    var ax=q.getAttribute('data-axis')||'Personnalité'; if(!axis[ax])axis[ax]=[]; axis[ax].push(val);
+    var ms=(q.getAttribute('data-ml')||'').split('|');
+    for(var m=0;m<ms.length;m++){var name=ms[m].trim();if(!name)continue;if(!ml[name])ml[name]=[];ml[name].push(val);}
+  }
+  var outMl={},outAx={}; for(var k in ml)outMl[k]=pct(ml[k]); for(var a in axis)outAx[a]=pct(axis[a]); return {ml:outMl,axis:outAx};
+}
 function pct(arr){if(!arr.length)return 0;var s=0;for(var i=0;i<arr.length;i++)s+=arr[i];return Math.round((s/arr.length)/5*100);}
 function bar(name,val,color){return '<div class="barCard"><div class="barTop"><span>'+name+'</span><span>'+val+'%</span></div><div class="barBg"><div class="barFill" style="width:'+val+'%;background:'+color+'">'+val+'%</div></div></div>';}
 function selectedLabels(selector){var out=[],els=document.querySelectorAll(selector+' .selected');for(var i=0;i<els.length;i++)out.push(els[i].innerText.replace(/\n/g,' ').trim());return out;}
+function levelLabel(avg, lows){if(lows>=4 || avg<45)return '🔴 Accompagnement renforcé conseillé';if(lows>=2 || avg<62)return '🟡 Accompagnement à consolider';return '🟢 Parcours mobilisable rapidement';}
 function fillResults(){
-  var data=scoreData(),ml=data.ml,axis=data.axis,arr=[];
-  for(var k in ml)arr.push([k,ml[k]]);
+  var data=scoreData(),ml=data.ml,axis=data.axis,arr=[],avg=0;
+  for(var k in ml){arr.push([k,ml[k]]);avg+=ml[k];}
+  avg=arr.length?Math.round(avg/arr.length):0;
   arr.sort(function(a,b){return a[1]-b[1];});
-  var low=arr.slice(0,5);
+  var low=arr.slice(0,5),lows=arr.filter(function(x){return x[1]<55;}).length;
   var strong=arr.slice().sort(function(a,b){return b[1]-a[1];}).slice(0,5);
   var forces=selectedLabels('#p2 .chipsQ:nth-of-type(1)');
   var needs=selectedLabels('#p2 .chipsQ:nth-of-type(2)');
   var values=selectedLabels('#p2 .chipsQ:nth-of-type(3)');
   var h='';
   h+='<div class="panel"><strong>Important :</strong> ce bilan ne juge pas le jeune. Il sert à ouvrir la discussion, repérer les ressources et construire un accompagnement adapté.</div>';
+  h+='<div class="panel"><strong>Lecture globale :</strong> '+levelLabel(avg,lows)+'<br><strong>Score global indicatif :</strong> '+avg+'%</div>';
   h+='<div class="sec">🌟 Ce que tu apportes déjà</div><div class="row">';
-  if(forces.length){
-    for(var f=0;f<forces.length;f++)h+='<span class="token" style="background:#f1f8e9;color:#2e7d32">'+forces[f]+'</span>';
-  }else{
-    for(var s=0;s<strong.length;s++)h+='<span class="token" style="background:#f1f8e9;color:#2e7d32">⭐ '+strong[s][0]+'</span>';
-  }
+  if(forces.length){for(var f=0;f<forces.length;f++)h+='<span class="token" style="background:#f1f8e9;color:#2e7d32">'+forces[f]+'</span>';}
+  else{for(var s=0;s<strong.length;s++)h+='<span class="token" style="background:#f1f8e9;color:#2e7d32">⭐ '+strong[s][0]+'</span>';}
   h+='</div>';
-  if(needs.length){
-    h+='<div class="sec">💬 Tes besoins du moment</div><div class="row">';
-    for(var n=0;n<needs.length;n++)h+='<span class="token" style="background:#ffebee;color:#b71c1c">'+needs[n]+'</span>';
-    h+='</div>';
-  }
-  if(values.length){
-    h+='<div class="sec">✨ Ce qui compte pour toi</div><div class="row">';
-    for(var v=0;v<values.length;v++)h+='<span class="token" style="background:#f3e5f5;color:#4a148c">'+values[v]+'</span>';
-    h+='</div>';
-  }
-  h+='<div class="sec">🧠 Lecture Life Skills</div>';
+  if(needs.length){h+='<div class="sec">💬 Tes besoins du moment</div><div class="row">';for(var n=0;n<needs.length;n++)h+='<span class="token" style="background:#ffebee;color:#b71c1c">'+needs[n]+'</span>';h+='</div>';}
+  if(values.length){h+='<div class="sec">✨ Ce qui compte pour toi</div><div class="row">';for(var v=0;v<values.length;v++)h+='<span class="token" style="background:#f3e5f5;color:#4a148c">'+values[v]+'</span>';h+='</div>';}
+  h+='<div class="sec">🧠 Lecture Life Skills</div><div class="radar-wrap"><canvas id="radar" width="280" height="280"></canvas><div>';
   h+=bar('Personnalité',axis['Personnalité']||0,colors.p);
   h+=bar('Valorisation de soi',axis['Valorisation']||0,colors.o);
   h+=bar('Bien-être physique & mental',axis['Bien-être']||0,colors.g);
   h+=bar('Ressources matérielles & financières',axis['Ressources']||0,colors.b);
+  h+='</div></div>';
   h+='<div class="sec">📍 Domaines Mission Locale à explorer</div>';
-  for(var i=0;i<low.length;i++){
-    var val=low[i][1];
-    h+=bar(low[i][0],val,val<45?colors.p:val<65?colors.o:colors.g);
-  }
+  for(var i=0;i<low.length;i++){var val=low[i][1];h+=bar(low[i][0],val,val<45?colors.p:val<65?colors.o:colors.g);}
   h+='<div class="sec">💡 Ce que la Mission Locale peut proposer</div>';
   for(i=0;i<low.length;i++){
     var svc=services[low[i][0]];
     if(!svc)continue;
-    h+='<div class="svc" style="background:'+svc[3]+'22">';
-    h+='<div class="svcI">'+svc[0]+'</div>';
-    h+='<div><div class="svcT" style="color:'+svc[3]+'">'+svc[1]+'</div>';
-    h+='<div class="svcD">'+svc[2]+'</div></div></div>';
+    h+='<div class="svc" style="background:'+svc[3]+'22"><div class="svcI">'+svc[0]+'</div><div><div class="svcT" style="color:'+svc[3]+'">'+svc[1]+'</div><div class="svcD">'+svc[2]+'</div><div class="svcD"><strong>Activité LS4YOU possible :</strong> '+(activities[low[i][0]]||'Activité à choisir avec le conseiller')+'</div></div></div>';
   }
   h+='<div class="sec">📋 Lecture conseiller — Diagnostic RPE</div>';
-  h+='<div class="panel"><strong>Utilisation conseillère :</strong><br>';
-  h+='1. Reprendre avec le jeune ses forces et besoins exprimés.<br>';
-  h+='2. Vérifier les domaines faibles sans conclure trop vite.<br>';
-  h+='3. Co-construire 1 à 3 priorités d\'accompagnement.<br>';
-  h+='4. Orienter vers les mini-parcours LS4YOU ou l\'offre de service MLPB adaptée.<br><br>';
-  h+='<strong>Logique RPE :</strong> ce support contribue au diagnostic global partagé : situation, ressources, freins, compétences, autonomie et besoins d\'accompagnement.</div>';
+  h+='<div class="panel"><strong>Utilisation conseillère :</strong><br>1. Reprendre avec le jeune ses forces et besoins exprimés.<br>2. Vérifier les domaines faibles sans conclure trop vite.<br>3. Co-construire 1 à 3 priorités d’accompagnement.<br>4. Orienter vers les mini-parcours LS4YOU ou l’offre de service MLPB adaptée.<br><br><strong>Logique RPE :</strong> ce support contribue au diagnostic global partagé : situation, ressources, freins, compétences, autonomie et besoins d’accompagnement.</div>';
   document.getElementById('res').innerHTML=h;
+  drawRadar(axis);
+}
+function drawRadar(axis){
+  var canvas=document.getElementById('radar'); if(!canvas)return;
+  var ctx=canvas.getContext('2d'),cx=140,cy=140,r=95;
+  var labels=['Personnalité','Valorisation','Bien-être','Ressources'];
+  var vals=[axis['Personnalité']||0,axis['Valorisation']||0,axis['Bien-être']||0,axis['Ressources']||0];
+  ctx.clearRect(0,0,280,280);
+  ctx.strokeStyle='rgba(23,23,24,.16)';ctx.lineWidth=2;
+  for(var ring=1;ring<=4;ring++){
+    ctx.beginPath();
+    for(var i=0;i<labels.length;i++){
+      var a=(-Math.PI/2)+(Math.PI*2/labels.length)*i;
+      var rr=r*ring/4,x=cx+Math.cos(a)*rr,y=cy+Math.sin(a)*rr;
+      if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+    }
+    ctx.closePath();ctx.stroke();
+  }
+  ctx.beginPath();
+  for(i=0;i<labels.length;i++){
+    a=(-Math.PI/2)+(Math.PI*2/labels.length)*i;
+    var rv=r*(vals[i]/100),xx=cx+Math.cos(a)*rv,yy=cy+Math.sin(a)*rv;
+    if(i===0)ctx.moveTo(xx,yy);else ctx.lineTo(xx,yy);
+  }
+  ctx.closePath();ctx.fillStyle='rgba(214,11,82,.28)';ctx.fill();ctx.strokeStyle='#d60b52';ctx.lineWidth=3;ctx.stroke();
+  ctx.fillStyle='#171718';ctx.font='900 11px Inter';
+  labels.forEach(function(l,i){
+    var a=(-Math.PI/2)+(Math.PI*2/labels.length)*i;
+    var x=cx+Math.cos(a)*(r+24),y=cy+Math.sin(a)*(r+24);
+    ctx.textAlign=i===1?'left':i===3?'right':'center';
+    ctx.fillText(l,x,y);
+  });
 }
 </script>
-</div>
 </body>
 </html>
+'''
+
+path = Path('/mnt/data/index-rpe-mlpb-scroll-no-bug.html')
+path.write_text(html, encoding='utf-8')
+print(path)
